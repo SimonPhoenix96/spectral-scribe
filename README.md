@@ -2,7 +2,7 @@
 
 ## Overview
 
-This Chrome extension provides a powerful suite of AI-driven text analysis tools, leveraging both Claude (Anthropic) and Akash AI (Llama-3) models. It offers various functionalities for processing and analyzing text from web pages, YouTube videos, and user input.
+This Chrome extension provides a powerful suite of AI-driven text analysis tools, leveraging both Claude (Anthropic) and Akash Network powered Llama3-8b models. It offers various functionalities for processing and analyzing text from YouTube video transcripts, user input and more.
 
 ## Features
 
@@ -20,6 +20,7 @@ This Chrome extension provides a powerful suite of AI-driven text analysis tools
   - Sentiment Analysis
   - Keyword Extraction
   - Language Translation
+- **Options Page**: Allows users to securely set and store API keys for different AI providers.
 
 ## How It Works
 
@@ -34,12 +35,13 @@ This Chrome extension provides a powerful suite of AI-driven text analysis tools
 - Integrates with Chrome's tabs and runtime APIs for web page interaction.
 - Uses fetch API for making requests to AI services.
 - Implements error handling and loading indicators for a smooth user experience.
+- Utilizes Chrome's storage API for securely storing API keys.
 
 ## Setup
 
 1. Clone the repository.
-2. Add your Anthropic (Claude) and Akash API keys to the respective constants.
-3. Load the extension in Chrome's developer mode.
+2. Load the extension in Chrome's developer mode.
+3. Access the options page to set your Anthropic (Claude) and Akash API keys.
 
 ## Usage
 
@@ -50,4 +52,4 @@ This Chrome extension provides a powerful suite of AI-driven text analysis tools
 
 ## Note
 
-This extension requires valid API keys for Claude (Anthropic) and Akash AI services to function properly.
+This extension requires valid API keys for Claude (Anthropic) and Akash AI services to function properly. API keys can be securely set and managed through the extension's options page.
