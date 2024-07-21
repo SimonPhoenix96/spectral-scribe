@@ -2,21 +2,24 @@
   "manifest_version": 3,
   "name": "Spectral Scribe",
   "version": "1.0",
-  "options_page": "options.html",
-  "description": "Provides a powerful suite of AI-driven text analysis tools, leveraging both Claude (Anthropic) and Akash Network powered Llama3-8b models. It offers various functionalities for processing and analyzing text from YouTube video transcripts, user input and more. (Llama-3) models. It offers various functionalities for processing and analyzing text from web pages, YouTube videos, and user input.",
-  "permissions": ["activeTab","storage"],
-  "host_permissions": ["https://api.anthropic.com/v1/messages","https://chatapi.akash.network/api/v1/chat/completions"],
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": [
-        "popup.js"
-      ]
-
-    }
+  "description": "AI-driven text analysis tools for processing and analyzing text from web pages, YouTube videos, and user input.",
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://api.anthropic.com/",
+    "https://chatapi.akash.network/"
   ],
   "action": {
     "default_icon": "resources/icon.png",
     "default_popup": "popup.html"
-  }
+  },
+  "options_page": "options.html",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["popup.js"]
+    }
+  ]
 }

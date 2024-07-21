@@ -1,158 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spectral Scribe</title>
     <style>
       body {
         width: 350px;
-        padding: 20px;
+        padding: 0px 80px 0px 80px;
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         background-color: #f5f5dc;
-        color: #000000;
-      }
-      textarea {
-        width: 100%;
-        height: 120px;
-        margin-bottom: 15px;
-        padding: 10px;
-        border: 2px solid #fa2b39;
-        border-radius: 8px;
-        background-color: #ffffff;
-        color: #000000;
-        font-size: 14px;
-      }
-      button {
-        width: 100%;
-        padding: 12px;
-        margin-bottom: 15px;
-        border: none;
-        border-radius: 25px;
-        background-color: #fa2b39;
-        color: #ffffff;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
+        color: #fa2b39;
+    }
+        textarea {
+            width: 100%;
+            height: 120px;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 2px solid #fa2b39;
+            border-radius: 8px;
+            background-color: #ffffff;
+            color: #000000;
+            font-size: 14px;
+        }
+        #headerLogo {
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 1000;
       }
 
-      button:hover {
-        background-color: #ff4c57;
-      }      
-      #summary {
-        border-radius: 8px;
-        padding: 15px;
-        min-height: 100px;
-        background-color: #ffffff;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        border: 2px solid #fa2b39;
-      }
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 25px;
+            background-color: #fa2b39;
+            color: #ffffff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-      #promptTypeSelect,
-      #apiSelect {
-        display: inline-block;
-        width: 48%;
-        padding: 10px;
-        margin-bottom: 15px;
-        border-radius: 8px;
-        background-color: #ffffff;
-        color: #000000;
-        border: 1px solid #fa2b39;
-      }
-    
-      #apiSelect {
-        margin-right: 2%;
-      }
-    
-      .spinner {
-        margin: 0 auto;
-        border: 4px solid rgba(0, 0, 0, 0.1);
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        border-left-color: #fa2b39;
-        animation: spin 1s linear infinite;
-      }
+        button:hover {
+            background-color: #ff4c57;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        #summary {
+            border-radius: 8px;
+            padding: 15px;
+            color: #000000;
+            min-height: 100px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 2px solid #fa2b39;
+        }
+
+        #promptTypeSelect,
+        #apiSelect {
+            display: inline-block;
+            width: 48%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background-color: #ffffff;
+            color: #000000;
+            border: 1px solid #fa2b39;
+            transition: all 0.3s ease;
+        }
+
+        #apiSelect {
+            margin-right: 2%;
+        }
+
+        #promptTypeSelect:hover,
+        #apiSelect:hover,
+        #promptTypeSelect:focus,
+        #apiSelect:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
         
-    textarea, button, #promptTypeSelect, #apiSelect {
-    transition: all 0.3s ease;
-    }
-
-    textarea:hover, textarea:focus {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    button {
-    transition: all 0.3s ease;
-    }
-
-    button:hover {
-    background-color: #ff4c57;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    button:active {
-    transform: translateY(1px);
-    }
-
-    #promptTypeSelect:hover, #apiSelect:hover,
-    #promptTypeSelect:focus, #apiSelect:focus {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .material-icons {
-        vertical-align: middle;
-        margin-right: 5px;
+        .material-icons {
+          vertical-align: middle;
+          margin-right: 5px;
+        }
+        
+        ::-webkit-scrollbar {
+          width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+          background: rgba(250, 43, 57, 0.3);
+          border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+          background: rgba(250, 43, 57, 0.5);
+        }
+        
+        
+        .spinner {
+            margin: 0 auto;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #fa2b39;
+            animation: spin 1s linear infinite;
+        }
+        .typing-animation {
+          overflow: hidden;
+          white-space: nowrap;
+          border-right: 2px solid #fa2b39;
+          animation: 
+            typing 3.5s steps(40, end),
+            blink-caret .75s step-end infinite;
+        }
+      @keyframes typing {
+        from { width: 0 }
+        to { width: 100% }
+      }
+      
+      
+      @keyframes blink-caret {
+        from, to { border-color: transparent }
+        50% { border-color: #fa2b39; }
       }
 
-
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-        100% {
-          transform: rotate(360deg);
-        }
-      }
     </style>
-  </head>
-  <div style="display: flex; justify-content: space-between; align-items: center;">
-   
-    <p id="extractTranscriptBtn" style="width: auto; padding: 5px 10px; cursor: pointer; transition: transform 0.3s ease;" title="Extract YouTube Video Transcript"><span class="material-icons" style="font-size: 20px; color: #fa2b39;">closed_caption</span></p>
-<p id="extractHtmlTextBtn" style="width: auto; padding: 5px 10px; cursor: pointer; transition: transform 0.3s ease;" title="Extract Text from Web Page"><span class="material-icons" style="font-size: 20px; color: #fa2b39;">text_snippet</span></p>
-<p id="settingsButton" style="margin: 0; cursor: pointer; transition: transform 0.3s ease;" title="Open Settings"><a id="optionsLink" href="#"><span class="material-icons" style="font-size: 20px; color: #fa2b39;">settings</span></a></p>
+</head>
+<body>
+  <div id="headerLogo" style="display: flex; justify-content: center; align-items: center; padding: 0px;">
+    <h1 style="font-family: impact; font-size: 30px; color: #fa2b39">Spectral<br>Scribe</h1>
+    <span class="material-icons" style="font-size: 55px; color: #fa2b39; padding-left: 10px; transform: scaleX(-1);">search</span>
+</div>
 
+    <div style="display: flex; justify-content: space-between; align-items: center">
+        <p id="extractTranscriptBtn" style="width: auto; padding: 5px 10px; cursor: pointer; transition: transform 0.3s ease;" title="Extract YouTube Video Transcript">
+            <span class="material-icons" style="font-size: 20px; color: #fa2b39">closed_caption</span>
+        </p>
+        <p id="extractHtmlTextBtn" style="width: auto; padding: 5px 10px; cursor: pointer; transition: transform 0.3s ease;" title="Extract Text from Web Page">
+            <span class="material-icons" style="font-size: 20px; color: #fa2b39">text_snippet</span>
+        </p>
+        <p id="settingsButton" style="margin: 0; cursor: pointer; transition: transform 0.3s ease" title="Open Settings">
+            <a id="optionsLink" href="#">
+                <span class="material-icons" style="font-size: 20px; color: #fa2b39">settings</span>
+            </a>
+        </p>
+    </div>
 
-  </div>
-  <br>
-  <body>
+    <br>
+
     <select id="apiSelect">
-      <option value="akash">Akash API</option>
-      <option value="claude">Claude API</option>
+        <option value="akash">Akash API</option>
+        <option value="claude">Claude API</option>
     </select>
+
     <select id="promptTypeSelect">
-      <option value="manualPrompt">Manual Prompt</option>
-      <option value="autoTranscribeAndSummarize">Auto Summarize Current Youtube Video</option>
-      <option value="bulletPoints">Generate Bullet Points</option>
-      <option value="keyInsights">Extract Key Insights</option>
-      <option value="explainSimply">Explain Simply</option>
-      <option value="topicAnalysis">Analyze Topics</option>
-      <option value="sentimentAnalysis">Analyze Sentiment</option>
-      <option value="keywordExtraction">Extract Keywords</option>
-      <option value="languageTranslation">Translate Language</option>
+        <option value="manualPrompt">Manual Prompt</option>
+        <option value="autoTranscribeAndSummarize">Auto Summarize Current Youtube Video</option>
+        <option value="bulletPoints">Generate Bullet Points</option>
+        <option value="keyInsights">Extract Key Insights</option>
+        <option value="explainSimply">Explain Simply</option>
+        <option value="topicAnalysis">Analyze Topics</option>
+        <option value="sentimentAnalysis">Analyze Sentiment</option>
+        <option value="keywordExtraction">Extract Keywords</option>
+        <option value="languageTranslation">Translate Language</option>
     </select>
-    <textarea
-    id="transcriptInput"
-    placeholder="Manual Prompt (Example: What's the weather like in Beirut?)"
-    ></textarea>
-    <button id="processBtn"><span class="material-icons">play_arrow</span>Process Prompt</button>
+
+    <textarea id="transcriptInput" placeholder="Manual Prompt (Example: What's the weather like in Beirut?)"></textarea>
+
+    <button id="processBtn">
+        <span class="material-icons">play_arrow</span>Process Prompt
+    </button>
+
     <div id="poweredByProp"></div>
-      <p id="summary"></p>
-      <script src="popup.js"></script>
-    </body>
+    <p id="summary"></p>
+
+    <script src="popup.js"></script>
+</body>
 </html>

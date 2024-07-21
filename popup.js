@@ -310,14 +310,9 @@ function displayPromptAnswer(summary) {
   summaryDiv.innerHTML = '';
   const answerElement = document.createElement('div');
   answerElement.innerHTML = summary;
-  answerElement.style.opacity = '0';
-  answerElement.style.transition = 'opacity 0.5s ease-in';
   summaryDiv.appendChild(answerElement);
-  
-  setTimeout(() => {
-    answerElement.style.opacity = '1';
-  }, 50);
 }
+
 function renderPoweredByProp() {
   poweredByProp.innerHTML = '';
   const answerElement = document.createElement('div');
