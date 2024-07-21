@@ -11,12 +11,14 @@ const AKASH_API_URL = "https://chatapi.akash.network/api/v1/chat/completions";
 // DOM Elements
 const summarizeBtn = document.getElementById("summarizeBtn");
 const summaryDiv = document.getElementById("summary");
+const poweredByProp= document.getElementById("poweredByProp");
 const transcriptInput = document.getElementById("transcriptInput");
 const autoTranscribeAndSummarizeBtn = document.getElementById("autoTranscribeAndSummarize");
 const processBtn = document.getElementById("processBtn");
 const extractTranscriptBtn = document.getElementById("extractTranscriptBtn");
 const extractHtmlTextBtn = document.getElementById("extractHtmlTextBtn");
 const promptTypeSelect = document.getElementById("promptTypeSelect");
+const apiSelect = document.getElementById("apiSelect");
 const optionsLink = document.getElementById("optionsLink");
 
 
@@ -42,10 +44,17 @@ function getSelectedAPI() {
 
 // Event Listener for select html element
 
+// Event listener that gets triggers as soon as popup loads 
+//TODO: adapt when needed
 document.addEventListener('DOMContentLoaded', function() {
   loadApiKeys(function() {
-    // Initialize your UI here
+    renderPoweredByProp();
   });
+});
+
+document.getElementById("apiSelect").addEventListener('change', function() {
+  const selectedAPI = this.value;
+  renderPoweredByProp();
 });
 
 optionsLink.addEventListener('click', function(e) {
@@ -254,6 +263,48 @@ function displayPromptAnswer(summary) {
   answerElement.style.opacity = '0';
   answerElement.style.transition = 'opacity 0.5s ease-in';
   summaryDiv.appendChild(answerElement);
+  
+  setTimeout(() => {
+    answerElement.style.opacity = '1';
+  }, 50);
+}
+function renderPoweredByProp() {
+  poweredByProp.innerHTML = '';
+  const answerElement = document.createElement('div');
+  
+  answerElement.style.display = 'flex';
+  answerElement.style.justifyContent = 'center';
+  answerElement.style.alignItems = 'center';
+  
+  const selectedAPI = getSelectedAPI();
+  if (selectedAPI === 'akash') {
+    const logo = document.createElement('img');
+    logo.src = 'resources/akash_small_icon.jpg';
+    logo.alt = 'Akash Logo';
+    logo.style.width = '20px';
+    logo.style.marginLeft = '5px';
+    logo.style.verticalAlign = 'middle';
+
+    const titleSpan = document.createElement('span');
+    titleSpan.textContent = "Powered by Akash Network";
+    answerElement.appendChild(titleSpan);
+    answerElement.appendChild(logo);
+  } else if (selectedAPI === 'claude') {
+    const logo = document.createElement('img');
+    logo.src = 'resources/anthropic_small_icon.jpg';
+    logo.alt = 'Claude Logo';
+    logo.style.width = '20px';
+    logo.style.marginLeft = '5px';
+    logo.style.verticalAlign = 'middle';
+    const titleSpan = document.createElement('span');
+    titleSpan.textContent = "Powered by Claude";
+    answerElement.appendChild(titleSpan);
+    answerElement.appendChild(logo);
+  }
+  
+  answerElement.style.opacity = '0';
+  answerElement.style.transition = 'opacity 0.5s ease-in';
+  poweredByProp.appendChild(answerElement);
   
   setTimeout(() => {
     answerElement.style.opacity = '1';
