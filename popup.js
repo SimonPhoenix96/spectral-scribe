@@ -49,8 +49,12 @@ document.addEventListener('DOMContentLoaded', function() {
   loadApiKeys(function() {
     renderPoweredByProp();
     checkApiKeysAndPulsate();
+    updatePromptTypeSelectIcon();
   });
 });
+
+document.getElementById('promptTypeSelect').addEventListener('change', updatePromptTypeSelectIcon);
+
 document.getElementById("apiSelect").addEventListener('change', function() {
   const selectedAPI = this.value;
   renderPoweredByProp();
@@ -199,6 +203,10 @@ extractTranscriptBtn.addEventListener("click", async function () {
     handleError(error);
   }
 });
+document.getElementById('apiSelect').addEventListener('change', function() {
+  const selectedOption = this.options[this.selectedIndex];
+  this.style.backgroundImage = `url('${selectedOption.dataset.icon}')`;
+});
 
 // listener for extract html text button
 extractHtmlTextBtn.addEventListener("click", async function () {
@@ -211,6 +219,14 @@ extractHtmlTextBtn.addEventListener("click", async function () {
 });
 
 // Helper Functions
+
+function updatePromptTypeSelectIcon() {
+  const select = document.getElementById('promptTypeSelect');
+  const selectedOption = select.options[select.selectedIndex];
+  const icon = selectedOption.getAttribute('data-icon');
+  select.style.backgroundImage = `url('${icon}')`;
+}
+
 async function getCurrentTabUrl() {
   try {
     const tabs = await new Promise((resolve) => {
