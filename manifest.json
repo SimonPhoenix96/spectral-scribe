@@ -12,7 +12,7 @@
     "https://chatapi.akash.network/"
   ],
   "action": {
-    "default_icon": "resources/icon.png",
+    "default_icon": "resources/spectralscribe-logo50x.png",
     "default_popup": "popup.html"
   },
   "options_page": "options.html",
