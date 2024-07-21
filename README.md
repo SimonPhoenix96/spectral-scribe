@@ -4,6 +4,10 @@
 
 This Chrome extension provides a powerful suite of AI-driven text analysis tools, leveraging both Claude (Anthropic) and Akash Network powered Llama3-8b models. It offers various functionalities for processing and analyzing text from YouTube video transcripts, user input and more.
 
+
+## Screenshots
+![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/screenshot.jpg)
+
 ## Features
 
 - **YouTube Transcript Extraction**: Automatically fetches and processes transcripts from YouTube videos.
