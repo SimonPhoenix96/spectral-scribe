@@ -7,7 +7,6 @@ const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
 
 let AKASH_API_KEY = '';
 const AKASH_API_URL = "https://chatapi.akash.network/api/v1/chat/completions"; 
-//TODO: implement settings menu for setting api keys
 // DOM Elements
 const summarizeBtn = document.getElementById("summarizeBtn");
 const summaryDiv = document.getElementById("summary");
@@ -55,6 +54,57 @@ document.addEventListener('DOMContentLoaded', function() {
 document.getElementById("apiSelect").addEventListener('change', function() {
   const selectedAPI = this.value;
   renderPoweredByProp();
+});
+
+document.getElementById("promptTypeSelect").addEventListener('change', function() {
+  const selectedPromptType = this.value;
+  console.log("Selected prompt type:", selectedPromptType);
+  transcriptInput.placeholder = selectedPromptType;
+  switch (selectedPromptType) {
+    case "manualPrompt":
+      console.log("Handling manual prompt");
+      transcriptInput.placeholder = "Type your custom prompt here...";
+      break;
+    case "autoTranscribeAndSummarize":
+      console.log("Handling auto-transcribe");
+      transcriptInput.placeholder = "YouTube video transcript will be fetched and summarized automatically";
+      break;
+    case "bulletPoints":
+      console.log("Handling bullet points");
+      transcriptInput.placeholder = "Paste your text here to generate bullet points";
+      break;
+    case "keyInsights":
+      console.log("Handling key insights");
+      transcriptInput.placeholder = "Enter text to extract key insights from";
+      break;
+    case "explainSimply":
+      console.log("Handling explain simply");
+      transcriptInput.placeholder = "Paste complex text here for a simplified explanation";
+      break;
+    case "questionAnswering":
+      console.log("Handling question answering");
+      transcriptInput.placeholder = "Ask your question here...";
+      break;
+    case "topicAnalysis":
+      console.log("Handling topic analysis");
+      transcriptInput.placeholder = "Input text for topic analysis here";
+      break;
+    case "sentimentAnalysis":
+      console.log("Handling sentiment analysis");
+      transcriptInput.placeholder = "Paste text here for sentiment analysis";
+      break;
+    case "keywordExtraction":
+      console.log("Handling keyword extraction");
+      transcriptInput.placeholder = "Enter text to extract keywords from";
+      break;
+    case "languageTranslation":
+      console.log("Handling language translation");
+      transcriptInput.placeholder = "Type or paste text here for translation";
+      break;
+    default:
+      console.log("Handling default case");
+      transcriptInput.placeholder = "Type or paste your text here...";
+  }
 });
 
 optionsLink.addEventListener('click', function(e) {
@@ -558,3 +608,5 @@ async function languageTranslation() {
     displayError("Please enter text for translation");
   }
 }
+
+//TODO: add dynamic list of custom prompts for use with ai models

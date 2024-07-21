@@ -51,9 +51,8 @@
 
       #promptTypeSelect,
       #apiSelect {
-        display: block;
-        margin: 0 auto;
-        width: 80%;
+        display: inline-block;
+        width: 48%;
         padding: 10px;
         margin-bottom: 15px;
         border-radius: 8px;
@@ -61,6 +60,11 @@
         color: #000000;
         border: 1px solid #fa2b39;
       }
+    
+      #apiSelect {
+        margin-right: 2%;
+      }
+    
       .spinner {
         margin: 0 auto;
         border: 4px solid rgba(0, 0, 0, 0.1);
@@ -117,13 +121,16 @@
       }
     </style>
   </head>
-  <p id="settingsButton" style="text-align: center;"><a id="optionsLink" href="#"><span class="material-icons" style="font-size: 20px; color: #fa2b39;">settings</span></a></p>  <br>
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+   
+    <p id="extractTranscriptBtn" style="width: auto; padding: 5px 10px; cursor: pointer; transition: transform 0.3s ease;" title="Extract YouTube Video Transcript"><span class="material-icons" style="font-size: 20px; color: #fa2b39;">closed_caption</span></p>
+<p id="extractHtmlTextBtn" style="width: auto; padding: 5px 10px; cursor: pointer; transition: transform 0.3s ease;" title="Extract Text from Web Page"><span class="material-icons" style="font-size: 20px; color: #fa2b39;">text_snippet</span></p>
+<p id="settingsButton" style="margin: 0; cursor: pointer; transition: transform 0.3s ease;" title="Open Settings"><a id="optionsLink" href="#"><span class="material-icons" style="font-size: 20px; color: #fa2b39;">settings</span></a></p>
+
+
+  </div>
   <br>
   <body>
-    <textarea
-    id="transcriptInput"
-    placeholder="Manual Prompt (Example: What's the weather like in Beirut?)"
-    ></textarea>
     <select id="apiSelect">
       <option value="akash">Akash API</option>
       <option value="claude">Claude API</option>
@@ -139,9 +146,11 @@
       <option value="keywordExtraction">Extract Keywords</option>
       <option value="languageTranslation">Translate Language</option>
     </select>
+    <textarea
+    id="transcriptInput"
+    placeholder="Manual Prompt (Example: What's the weather like in Beirut?)"
+    ></textarea>
     <button id="processBtn"><span class="material-icons">play_arrow</span>Process Prompt</button>
-    <button id="extractTranscriptBtn"><span class="material-icons">closed_caption</span>Extract current YT Video Transcript</button>
-    <button id="extractHtmlTextBtn"><span class="material-icons">text_snippet</span>WIP: Extract Text from current HTML Page</button>
     <div id="poweredByProp"></div>
       <p id="summary"></p>
       <script src="popup.js"></script>
