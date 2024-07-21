@@ -6,7 +6,7 @@ This Chrome extension provides a powerful suite of AI-driven text analysis tools
 
 
 ## Screenshots
-
+ ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot.png)
 
 ## Features
 
