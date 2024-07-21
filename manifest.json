@@ -1,10 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "Claude Video Transcript Summarizer",
+  "name": "Spectral Scribe",
   "version": "1.0",
-  "description": "Summarizes long video transcripts using Claude API",
-  "permissions": ["activeTab"],
-  "host_permissions": ["https://api.anthropic.com/"],
+  "options_page": "options.html",
+  "description": "Provides a powerful suite of AI-driven text analysis tools, leveraging both Claude (Anthropic) and Akash Network powered Llama3-8b models. It offers various functionalities for processing and analyzing text from YouTube video transcripts, user input and more. (Llama-3) models. It offers various functionalities for processing and analyzing text from web pages, YouTube videos, and user input.",
+  "permissions": ["activeTab","storage"],
+  "host_permissions": ["https://api.anthropic.com/v1/messages","https://chatapi.akash.network/api/v1/chat/completions"],
   "background": {
     "service_worker": "background.js"
   },
@@ -18,8 +19,7 @@
     }
   ],
   "action": {
-    "default_icon": "icon.png",
-    "default_popup": "popup.html",
-    "default_title": "A popup to summarize video transcripts"
+    "default_icon": "resources/icon.png",
+    "default_popup": "popup.html"
   }
 }

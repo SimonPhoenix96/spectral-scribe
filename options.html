@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spectral Scribe Options</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="password"] {
+            width: 300px;
+            padding: 5px;
+            margin-top: 5px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spectral Scribe Options</h1>
+    <label for="anthropic-api-key">Anthropic API Key:</label>
+    <input type="password" id="anthropic-api-key" name="anthropic-api-key">
+    
+    <label for="akash-api-key">Akash API Key:</label>
+    <input type="password" id="akash-api-key" name="akash-api-key">
+    
+    <button id="save-button">Save</button>
+    
+    <script src="options.js"></script>
+</body>
+</html>

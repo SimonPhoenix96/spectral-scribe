@@ -2,12 +2,12 @@
 const YT_INITIAL_PLAYER_RESPONSE_RE =
   /ytInitialPlayerResponse\s*=\s*({.+?})\s*;\s*(?:var\s+(?:meta|head)|<\/script|\n)/;
 
-const ANTHROPIC_API_KEY = "";
+let ANTHROPIC_API_KEY = '';
 const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
 
-const AKASH_API_KEY = "";
+let AKASH_API_KEY = '';
 const AKASH_API_URL = "https://chatapi.akash.network/api/v1/chat/completions"; 
-
+//TODO: implement settings menu for setting api keys
 // DOM Elements
 const summarizeBtn = document.getElementById("summarizeBtn");
 const summaryDiv = document.getElementById("summary");
@@ -20,12 +20,33 @@ const promptTypeSelect = document.getElementById("promptTypeSelect");
 
 // Main Functions
 
+function loadApiKeys(callback) {
+  console.log('Starting to load API keys');
+  chrome.storage.sync.get(['ANTHROPIC_API_KEY', 'AKASH_API_KEY'], function(result) {
+    console.log('Retrieved API keys from storage');
+    ANTHROPIC_API_KEY = result.ANTHROPIC_API_KEY || '';
+    AKASH_API_KEY = result.AKASH_API_KEY || '';
+    console.log('ANTHROPIC_API_KEY set:', ANTHROPIC_API_KEY ? 'Yes' : 'No');
+    console.log('AKASH_API_KEY set:', AKASH_API_KEY ? 'Yes' : 'No');
+    callback();
+    console.log('Callback executed');
+  });
+}
+
 function getSelectedAPI() {
     const apiSelect = document.getElementById("apiSelect");
     return apiSelect.value; // 'claude' or 'akash'
 }
 
 // Event Listener for select html element
+
+document.addEventListener('DOMContentLoaded', function() {
+  loadApiKeys(function() {
+    // Initialize your UI here
+  });
+});
+
+
 processBtn.addEventListener("click", async function () {
   const selectedOption = promptTypeSelect.value;
   const textInput = transcriptInput.value.trim();
