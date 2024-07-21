@@ -22,14 +22,30 @@
             margin-top: 20px;
             padding: 10px;
         }
+        .link-button {
+            display: inline-block;
+            margin-left: 10px;
+            padding: 2px 5px;
+            font-size: 12px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
     <h1>Spectral Scribe Options</h1>
-    <label for="anthropic-api-key">Anthropic API Key:</label>
+    <label for="anthropic-api-key">
+        Anthropic API Key:
+        <a href="https://console.anthropic.com/settings/keys" class="link-button" target="_blank">Get Key</a>
+    </label>
     <input type="password" id="anthropic-api-key" name="anthropic-api-key">
     
-    <label for="akash-api-key">Akash API Key:</label>
+    <label for="akash-api-key">
+        Akash API Key:
+        <a href="https://chatapi.akash.network/" class="link-button" target="_blank">Get Key</a>
+    </label>
     <input type="password" id="akash-api-key" name="akash-api-key">
     
     <button id="save-button">Save</button>
