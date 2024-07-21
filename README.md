@@ -1,4 +1,4 @@
-# AI-Powered Browser Analysis Chrome Extension
+# Spectral Scribe <i> ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-logo100x.png)
 
 ## Overview
 
@@ -6,7 +6,7 @@ This Chrome extension provides a powerful suite of AI-driven text analysis tools
 
 
 ## Screenshots
-![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot.jpg)
+
 
 ## Features
 
