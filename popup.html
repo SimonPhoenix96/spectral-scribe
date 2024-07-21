@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transcript Summarizer</title>
+    <style>
+        body {
+            width: 350px;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #F5F5DC;
+            color: #000000;
+        }
+        textarea {
+            width: 100%;
+            height: 120px;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background-color: #FFFFFF;
+            color: #000000;
+            font-size: 14px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 25px;
+            background-color: #FA2B39;
+            color: #ffffff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #FF4C57;
+        }
+        #summary {
+            border-radius: 8px;
+            padding: 15px;
+            min-height: 100px;
+            background-color: #FFFFFF;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #promptTypeSelect, #apiSelect {
+            display: block;
+            margin: 0 auto;
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background-color: #FFFFFF;
+            color: #000000;
+            border: 1px solid #FA2B39;
+        }
+        .spinner {
+            margin: 0 auto;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #FA2B39;
+            animation: spin 1s linear infinite;
+        }
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+    </style>
+</head>
+<body>
+    <body>
+        <textarea id="transcriptInput" placeholder="Auto Summarize Current Youtube Video"></textarea>
+        <select id="apiSelect">
+            <option value="akash">Akash API</option>
+            <option value="claude">Claude API</option>
+        </select>
+        <select id="promptTypeSelect">
+            <option value="manualPrompt">manual prompt</option>
+            <option value="autoTranscribeAndSummarize">Auto Summarize Current Youtube Video</option>
+            <option value="bulletPoints">Generate Bullet Points</option>
+            <option value="keyInsights">Extract Key Insights</option>
+            <option value="explainSimply">Explain Simply</option>
+            <option value="topicAnalysis">Analyze Topics</option>
+            <option value="sentimentAnalysis">Analyze Sentiment</option>
+            <option value="keywordExtraction">Extract Keywords</option>
+            <option value="languageTranslation">Translate Language</option>
+        </select>
+        <button id="processBtn">Process Prompt</button>
+        <button id="extractTranscriptBtn">extract YT Video Transcript</button>
+        <button id="extractHtmlTextBtn">WIP: Extract Text from HTML Page</button>
+        <p id="summary"></p>
+        <script src="popup.js"></script>
+    </body>
+</body>
+</html>

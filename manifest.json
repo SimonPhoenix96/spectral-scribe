@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Claude Video Transcript Summarizer",
+  "version": "1.0",
+  "description": "Summarizes long video transcripts using Claude API",
+  "permissions": ["activeTab"],
+  "host_permissions": ["https://api.anthropic.com/"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "content.js"
+      ]
+
+    }
+  ],
+  "action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html",
+    "default_title": "A popup to summarize video transcripts"
+  }
+}
