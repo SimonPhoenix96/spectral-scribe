@@ -17,6 +17,8 @@ const processBtn = document.getElementById("processBtn");
 const extractTranscriptBtn = document.getElementById("extractTranscriptBtn");
 const extractHtmlTextBtn = document.getElementById("extractHtmlTextBtn");
 const promptTypeSelect = document.getElementById("promptTypeSelect");
+const optionsLink = document.getElementById("optionsLink");
+
 
 // Main Functions
 
@@ -44,6 +46,11 @@ document.addEventListener('DOMContentLoaded', function() {
   loadApiKeys(function() {
     // Initialize your UI here
   });
+});
+
+optionsLink.addEventListener('click', function(e) {
+  e.preventDefault();
+  chrome.runtime.openOptionsPage();
 });
 
 
@@ -222,12 +229,35 @@ function compareTracks(track1, track2) {
 }
 
 function showLoadingSpinner() {
-  summaryDiv.innerHTML =
-    '<div class="spinner-container"><div class="spinner"></div></div>';
+  summaryDiv.innerHTML = '<div class="spinner-container"><div class="spinner"></div></div>';
+  const spinnerContainer = summaryDiv.querySelector('.spinner-container');
+  spinnerContainer.style.opacity = '0';
+  spinnerContainer.style.transition = 'opacity 0.5s ease-in-out';
+  setTimeout(() => {
+    spinnerContainer.style.opacity = '1';
+  }, 50);
+  return {
+    hide: () => {
+      spinnerContainer.style.opacity = '0';
+      return new Promise(resolve => setTimeout(() => {
+        summaryDiv.innerHTML = '';
+        resolve();
+      }, 500));
+    }
+  };
 }
 
 function displayPromptAnswer(summary) {
-  summaryDiv.innerHTML = summary;
+  summaryDiv.innerHTML = '';
+  const answerElement = document.createElement('div');
+  answerElement.innerHTML = summary;
+  answerElement.style.opacity = '0';
+  answerElement.style.transition = 'opacity 0.5s ease-in';
+  summaryDiv.appendChild(answerElement);
+  
+  setTimeout(() => {
+    answerElement.style.opacity = '1';
+  }, 50);
 }
 
 function displayError(message) {
