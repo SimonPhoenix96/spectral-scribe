@@ -332,6 +332,14 @@ function renderPoweredByProp() {
 
   const selectedAPI = getSelectedAPI();
   if (selectedAPI === 'akash') {
+    const link = document.createElement('a');
+    link.href = 'https://akash.network/';
+    link.target = '_blank';
+    link.style.textDecoration = 'none';
+    link.style.color = 'inherit';
+    link.style.display = 'flex';
+    link.style.alignItems = 'center';
+
     const logo = document.createElement('img');
     logo.src = 'resources/akash_small_icon.jpg';
     logo.alt = 'Akash Logo';
@@ -341,19 +349,32 @@ function renderPoweredByProp() {
 
     const titleSpan = document.createElement('span');
     titleSpan.textContent = "Powered by Akash Network";
-    answerElement.appendChild(titleSpan);
-    answerElement.appendChild(logo);
+    
+    link.appendChild(titleSpan);
+    link.appendChild(logo);
+    answerElement.appendChild(link);
   } else if (selectedAPI === 'claude') {
+    const link = document.createElement('a');
+    link.href = 'https://www.anthropic.com/';
+    link.target = '_blank';
+    link.style.textDecoration = 'none';
+    link.style.color = 'inherit';
+    link.style.display = 'flex';
+    link.style.alignItems = 'center';
+
     const logo = document.createElement('img');
     logo.src = 'resources/anthropic_small_icon.jpg';
     logo.alt = 'Claude Logo';
     logo.style.width = '20px';
     logo.style.marginLeft = '5px';
     logo.style.verticalAlign = 'middle';
+
     const titleSpan = document.createElement('span');
     titleSpan.textContent = "Powered by Claude";
-    answerElement.appendChild(titleSpan);
-    answerElement.appendChild(logo);
+    
+    link.appendChild(titleSpan);
+    link.appendChild(logo);
+    answerElement.appendChild(link);
   }
 
   answerElement.style.opacity = '0';
@@ -364,7 +385,6 @@ function renderPoweredByProp() {
     answerElement.style.opacity = '1';
   }, 50);
 }
-
 function displayError(message) {
   summaryDiv.textContent = "Error: " + message;
 }
