@@ -6,14 +6,11 @@
   "description": "Provides a powerful suite of AI-driven text analysis tools, leveraging both Claude (Anthropic) and Akash Network powered Llama3-8b models. It offers various functionalities for processing and analyzing text from YouTube video transcripts, user input and more. (Llama-3) models. It offers various functionalities for processing and analyzing text from web pages, YouTube videos, and user input.",
   "permissions": ["activeTab","storage"],
   "host_permissions": ["https://api.anthropic.com/v1/messages","https://chatapi.akash.network/api/v1/chat/completions"],
-  "background": {
-    "service_worker": "background.js"
-  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
       "js": [
-        "content.js"
+        "popup.js"
       ]
 
     }
