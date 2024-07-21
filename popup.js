@@ -6,7 +6,7 @@ let ANTHROPIC_API_KEY = '';
 const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
 
 let AKASH_API_KEY = '';
-const AKASH_API_URL = "https://chatapi.akash.network/api/v1/chat/completions"; 
+const AKASH_API_URL = "https://chatapi.akash.network/api/v1/chat/completions";
 // DOM Elements
 const summarizeBtn = document.getElementById("summarizeBtn");
 const summaryDiv = document.getElementById("summary");
@@ -43,14 +43,14 @@ function getSelectedAPI() {
 
 // Event Listener for select html element
 
-// Event listener that gets triggers as soon as popup loads 
+// Event listener that gets triggers as soon as popup loads
 //TODO: adapt when needed
 document.addEventListener('DOMContentLoaded', function() {
   loadApiKeys(function() {
     renderPoweredByProp();
+    checkApiKeysAndPulsate();
   });
 });
-
 document.getElementById("apiSelect").addEventListener('change', function() {
   const selectedAPI = this.value;
   renderPoweredByProp();
@@ -231,7 +231,16 @@ async function extractTextFromPage() {
     transcriptInput.value = response.text;
   });
 }
-
+function checkApiKeysAndPulsate() {
+  chrome.storage.sync.get(['ANTHROPIC_API_KEY', 'AKASH_API_KEY'], function(result) {
+      const settingsButton = document.getElementById('settingsButton');
+      if (!result.ANTHROPIC_API_KEY && !result.AKASH_API_KEY) {
+          settingsButton.classList.add('pulsate');
+      } else {
+          settingsButton.classList.remove('pulsate');
+      }
+  });
+}
 async function retrieveTranscript(youtubeLink) {
   try {
     const response = await fetch(youtubeLink);
@@ -316,11 +325,11 @@ function displayPromptAnswer(summary) {
 function renderPoweredByProp() {
   poweredByProp.innerHTML = '';
   const answerElement = document.createElement('div');
-  
+
   answerElement.style.display = 'flex';
   answerElement.style.justifyContent = 'center';
   answerElement.style.alignItems = 'center';
-  
+
   const selectedAPI = getSelectedAPI();
   if (selectedAPI === 'akash') {
     const logo = document.createElement('img');
@@ -346,11 +355,11 @@ function renderPoweredByProp() {
     answerElement.appendChild(titleSpan);
     answerElement.appendChild(logo);
   }
-  
+
   answerElement.style.opacity = '0';
   answerElement.style.transition = 'opacity 0.5s ease-in';
   poweredByProp.appendChild(answerElement);
-  
+
   setTimeout(() => {
     answerElement.style.opacity = '1';
   }, 50);
