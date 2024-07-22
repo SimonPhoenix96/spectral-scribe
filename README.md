@@ -46,6 +46,7 @@ This Chrome extension provides a powerful suite of AI-driven text analysis tools
 1. Clone the repository.
 2. Load the extension in Chrome's developer mode.
 3. Access the options page to set your Anthropic (Claude) and Akash API keys.
+   
 https://chatapi.akash.network/
 https://console.anthropic.com/settings/keys
 
