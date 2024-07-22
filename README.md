@@ -2,16 +2,16 @@
 
 ## Overview
 
-This Chrome extension provides a powerful suite of AI-driven text analysis tools, leveraging both Claude (Anthropic) and Akash Network powered Llama3-8b models. It offers various functionalities for processing and analyzing text from YouTube video transcripts, user input and more.
+This Chrome extension provides a powerful suite of AI-driven text analysis tools, leveraging Akash Network powered Llama3-8b or Anthropics Claude models . It offers various functionalities for processing and analyzing text from YouTube video transcripts, user input and more.
 
 
 ## Screenshots
-![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot.jpg)
+![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screen.jpg)
 
 ## Features
 
 - **YouTube Transcript Extraction**: Automatically fetches and processes transcripts from YouTube videos.
-- **Web Page Text Extraction**: Extracts text content from the current web page.
+- WIP **Web Page Text Extraction**: Extracts text content from the current web page. WIP
 - **Multi-Model AI Processing**: Utilizes both Claude (Anthropic) or {so far} a Akash Network ($AKT) powered llama3-8b model for text analysis.
 - **Multiple Analysis Types**:
   - Manual Prompt
@@ -46,6 +46,9 @@ This Chrome extension provides a powerful suite of AI-driven text analysis tools
 1. Clone the repository.
 2. Load the extension in Chrome's developer mode.
 3. Access the options page to set your Anthropic (Claude) and Akash API keys.
+https://chatapi.akash.network/
+https://console.anthropic.com/settings/keys
+
 
 ## Usage
 
