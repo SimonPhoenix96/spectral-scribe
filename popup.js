@@ -410,7 +410,7 @@ function handleError(error) {
   displayError(error.message);
 }
 
-async function promptClaude(text) {
+async function promptClaude(text, model = "claude-3-5-sonnet-20240620") {
   try {
     const requestOptions = {
       method: "POST",
@@ -420,7 +420,7 @@ async function promptClaude(text) {
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        model: "claude-3-5-sonnet-20240620",
+        model: model,
         max_tokens: 1024,
         messages: [{ role: "user", content: text }],
       }),
@@ -436,11 +436,11 @@ async function promptClaude(text) {
     }
     return data.content[0].text.replace(/\n/g, "<br>");
   } catch (error) {
-    throw new Error("Failed to prompt  Claude: " + error.message);
+    throw new Error("Failed to prompt Claude: " + error.message);
   }
 }
 
-async function promptAkash(text) {
+async function promptAkash(text, model = "llama3-8b") {
   try {
     const requestOptions = {
       method: "POST",
@@ -449,7 +449,7 @@ async function promptAkash(text) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "llama3-8b", // Replace with the appropriate model name
+        model: model,
         messages: [{ role: "user", content: text }],
         max_tokens: 1024,
       }),
@@ -463,7 +463,6 @@ async function promptAkash(text) {
     }
     const data = await response.json();
 
-    // Adjust this based on the actual Akash API response structure
     if (
       !data.choices ||
       !data.choices[0] ||
@@ -478,7 +477,7 @@ async function promptAkash(text) {
   }
 }
 
-async function promptAI(text) {
+async function promptAI(text, model) {
   console.log("Entering promptAI function");
   const selectedAPI = getSelectedAPI();
   console.log(`Selected API: ${selectedAPI}`);
@@ -486,10 +485,10 @@ async function promptAI(text) {
   try {
     if (selectedAPI === "claude") {
       console.log("Using Claude API");
-      return await promptClaude(text);
+      return await promptClaude(text, model);
     } else if (selectedAPI === "akash") {
       console.log("Using Akash API");
-      return await promptAkash(text);
+      return await promptAkash(text, model);
     } else {
       console.error(`Invalid API selected: ${selectedAPI}`);
       throw new Error("Invalid API selected");
@@ -501,7 +500,6 @@ async function promptAI(text) {
     console.log("Exiting promptAI function");
   }
 }
-
 // Additional functions (stubs)
 async function generateBulletPoints(bulletPointPrompt) {
   if (bulletPointPrompt) {
