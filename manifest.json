@@ -21,5 +21,14 @@
       "matches": ["<all_urls>"],
       "js": ["popup.js"]
     }
-  ]
+  ],
+  "commands": {
+  "_execute_action": {
+    "suggested_key": {
+      "default": "Ctrl+I",
+      "mac": "Command+I"
+    },
+    "description": "Open Spectral Scribe"
+  }
+}
 }
