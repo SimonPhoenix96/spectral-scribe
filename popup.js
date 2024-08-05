@@ -11,9 +11,9 @@ const AKASH_API_URL = "https://chatapi.akash.network/api/v1/chat/completions";
 const summarizeBtn = document.getElementById("summarizeBtn");
 const summaryDiv = document.getElementById("summary");
 const poweredByProp= document.getElementById("poweredByProp");
-const transcriptInput = document.getElementById("transcriptInput");
+const promptInput = document.getElementById("promptInput");
 const autoTranscribeAndSummarizeBtn = document.getElementById("autoTranscribeAndSummarize");
-const processBtn = document.getElementById("processBtn");
+const processPromptBtn = document.getElementById("processPromptBtn");
 const extractTranscriptBtn = document.getElementById("extractTranscriptBtn");
 const extractHtmlTextBtn = document.getElementById("extractHtmlTextBtn");
 const promptTypeSelect = document.getElementById("promptTypeSelect");
@@ -41,7 +41,11 @@ function getSelectedAPI() {
     return apiSelect.value; // 'claude' or 'akash'
 }
 
-// Event Listener for select html element
+// Event Listeners
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('promptInput').focus();
+});
 
 // Event listener that gets triggers as soon as popup loads
 //TODO: adapt when needed
@@ -75,51 +79,51 @@ document.getElementById("apiSelect").addEventListener('change', function() {
 document.getElementById("promptTypeSelect").addEventListener('change', function() {
   const selectedPromptType = this.value;
   console.log("Selected prompt type:", selectedPromptType);
-  transcriptInput.placeholder = selectedPromptType;
+  promptInput.placeholder = selectedPromptType;
   switch (selectedPromptType) {
     case "manualPrompt":
       console.log("Handling manual prompt");
-      transcriptInput.placeholder = "Type your custom prompt here...";
+      promptInput.placeholder = "Type your custom prompt here...";
       break;
     case "autoTranscribeAndSummarize":
       console.log("Handling auto-transcribe");
-      transcriptInput.placeholder = "YouTube video transcript will be fetched and summarized automatically";
+      promptInput.placeholder = "YouTube video transcript will be fetched and summarized automatically";
       break;
     case "bulletPoints":
       console.log("Handling bullet points");
-      transcriptInput.placeholder = "Paste your text here to generate bullet points";
+      promptInput.placeholder = "Paste your text here to generate bullet points";
       break;
     case "keyInsights":
       console.log("Handling key insights");
-      transcriptInput.placeholder = "Enter text to extract key insights from";
+      promptInput.placeholder = "Enter text to extract key insights from";
       break;
     case "explainSimply":
       console.log("Handling explain simply");
-      transcriptInput.placeholder = "Paste complex text here for a simplified explanation";
+      promptInput.placeholder = "Paste complex text here for a simplified explanation";
       break;
     case "questionAnswering":
       console.log("Handling question answering");
-      transcriptInput.placeholder = "Ask your question here...";
+      promptInput.placeholder = "Ask your question here...";
       break;
     case "topicAnalysis":
       console.log("Handling topic analysis");
-      transcriptInput.placeholder = "Input text for topic analysis here";
+      promptInput.placeholder = "Input text for topic analysis here";
       break;
     case "sentimentAnalysis":
       console.log("Handling sentiment analysis");
-      transcriptInput.placeholder = "Paste text here for sentiment analysis";
+      promptInput.placeholder = "Paste text here for sentiment analysis";
       break;
     case "keywordExtraction":
       console.log("Handling keyword extraction");
-      transcriptInput.placeholder = "Enter text to extract keywords from";
+      promptInput.placeholder = "Enter text to extract keywords from";
       break;
     case "languageTranslation":
       console.log("Handling language translation");
-      transcriptInput.placeholder = "Type or paste text here for translation";
+      promptInput.placeholder = "Type or paste text here for translation";
       break;
     default:
       console.log("Handling default case");
-      transcriptInput.placeholder = "Type or paste your text here...";
+      promptInput.placeholder = "Type or paste your text here...";
   }
 });
 
@@ -129,9 +133,9 @@ optionsLink.addEventListener('click', function(e) {
 });
 
 
-processBtn.addEventListener("click", async function () {
+function processPrompt() {
   const selectedOption = promptTypeSelect.value;
-  const textInput = transcriptInput.value.trim();
+  const textInput = promptInput.value.trim();
   console.log("Selected option:", selectedOption);
   try {
     console.log("Showing loading spinner");
@@ -139,67 +143,66 @@ processBtn.addEventListener("click", async function () {
     switch (selectedOption) {
       case "manualPrompt":
         console.log("Handling manual prompt");
-        transcriptInput.placeholder = "Enter your manual prompt here";
-        await generateManualPrompt(textInput);
-        break;
+        promptInput.placeholder = "Enter your manual prompt here";
+        return generateManualPrompt(textInput);
       case "autoTranscribeAndSummarize":
         console.log("Handling auto-transcribe");
-        transcriptInput.placeholder =
+        promptInput.placeholder =
           "Will fetch the transcript from the current YouTube video and summarise it";
-        await generateAutoTranscribeAndSummarize();
-        break;
+        return generateAutoTranscribeAndSummarize();
       case "bulletPoints":
         console.log("Handling bullet points");
-        transcriptInput.placeholder =
+        promptInput.placeholder =
           "Enter the text to generate bullet points";
-        await generateBulletPoints(textInput);
-        break;
+        return generateBulletPoints(textInput);
       case "keyInsights":
         console.log("Handling key insights");
-        transcriptInput.placeholder = "Enter the text to extract key insights";
-        await generateKeyInsights(textInput);
-        break;
+        promptInput.placeholder = "Enter the text to extract key insights";
+        return generateKeyInsights(textInput);
       case "explainSimply":
         console.log("Handling explain simply");
-        transcriptInput.placeholder = "Enter the text to explain simply";
-        await generateExplainSimply(textInput);
-        break;
+        promptInput.placeholder = "Enter the text to explain simply";
+        return generateExplainSimply(textInput);
       case "questionAnswering":
         console.log("Handling question answering");
-        transcriptInput.placeholder = "Enter your question here";
-        await questionAnswering(textInput);
-        break;
+        promptInput.placeholder = "Enter your question here";
+        return questionAnswering(textInput);
       case "topicAnalysis":
         console.log("Handling topic analysis");
-        transcriptInput.placeholder = "Enter the text for topic analysis";
-        await topicAnalysis(textInput);
-        break;
+        promptInput.placeholder = "Enter the text for topic analysis";
+        return topicAnalysis(textInput);
       case "sentimentAnalysis":
         console.log("Handling sentiment analysis");
-        transcriptInput.placeholder = "Enter the text for sentiment analysis";
-        await sentimentAnalysis(textInput);
-        break;
+        promptInput.placeholder = "Enter the text for sentiment analysis";
+        return sentimentAnalysis(textInput);
       case "keywordExtraction":
         console.log("Handling keyword extraction");
-        transcriptInput.placeholder = "Enter the text for keyword extraction";
-        await keywordExtraction(textInput);
-        break;
+        promptInput.placeholder = "Enter the text for keyword extraction";
+        return keywordExtraction(textInput);
       case "languageTranslation":
         console.log("Handling language translation");
-        transcriptInput.placeholder = "Enter the text to translate";
-        await languageTranslation(textInput);
-        break;
+        promptInput.placeholder = "Enter the text to translate";
+        return languageTranslation(textInput);
       default:
         console.log("Handling default case");
-        transcriptInput.placeholder = "Enter your text here";
-        await generateManualPrompt(textInput);
+        promptInput.placeholder = "Enter your text here";
+        return generateManualPrompt(textInput);
     }
-    console.log("Switch case completed");
   } catch (error) {
-    console.error("Error in processBtn click handler:", error);
+    console.error("Error in processText:", error);
     handleError(error);
   }
+}
+
+processPromptBtn.addEventListener("click", processPrompt);
+
+document.addEventListener('keydown', function(event) {
+  if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+    event.preventDefault();
+    processPrompt();
+  }
 });
+
 
 // listener for extract video transcript button
 extractTranscriptBtn.addEventListener("click", async function () {
@@ -209,7 +212,7 @@ extractTranscriptBtn.addEventListener("click", async function () {
       throw new Error("Not a valid YouTube video URL");
     }
     const transcript = await retrieveTranscript(currentUrl);
-    transcriptInput.value = transcript;
+    promptInput.value = transcript;
   } catch (error) {
     console.error("Error extracting transcript:", error);
     handleError(error);
@@ -256,7 +259,7 @@ async function extractTextFromPage() {
   chrome.runtime.sendMessage({ action: "extractText" }, function (response) {
     // const extractedHTML = response.text;
     console.log(response.html);
-    transcriptInput.value = response.text;
+    promptInput.value = response.text;
   });
 }
 function checkApiKeysAndPulsate() {
@@ -658,7 +661,7 @@ async function keywordExtraction(text) {
 }
 
 async function languageTranslation() {
-  const text = elements.transcriptInput.value.trim();
+  const text = elements.promptInput.value.trim();
   if (text) {
     try {
       const answer = await promptAI(
