@@ -182,7 +182,7 @@
       <option value="akash" data-icon="resources/akash_small_icon.jpg">Akash API</option>
       <option value="claude" data-icon="resources/anthropic_small_icon.jpg">Claude API</option>
     </select>
-    
+        
     <select id="promptTypeSelect" style="background-image: url('resources/edit.png'); background-position: 5px center; background-repeat: no-repeat; background-size: 20px; padding-left: 30px; padding-right: 20px;">
       <option value="manualPrompt" data-icon="resources/edit.png">Manual Prompt</option>
       <option value="autoTranscribeAndSummarize" data-icon="resources/summarize.png">Auto Summarize Current Youtube Video</option>
@@ -194,6 +194,21 @@
       <option value="keywordExtraction" data-icon="resources/label.png">Extract Keywords</option>
       <option value="languageTranslation" data-icon="resources/translate.png">Translate Language</option>
     </select>
+
+    <div style="display: flex; justify-content: center; gap: 10px;">
+      <select id="akashModelSelect" style="background-image: url('resources/akash_small_icon.jpg'); background-position: 5px center; background-repeat: no-repeat; background-size: 20px; padding-left: 30px; padding-right: 20px;">
+        <option value="Meta-Llama-3-1-405B-Instruct-FP8">Meta-Llama-3-1-405B-Instruct-FP8</option>
+        <option value="llama3-8b">llama3-8b</option>
+        <option value="llama3-8b-instruct">llama3-8b-instruct</option>
+      </select>
+  
+      <select id="claudeModelSelect" style="background-image: url('resources/anthropic_small_icon.jpg'); background-position: 5px center; background-repeat: no-repeat; background-size: 20px; padding-left: 30px; padding-right: 20px; display: none;">
+        <option value="claude-3-opus-20240229">claude-3-opus-20240229</option>
+        <option value="claude-3-sonnet-20240229">claude-3-sonnet-20240229</option>
+        <option value="claude-2.1">claude-2.1</option>
+      </select>
+    </div>
+    <br>
     
     <textarea id="transcriptInput" placeholder="Manual Prompt (Example: What's the weather like in Beirut?)"></textarea>
 

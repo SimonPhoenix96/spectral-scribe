@@ -57,8 +57,20 @@ document.getElementById('promptTypeSelect').addEventListener('change', updatePro
 
 document.getElementById("apiSelect").addEventListener('change', function() {
   const selectedAPI = this.value;
+  const akashModelSelect = document.getElementById("akashModelSelect");
+  const claudeModelSelect = document.getElementById("claudeModelSelect");
+  
+  if (selectedAPI === 'akash') {
+    akashModelSelect.style.display = 'inline-block';
+    claudeModelSelect.style.display = 'none';
+  } else if (selectedAPI === 'claude') {
+    akashModelSelect.style.display = 'none';
+    claudeModelSelect.style.display = 'inline-block';
+  }
+  
   renderPoweredByProp();
 });
+
 
 document.getElementById("promptTypeSelect").addEventListener('change', function() {
   const selectedPromptType = this.value;
@@ -410,7 +422,7 @@ function handleError(error) {
   displayError(error.message);
 }
 
-async function promptClaude(text, model = "claude-3-5-sonnet-20240620") {
+async function promptClaude(text, claudeModel) {
   try {
     const requestOptions = {
       method: "POST",
@@ -420,7 +432,7 @@ async function promptClaude(text, model = "claude-3-5-sonnet-20240620") {
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        model: model,
+        model: claudeModel,
         max_tokens: 1024,
         messages: [{ role: "user", content: text }],
       }),
@@ -440,7 +452,10 @@ async function promptClaude(text, model = "claude-3-5-sonnet-20240620") {
   }
 }
 
-async function promptAkash(text, model = "llama3-8b") {
+async function promptAkash(text, akashModel) {
+  console.log("Entering promptAkash function");
+  console.log("Input text:", text);
+  console.log("Selected Akash model:", akashModel);
   try {
     const requestOptions = {
       method: "POST",
@@ -449,19 +464,23 @@ async function promptAkash(text, model = "llama3-8b") {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: model,
+        model: akashModel,
         messages: [{ role: "user", content: text }],
         max_tokens: 1024,
       }),
     };
 
+    console.log("Request options:", JSON.stringify(requestOptions, null, 2));
+
     const response = await fetch(AKASH_API_URL, requestOptions);
+    console.log("API response status:", response.status);
     if (!response.ok) {
       throw new Error(
         `Akash API request failed with status ${response.status}`
       );
     }
     const data = await response.json();
+    console.log("API response data:", JSON.stringify(data, null, 2));
 
     if (
       !data.choices ||
@@ -471,13 +490,18 @@ async function promptAkash(text, model = "llama3-8b") {
     ) {
       throw new Error("Invalid Akash API response format");
     }
-    return data.choices[0].message.content.replace(/\n/g, "<br>");
+    const result = data.choices[0].message.content.replace(/\n/g, "<br>");
+    console.log("Processed result:", result);
+    return result;
   } catch (error) {
+    console.error("Error in promptAkash:", error);
     throw new Error("Failed to prompt Akash: " + error.message);
+  } finally {
+    console.log("Exiting promptAkash function");
   }
 }
 
-async function promptAI(text, model) {
+async function promptAI(text) {
   console.log("Entering promptAI function");
   const selectedAPI = getSelectedAPI();
   console.log(`Selected API: ${selectedAPI}`);
@@ -485,10 +509,12 @@ async function promptAI(text, model) {
   try {
     if (selectedAPI === "claude") {
       console.log("Using Claude API");
-      return await promptClaude(text, model);
+      const claudeModel = document.getElementById("claudeModelSelect").value;
+      return await promptClaude(text, claudeModel);
     } else if (selectedAPI === "akash") {
       console.log("Using Akash API");
-      return await promptAkash(text, model);
+      const akashModel = document.getElementById("akashModelSelect").value;
+      return await promptAkash(text, akashModel);
     } else {
       console.error(`Invalid API selected: ${selectedAPI}`);
       throw new Error("Invalid API selected");
