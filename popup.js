@@ -9,7 +9,7 @@ let AKASH_API_KEY = '';
 const AKASH_API_URL = "https://chatapi.akash.network/api/v1/chat/completions";
 // DOM Elements
 const summarizeBtn = document.getElementById("summarizeBtn");
-const summaryDiv = document.getElementById("summary");
+const promptAnswerDiv = document.getElementById("promptAnswer");
 const poweredByProp= document.getElementById("poweredByProp");
 const promptInput = document.getElementById("promptInput");
 const autoTranscribeAndSummarizeBtn = document.getElementById("autoTranscribeAndSummarize");
@@ -328,8 +328,8 @@ function compareTracks(track1, track2) {
 }
 
 function showLoadingSpinner() {
-  summaryDiv.innerHTML = '<div class="spinner-container"><div class="spinner"></div></div>';
-  const spinnerContainer = summaryDiv.querySelector('.spinner-container');
+  promptAnswerDiv.innerHTML = '<div class="spinner-container"><div class="spinner"></div></div>';
+  const spinnerContainer = promptAnswerDiv.querySelector('.spinner-container');
   spinnerContainer.style.opacity = '0';
   spinnerContainer.style.transition = 'opacity 0.5s ease-in-out';
   setTimeout(() => {
@@ -339,18 +339,18 @@ function showLoadingSpinner() {
     hide: () => {
       spinnerContainer.style.opacity = '0';
       return new Promise(resolve => setTimeout(() => {
-        summaryDiv.innerHTML = '';
+        promptAnswerDiv.innerHTML = '';
         resolve();
       }, 500));
     }
   };
 }
 
-function displayPromptAnswer(summary) {
-  summaryDiv.innerHTML = '';
+function displayPromptAnswer(promptAnswer) {
+  promptAnswerDiv.innerHTML = '';
   const answerElement = document.createElement('div');
-  answerElement.innerHTML = summary;
-  summaryDiv.appendChild(answerElement);
+  answerElement.innerHTML = promptAnswer;
+  promptAnswerDiv.appendChild(answerElement);
 }
 
 function renderPoweredByProp() {
@@ -417,7 +417,7 @@ function renderPoweredByProp() {
   }, 50);
 }
 function displayError(message) {
-  summaryDiv.textContent = "Error: " + message;
+  promptAnswerDiv.textContent = "Error: " + message;
 }
 
 function handleError(error) {
@@ -591,11 +591,11 @@ async function generateAutoTranscribeAndSummarize() {
     const transcript = await retrieveTranscript(currentUrl);
     console.log("Transcript retrieved, length:", transcript.length);
     console.log("Sending transcript to Claude for summarization...");
-    const summary = await promptAI(
+    const promptAnswer = await promptAI(
       "Summarise with the most detail possible:   " + transcript
     );
-    console.log("Summary received from Claude, length:", summary.length);
-    displayPromptAnswer(summary);
+    console.log("promptAnswer received from Claude, length:", promptAnswer.length);
+    displayPromptAnswer(promptAnswer);
   } catch (error) {
     console.error("Error in generateAutoTranscribeAndSummarize:", error);
     throw new Error("Auto-transcribe failed: " + error.message);
