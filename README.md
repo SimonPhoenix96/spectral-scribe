@@ -10,11 +10,11 @@ This Chrome extension provides a powerful suite of AI-driven text analysis tools
 
 ## Todo
 - **Web Page Text Extraction**: Extracts text content from the current web page.
-- **Ergonomic Shortcuts**: For Example CTRL-K opens Spectral Scribe
 - **Prompt History + Saver**:
 
 ## Features
 - **YouTube Transcript Extraction**: Automatically fetches and processes transcripts from YouTube videos.
+- **Ergonomic Shortcuts**: For Example CTRL-I opens Spectral Scribe Extension, CTRL-ENTER processes the prompt
 - **Multi-Model AI Processing**: Utilizes both Claude (Anthropic) or {so far} a Akash Network ($AKT) powered llama3-8b model for text analysis.
 - **Multiple Analysis Types**:
   - Manual Prompt
