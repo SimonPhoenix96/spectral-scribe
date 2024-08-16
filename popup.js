@@ -330,6 +330,13 @@ function compareTracks(track1, track2) {
 function showLoadingSpinner() {
   promptAnswerDiv.innerHTML = '<div class="spinner-container"><div class="spinner"></div></div>';
   const spinnerContainer = promptAnswerDiv.querySelector('.spinner-container');
+  spinnerContainer.style.display = 'flex';
+  spinnerContainer.style.justifyContent = 'center';
+  spinnerContainer.style.alignItems = 'center';
+  spinnerContainer.style.height = '100%';
+  spinnerContainer.style.width = '100%';
+  spinnerContainer.style.padding = '5px';
+  spinnerContainer.style.padding = '20px 5px 5px 5px';
   spinnerContainer.style.opacity = '0';
   spinnerContainer.style.transition = 'opacity 0.5s ease-in-out';
   setTimeout(() => {
