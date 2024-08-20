@@ -1,5 +1,8 @@
 # Spectral Scribe <i> ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-logo100x.png)
 
+## Install
+The extension can easily be installed via the [Chrome Webstore](https://chromewebstore.google.com/detail/spectral-scribe/glmmkhkihiaggamlpiiibibdhbjgeeim?authuser=0&hl=en-GB)
+
 ## Overview
 
 This Chrome extension provides a powerful suite of AI-driven text analysis tools, leveraging Akash Network powered Llama3-8b or Anthropics Claude models . It offers various functionalities for processing and analyzing text from YouTube video transcripts, user input and more.
