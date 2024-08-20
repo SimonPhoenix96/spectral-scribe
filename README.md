@@ -11,10 +11,6 @@ This Chrome extension provides a powerful suite of AI-driven text analysis tools
 ## Screenshots
 ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screen.jpg)
 
-## Todo
-
-- **Prompt History + Saver**:
-
 ## Features
 - **YouTube Transcript Extraction**: Automatically fetches and processes transcripts from YouTube videos.
 - **Ergonomic Shortcuts**: For Example CTRL-I opens Spectral Scribe Extension, CTRL-ENTER processes the prompt
