@@ -42,18 +42,21 @@ function getSelectedAPI() {
 }
 
 // Event Listeners
-
-document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('promptInput').focus();
+// Event listener that gets triggers as soon as popup closes
+document.addEventListener('visibilitychange', function() {
+  if (document.visibilityState === 'hidden') {
+    saveInputAndAnswer();
+  }
 });
-
 // Event listener that gets triggers as soon as popup loads
 //TODO: adapt when needed
 document.addEventListener('DOMContentLoaded', function() {
   loadApiKeys(function() {
+    document.getElementById('promptInput').focus();
     renderPoweredByProp();
     checkApiKeysAndPulsate();
     updatePromptTypeSelectIcon();
+    loadInputAndAnswer(); 
   });
 });
 
@@ -256,7 +259,25 @@ extractHtmlTextBtn.addEventListener("click", async function () {
 });
 
 // Helper Functions
+function saveInputAndAnswer() {
+  chrome.storage.local.set({
+    'savedPromptInput': promptInput.value,
+    'savedPromptAnswer': promptAnswerDiv.innerHTML
+  }, function() {
+    console.log('Input and answer saved');
+  });
+}
 
+function loadInputAndAnswer() {
+  chrome.storage.local.get(['savedPromptInput', 'savedPromptAnswer'], function(result) {
+    if (result.savedPromptInput) {
+      promptInput.value = result.savedPromptInput;
+    }
+    if (result.savedPromptAnswer) {
+      promptAnswerDiv.innerHTML = result.savedPromptAnswer;
+    }
+  });
+}
 function updatePromptTypeSelectIcon() {
   const select = document.getElementById('promptTypeSelect');
   const selectedOption = select.options[select.selectedIndex];
