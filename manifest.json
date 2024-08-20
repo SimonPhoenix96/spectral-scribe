@@ -5,11 +5,11 @@
   "description": "AI-driven text analysis tools for processing and analyzing text from web pages, YouTube videos, and user input.",
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "scripting"
   ],
   "host_permissions": [
-    "https://api.anthropic.com/",
-    "https://chatapi.akash.network/"
+    "<all_urls>"
   ],
   "action": {
     "default_icon": "resources/spectralscribe-logo50x.png",
