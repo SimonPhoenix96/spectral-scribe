@@ -223,10 +223,32 @@ document.getElementById('apiSelect').addEventListener('change', function() {
   this.style.backgroundImage = `url('${selectedOption.dataset.icon}')`;
 });
 
-// listener for extract html text button
+// listener for extract html text button// listener for extract html text button
 extractHtmlTextBtn.addEventListener("click", async function () {
   try {
-    const htmlText = extractTextFromPage();
+    if (!chrome.scripting) {
+      throw new Error("chrome.scripting API is not available");
+    }
+
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (!tab) {
+      throw new Error("No active tab found");
+    }
+
+    const result = await chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      func: () => {
+        const bodyText = document.body.innerText;
+        return bodyText.replace(/\s+/g, ' ').trim();
+      },
+    });
+
+    if (!result || result.length === 0) {
+      throw new Error("Script execution failed");
+    }
+
+    const htmlText = result[0].result;
+    promptInput.value = htmlText;
   } catch (error) {
     console.error("Error extracting text from HTML:", error);
     handleError(error);
