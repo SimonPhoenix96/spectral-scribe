@@ -274,7 +274,11 @@ function loadInputAndAnswer() {
       promptInput.value = result.savedPromptInput;
     }
     if (result.savedPromptAnswer) {
-      promptAnswerDiv.innerHTML = result.savedPromptAnswer;
+      if (result.savedPromptAnswer.toLowerCase().includes('error:')) {
+        promptAnswerDiv.innerHTML = '';
+      } else {
+        promptAnswerDiv.innerHTML = result.savedPromptAnswer;
+      }
     }
   });
 }
