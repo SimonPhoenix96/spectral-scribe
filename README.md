@@ -1,7 +1,7 @@
 # Spectral Scribe <i> ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-logo100x.png)
 
 ## Install
-The extension can easily be installed via the [Chrome Webstore](https://chromewebstore.google.com/detail/spectral-scribe/glmmkhkihiaggamlpiiibibdhbjgeeim?authuser=0&hl=en-GB)
+The extension can easily be installed via the [Chrome Webstore](https://chromewebstore.google.com/detail/spectral-scribe/glmmkhkihiaggamlpiiibibdhbjgeeim?authuser=0&hl=en-GB) but it's still an older version that will be updated after google reviews the new release 
 
 ## Overview
 
@@ -10,10 +10,6 @@ This Chrome extension provides a powerful suite of AI-driven text analysis tools
 
 ## Screenshots
 ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screen.jpg)
-
-## Todo
-
-- **Prompt History + Saver**:
 
 ## Features
 - **YouTube Transcript Extraction**: Automatically fetches and processes transcripts from YouTube videos.
