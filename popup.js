@@ -82,7 +82,6 @@ document.getElementById("apiSelect").addEventListener('change', function() {
 document.getElementById("promptTypeSelect").addEventListener('change', function() {
   const selectedPromptType = this.value;
   console.log("Selected prompt type:", selectedPromptType);
-  promptInput.placeholder = selectedPromptType;
   switch (selectedPromptType) {
     case "manualPrompt":
       console.log("Handling manual prompt");
@@ -104,10 +103,6 @@ document.getElementById("promptTypeSelect").addEventListener('change', function(
       console.log("Handling explain simply");
       promptInput.placeholder = "Paste complex text here for a simplified explanation";
       break;
-    case "questionAnswering":
-      console.log("Handling question answering");
-      promptInput.placeholder = "Ask your question here...";
-      break;
     case "topicAnalysis":
       console.log("Handling topic analysis");
       promptInput.placeholder = "Input text for topic analysis here";
@@ -123,6 +118,46 @@ document.getElementById("promptTypeSelect").addEventListener('change', function(
     case "languageTranslation":
       console.log("Handling language translation");
       promptInput.placeholder = "Type or paste text here for translation";
+      break;
+    case "summarizeText":
+      console.log("Handling summarizeText");
+      promptInput.placeholder = "Paste your text here to summarize";
+      break;
+    case "generateQuiz":
+      console.log("Handling quiz generation");
+      promptInput.placeholder = "Enter a topic to generate a quiz about it";
+      break;
+    case "explainLikeImFive":
+      console.log("Handling ELI5 explanations");
+      promptInput.placeholder = "Enter a complex topic to explain like I'm five";
+      break;
+    case "findLogicalFallacies":
+      console.log("Handling logical fallacy detection");
+      promptInput.placeholder = "Enter an argument to identify potential logical fallacies";
+      break;
+    case "generateAnalogy":
+      console.log("Handling analogy generation");
+      promptInput.placeholder = "Enter a concept to create an analogy for it";
+      break;
+    case "historicalContext":
+      console.log("Handling historical context explanation");
+      promptInput.placeholder = "Enter a historical event for context and analysis";
+      break;
+    case "generateEssayOutline":
+      console.log("Handling essay outline generation");
+      promptInput.placeholder = "Enter an essay topic to generate an outline";
+      break;
+    case "generateProductSheet":
+      console.log("Handling product sheet generation");
+      promptInput.placeholder = "Enter product details to generate a product sheet";
+      break;
+    case "timeManagement":
+      console.log("Handling time management");
+      promptInput.placeholder = "Describe your daily tasks for time management suggestions";
+      break;
+    case "recipeSuggestions":
+      console.log("Handling recipe suggestions");
+      promptInput.placeholder = "Enter ingredients or dietary preferences for recipe ideas";
       break;
     default:
       console.log("Handling default case");
