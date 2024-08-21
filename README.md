@@ -9,7 +9,8 @@ This Chrome extension provides a powerful suite of AI-driven text analysis tools
 
 
 ## Screenshots
-      UI      |  Prompt Types
+
+UI             |  Prompt Types
 :-------------------------:|:-------------------------:
 ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screen.png)  |  ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screen-2.png)
 ## TODO
