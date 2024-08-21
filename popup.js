@@ -52,11 +52,16 @@ document.addEventListener('visibilitychange', function() {
 //TODO: adapt when needed
 document.addEventListener('DOMContentLoaded', function() {
   loadApiKeys(function() {
-    document.getElementById('promptInput').focus();
-    renderPoweredByProp();
-    checkApiKeysAndPulsate();
-    updatePromptTypeSelectIcon();
-    loadInputAndAnswer(); 
+  });
+  document.getElementById('promptInput').focus();
+  renderPoweredByProp();
+  checkApiKeysAndPulsate();
+  updatePromptTypeSelectIcon();
+  loadInputAndAnswer(); 
+  const clearButton = document.getElementById('clearButton');
+  clearButton.addEventListener('click', function() {
+      document.getElementById('promptInput').value = '';
+      document.getElementById('promptAnswer').innerHTML = '';
   });
 });
 
@@ -241,6 +246,32 @@ extractHtmlTextBtn.addEventListener("click", async function () {
     handleError(error);
   }
 });
+
+// Add this with your other constant declarations at the top
+const copyButton = document.getElementById("copyButton");
+
+// Add this event listener with your other event listeners
+copyButton.addEventListener("click", copyPromptAnswer);
+
+// Add this function to your existing code
+function copyPromptAnswer() {
+  const promptAnswerText = promptAnswerDiv.innerText;
+  
+  if (promptAnswerText) {
+    navigator.clipboard.writeText(promptAnswerText).then(() => {
+      // Temporarily change button text to indicate successful copy
+      const originalText = copyButton.textContent;
+      setTimeout(() => {
+        copyButton.textContent = originalText;
+      }, 2000);
+    }).catch(err => {
+      console.error('Failed to copy text: ', err);
+      alert('Failed to copy text. Please try again.');
+    });
+  } else {
+    alert('There is no text to copy.');
+  }
+}
 
 // Helper Functions
 function saveInputAndAnswer() {
@@ -484,6 +515,7 @@ async function promptAI(text) {
 
     const formattedResult = result.replace(/\n/g, "<br>");
     displayPromptAnswer(formattedResult);
+    window.scrollTo(0, document.body.scrollHeight);
     return formattedResult;
   } catch (error) {
     console.error("Error in promptAI:", error);
