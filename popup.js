@@ -78,92 +78,6 @@ document.getElementById("apiSelect").addEventListener('change', function() {
   renderPoweredByProp();
 });
 
-// TODO: finish implementation of last few added cases  
-document.getElementById("promptTypeSelect").addEventListener('change', function() {
-  const selectedPromptType = this.value;
-  console.log("Selected prompt type:", selectedPromptType);
-  switch (selectedPromptType) {
-    case "manualPrompt":
-      console.log("Handling manual prompt");
-      promptInput.placeholder = "Type your custom prompt here...";
-      break;
-    case "autoTranscribeAndSummarize":
-      console.log("Handling auto-transcribe");
-      promptInput.placeholder = "YouTube video transcript will be fetched and summarized automatically";
-      break;
-    case "bulletPoints":
-      console.log("Handling bullet points");
-      promptInput.placeholder = "Paste your text here to generate bullet points";
-      break;
-    case "keyInsights":
-      console.log("Handling key insights");
-      promptInput.placeholder = "Enter text to extract key insights from";
-      break;
-    case "explainSimply":
-      console.log("Handling explain simply");
-      promptInput.placeholder = "Paste complex text here for a simplified explanation";
-      break;
-    case "topicAnalysis":
-      console.log("Handling topic analysis");
-      promptInput.placeholder = "Input text for topic analysis here";
-      break;
-    case "sentimentAnalysis":
-      console.log("Handling sentiment analysis");
-      promptInput.placeholder = "Paste text here for sentiment analysis";
-      break;
-    case "keywordExtraction":
-      console.log("Handling keyword extraction");
-      promptInput.placeholder = "Enter text to extract keywords from";
-      break;
-    case "languageTranslation":
-      console.log("Handling language translation");
-      promptInput.placeholder = "Type or paste text here for translation";
-      break;
-    case "summarizeText":
-      console.log("Handling summarizeText");
-      promptInput.placeholder = "Paste your text here to summarize";
-      break;
-    case "generateQuiz":
-      console.log("Handling quiz generation");
-      promptInput.placeholder = "Enter a topic to generate a quiz about it";
-      break;
-    case "explainLikeImFive":
-      console.log("Handling ELI5 explanations");
-      promptInput.placeholder = "Enter a complex topic to explain like I'm five";
-      break;
-    case "findLogicalFallacies":
-      console.log("Handling logical fallacy detection");
-      promptInput.placeholder = "Enter an argument to identify potential logical fallacies";
-      break;
-    case "generateAnalogy":
-      console.log("Handling analogy generation");
-      promptInput.placeholder = "Enter a concept to create an analogy for it";
-      break;
-    case "historicalContext":
-      console.log("Handling historical context explanation");
-      promptInput.placeholder = "Enter a historical event for context and analysis";
-      break;
-    case "generateEssayOutline":
-      console.log("Handling essay outline generation");
-      promptInput.placeholder = "Enter an essay topic to generate an outline";
-      break;
-    case "generateProductSheet":
-      console.log("Handling product sheet generation");
-      promptInput.placeholder = "Enter product details to generate a product sheet";
-      break;
-    case "timeManagement":
-      console.log("Handling time management");
-      promptInput.placeholder = "Describe your daily tasks for time management suggestions";
-      break;
-    case "recipeSuggestions":
-      console.log("Handling recipe suggestions");
-      promptInput.placeholder = "Enter ingredients or dietary preferences for recipe ideas";
-      break;
-    default:
-      console.log("Handling default case");
-      promptInput.placeholder = "Type or paste your text here...";
-  }
-});
 
 optionsLink.addEventListener('click', function(e) {
   e.preventDefault();
@@ -171,6 +85,7 @@ optionsLink.addEventListener('click', function(e) {
 });
 
 
+// TODO: finish implementation of last few added cases  
 function processPrompt() {
   const selectedOption = promptTypeSelect.value;
   const textInput = promptInput.value.trim();
@@ -182,49 +97,83 @@ function processPrompt() {
       case "manualPrompt":
         console.log("Handling manual prompt");
         promptInput.placeholder = "Enter your manual prompt here";
-        return generateManualPrompt(textInput);
+        return promptAI(textInput);
       case "autoTranscribeAndSummarize":
         console.log("Handling auto-transcribe");
-        promptInput.placeholder =
-          "Will fetch the transcript from the current YouTube video and summarise it";
+        promptInput.placeholder = "Will fetch the transcript from the current YouTube video and summarise it";
         return generateAutoTranscribeAndSummarize();
       case "bulletPoints":
         console.log("Handling bullet points");
-        promptInput.placeholder =
-          "Enter the text to generate bullet points";
-        return generateBulletPoints(textInput);
+        promptInput.placeholder = "Enter the text to generate bullet points";
+        return promptAI("Generate bullet points for this: " + textInput);
       case "keyInsights":
         console.log("Handling key insights");
         promptInput.placeholder = "Enter the text to extract key insights";
-        return generateKeyInsights(textInput);
+        return promptAI("Extract key insights from this text: " + textInput);
       case "explainSimply":
         console.log("Handling explain simply");
         promptInput.placeholder = "Enter the text to explain simply";
-        return generateExplainSimply(textInput);
-      case "questionAnswering":
-        console.log("Handling question answering");
-        promptInput.placeholder = "Enter your question here";
-        return questionAnswering(textInput);
+        return promptAI("Explain this simply: " + textInput);
       case "topicAnalysis":
         console.log("Handling topic analysis");
         promptInput.placeholder = "Enter the text for topic analysis";
-        return topicAnalysis(textInput);
+        return promptAI("Analyze the main topics in this text: " + textInput);
       case "sentimentAnalysis":
         console.log("Handling sentiment analysis");
         promptInput.placeholder = "Enter the text for sentiment analysis";
-        return sentimentAnalysis(textInput);
+        return promptAI("Analyze the sentiment of this text: " + textInput);
       case "keywordExtraction":
         console.log("Handling keyword extraction");
         promptInput.placeholder = "Enter the text for keyword extraction";
-        return keywordExtraction(textInput);
+        return promptAI("Extract the key words from this text: " + textInput);
       case "languageTranslation":
         console.log("Handling language translation");
         promptInput.placeholder = "Enter the text to translate";
-        return languageTranslation(textInput);
+        return promptAI("Translate this text to English if it's not already in English: " + textInput);
+      case "summarizeText":
+        console.log("Handling summarizeText");
+        promptInput.placeholder = "Paste your text here to summarize";
+        return promptAI("Summarize this text: " + textInput);
+      case "generateQuiz":
+        console.log("Handling quiz generation");
+        promptInput.placeholder = "Enter a topic to generate a quiz about it";
+        return promptAI("Generate a quiz about this topic: " + textInput);
+      case "explainLikeImFive":
+        console.log("Handling ELI5 explanations");
+        promptInput.placeholder = "Enter a complex topic to explain like I'm five";
+        return promptAI("Explain this topic as if I'm five years old: " + textInput);
+      case "findLogicalFallacies":
+        console.log("Handling logical fallacy detection");
+        promptInput.placeholder = "Enter an argument to identify potential logical fallacies";
+        return promptAI("Identify potential logical fallacies in this argument: " + textInput);
+      case "generateAnalogy":
+        console.log("Handling analogy generation");
+        promptInput.placeholder = "Enter a concept to create an analogy for it";
+        return promptAI("Create an analogy for this concept: " + textInput);
+      case "historicalContext":
+        console.log("Handling historical context explanation");
+        promptInput.placeholder = "Enter a historical event for context and analysis";
+        return promptAI("Provide historical context and analysis for this event: " + textInput);
+      case "generateEssayOutline":
+        console.log("Handling essay outline generation");
+        promptInput.placeholder = "Enter an essay topic to generate an outline";
+        return promptAI("Generate an essay outline for this topic: " + textInput);
+      case "generateProductSheet":
+        console.log("Handling product sheet generation");
+        promptInput.placeholder = "Enter product details to generate a product sheet";
+        return promptAI("Generate a product sheet based on these details: " + textInput);
+      case "timeManagement":
+        console.log("Handling time management");
+        promptInput.placeholder = "Describe your daily tasks for time management suggestions";
+        return promptAI("Provide time management suggestions for these daily tasks: " + textInput);
+      case "recipeSuggestions":
+        console.log("Handling recipe suggestions");
+        promptInput.placeholder = "Enter ingredients or dietary preferences for recipe ideas";
+        return promptAI("Suggest recipes based on these ingredients or dietary preferences: " + textInput);
       default:
         console.log("Handling default case");
         promptInput.placeholder = "Enter your text here";
-        return generateManualPrompt(textInput);
+        return promptAI(textInput);
     }
   } catch (error) {
     console.error("Error in processText:", error);
@@ -514,6 +463,38 @@ function handleError(error) {
   displayError(error.message);
 }
 
+async function promptAI(text) {
+  console.log("Entering promptAI function");
+  const selectedAPI = getSelectedAPI();
+  console.log(`Selected API: ${selectedAPI}`);
+
+  try {
+    let result;
+    if (selectedAPI === "claude") {
+      console.log("Using Claude API");
+      const claudeModel = document.getElementById("claudeModelSelect").value;
+      result = await promptClaude(text, claudeModel);
+    } else if (selectedAPI === "akash") {
+      console.log("Using Akash API");
+      const akashModel = document.getElementById("akashModelSelect").value;
+      result = await promptAkash(text, akashModel);
+    } else {
+      throw new Error("Invalid API selected");
+    }
+
+    const formattedResult = result.replace(/\n/g, "<br>");
+    displayPromptAnswer(formattedResult);
+    return formattedResult;
+  } catch (error) {
+    console.error("Error in promptAI:", error);
+    displayError(error.message);
+    throw error;
+  } finally {
+    console.log("Exiting promptAI function");
+  }
+}
+
+
 async function promptClaude(text, claudeModel) {
   try {
     const requestOptions = {
@@ -593,78 +574,7 @@ async function promptAkash(text, akashModel) {
   }
 }
 
-async function promptAI(text) {
-  console.log("Entering promptAI function");
-  const selectedAPI = getSelectedAPI();
-  console.log(`Selected API: ${selectedAPI}`);
 
-  try {
-    if (selectedAPI === "claude") {
-      console.log("Using Claude API");
-      const claudeModel = document.getElementById("claudeModelSelect").value;
-      return await promptClaude(text, claudeModel);
-    } else if (selectedAPI === "akash") {
-      console.log("Using Akash API");
-      const akashModel = document.getElementById("akashModelSelect").value;
-      return await promptAkash(text, akashModel);
-    } else {
-      console.error(`Invalid API selected: ${selectedAPI}`);
-      throw new Error("Invalid API selected");
-    }
-  } catch (error) {
-    console.error("Error in promptAI:", error);
-    throw error;
-  } finally {
-    console.log("Exiting promptAI function");
-  }
-}
-// Additional functions (stubs)
-async function generateBulletPoints(bulletPointPrompt) {
-  if (bulletPointPrompt) {
-    try {
-      const answer = await promptAI(
-        "Generate bullet points for this simply: " + bulletPointPrompt
-      );
-      displayPromptAnswer(answer);
-    } catch (error) {
-      handleError(error);
-    }
-  } else {
-    displayError("Please enter a bullet point worthy prompt");
-  }
-}
-
-async function generateKeyInsights(keyInsightPrompt) {
-  // Implementation for extracting key insights
-  if (keyInsightPrompt) {
-    try {
-      const answer = await promptAI(
-        "Extract key insights from: " + keyInsightPrompt
-      );
-      displayPromptAnswer(answer);
-    } catch (error) {
-      handleError(error);
-    }
-  } else {
-    displayError("Please enter a bullet point worthy prompt");
-  }
-}
-
-async function generateExplainSimply(explainSimplyPrompt) {
-  // Implementation for explaining simply
-  if (explainSimplyPrompt) {
-    try {
-      const answer = await promptAI(
-        "Explain this simply: " + explainSimplyPrompt
-      );
-      displayPromptAnswer(answer);
-    } catch (error) {
-      handleError(error);
-    }
-  } else {
-    displayError("Please enter a bullet point worthy prompt");
-  }
-}
 
 async function generateAutoTranscribeAndSummarize() {
   console.log("Starting generateAutoTranscribeAndSummarize function");
@@ -691,78 +601,9 @@ async function generateAutoTranscribeAndSummarize() {
   }
 }
 
-async function generateManualPrompt(manualPrompt) {
-  if (manualPrompt) {
-    try {
-      const answer = await promptAI(manualPrompt);
-      displayPromptAnswer(answer);
-    } catch (error) {
-      handleError(error);
-    }
-  } else {
-    displayError("Please enter a manualPrompt");
-  }
-}
 
-async function topicAnalysis(text) {
-  if (text) {
-    try {
-      const answer = await promptAI(
-        "Analyze the main topics in this text: " + text
-      );
-      displayPromptAnswer(answer);
-    } catch (error) {
-      handleError(error);
-    }
-  } else {
-    displayError("Please enter text for topic analysis");
-  }
-}
 
-async function sentimentAnalysis(text) {
-  if (text) {
-    try {
-      const answer = await promptAI(
-        "Analyze the sentiment of this text: " + text
-      );
-      displayPromptAnswer(answer);
-    } catch (error) {
-      handleError(error);
-    }
-  } else {
-    displayError("Please enter text for sentiment analysis");
-  }
-}
 
-async function keywordExtraction(text) {
-  if (text) {
-    try {
-      const answer = await promptAI(
-        "Extract the key words from this text: " + text
-      );
-      displayPromptAnswer(answer);
-    } catch (error) {
-      handleError(error);
-    }
-  } else {
-    displayError("Please enter text for keyword extraction");
-  }
-}
 
-async function languageTranslation() {
-  const text = elements.promptInput.value.trim();
-  if (text) {
-    try {
-      const answer = await promptAI(
-        "Translate this text to English if it's not already in English: " + text
-      );
-      displayPromptAnswer(answer);
-    } catch (error) {
-      handleError(error);
-    }
-  } else {
-    displayError("Please enter text for translation");
-  }
-}
 
 //TODO: add dynamic list of custom prompts for use with ai models
