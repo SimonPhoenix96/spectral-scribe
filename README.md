@@ -23,7 +23,6 @@ This Chrome extension provides a powerful suite of AI-driven text analysis tools
   - Bullet Point Generation
   - Key Insights Extraction
   - Simple Explanations
-  - Question Answering
   - Topic Analysis
   - Sentiment Analysis
   - Keyword Extraction
