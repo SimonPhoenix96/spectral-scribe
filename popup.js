@@ -78,7 +78,7 @@ document.getElementById("apiSelect").addEventListener('change', function() {
   renderPoweredByProp();
 });
 
-
+// TODO: finish implementation of last few added cases  
 document.getElementById("promptTypeSelect").addEventListener('change', function() {
   const selectedPromptType = this.value;
   console.log("Selected prompt type:", selectedPromptType);
