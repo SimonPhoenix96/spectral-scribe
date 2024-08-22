@@ -496,6 +496,7 @@ function handleError(error) {
 
 async function promptAI(text) {
   console.log("Entering promptAI function");
+  promptAnswerDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
   const selectedAPI = getSelectedAPI();
   console.log(`Selected API: ${selectedAPI}`);
 
@@ -515,7 +516,6 @@ async function promptAI(text) {
 
     const formattedResult = result.replace(/\n/g, "<br>");
     displayPromptAnswer(formattedResult);
-    window.scrollTo(0, document.body.scrollHeight);
     return formattedResult;
   } catch (error) {
     console.error("Error in promptAI:", error);
