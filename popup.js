@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
   checkApiKeysAndPulsate();
   updatePromptTypeSelectIcon();
   loadInputAndAnswer(); 
+  updatePlaceholder();
   const clearButton = document.getElementById('clearButton');
   clearButton.addEventListener('click', function() {
       document.getElementById('promptInput').value = '';
@@ -103,10 +104,6 @@ function processPrompt() {
         console.log("Handling manual prompt");
         promptInput.placeholder = "Enter your manual prompt here";
         return promptAI(textInput);
-      case "autoTranscribeAndSummarize":
-        console.log("Handling auto-transcribe");
-        promptInput.placeholder = "Will fetch the transcript from the current YouTube video and summarise it";
-        return generateAutoTranscribeAndSummarize();
       case "bulletPoints":
         console.log("Handling bullet points");
         promptInput.placeholder = "Enter the text to generate bullet points";
@@ -186,7 +183,74 @@ function processPrompt() {
   }
 }
 
+function updatePlaceholder() {
+  const selectedOption = promptTypeSelect.value;
+  switch (selectedOption) {
+    case "manualPrompt":
+      promptInput.placeholder = "Enter your manual prompt here";
+      break;
+    case "autoTranscribeAndSummarize":
+      promptInput.placeholder = "Will fetch the transcript from the current YouTube video and summarise it";
+      break;
+    case "bulletPoints":
+      promptInput.placeholder = "Enter the text to generate bullet points";
+      break;
+    case "keyInsights":
+      promptInput.placeholder = "Enter the text to extract key insights";
+      break;
+    case "explainSimply":
+      promptInput.placeholder = "Enter the text to explain simply";
+      break;
+    case "topicAnalysis":
+      promptInput.placeholder = "Enter the text for topic analysis";
+      break;
+    case "sentimentAnalysis":
+      promptInput.placeholder = "Enter the text for sentiment analysis";
+      break;
+    case "keywordExtraction":
+      promptInput.placeholder = "Enter the text for keyword extraction";
+      break;
+    case "languageTranslation":
+      promptInput.placeholder = "Enter the text to translate";
+      break;
+    case "summarizeText":
+      promptInput.placeholder = "Paste your text here to summarize";
+      break;
+    case "generateQuiz":
+      promptInput.placeholder = "Enter a topic to generate a quiz about it";
+      break;
+    case "explainLikeImFive":
+      promptInput.placeholder = "Enter a complex topic to explain like I'm five";
+      break;
+    case "findLogicalFallacies":
+      promptInput.placeholder = "Enter an argument to identify potential logical fallacies";
+      break;
+    case "generateAnalogy":
+      promptInput.placeholder = "Enter a concept to create an analogy for it";
+      break;
+    case "historicalContext":
+      promptInput.placeholder = "Enter a historical event for context and analysis";
+      break;
+    case "generateEssayOutline":
+      promptInput.placeholder = "Enter an essay topic to generate an outline";
+      break;
+    case "generateProductSheet":
+      promptInput.placeholder = "Enter product details to generate a product sheet";
+      break;
+    case "timeManagement":
+      promptInput.placeholder = "Describe your daily tasks for time management suggestions";
+      break;
+    case "recipeSuggestions":
+      promptInput.placeholder = "Enter ingredients or dietary preferences for recipe ideas";
+      break;
+    default:
+      promptInput.placeholder = "Enter your text here";
+  }
+}
+
 processPromptBtn.addEventListener("click", processPrompt);
+
+promptTypeSelect.addEventListener('change', updatePlaceholder);
 
 document.addEventListener('keydown', function(event) {
   if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
@@ -605,37 +669,5 @@ async function promptAkash(text, akashModel) {
     console.log("Exiting promptAkash function");
   }
 }
-
-
-
-async function generateAutoTranscribeAndSummarize() {
-  console.log("Starting generateAutoTranscribeAndSummarize function");
-  showLoadingSpinner();
-  try {
-    const currentUrl = await getCurrentTabUrl();
-    console.log("Current URL:", currentUrl);
-    if (!currentUrl.includes("youtube.com/watch")) {
-      console.log("Invalid URL: Not a YouTube video");
-      throw new Error("Not a valid YouTube video URL");
-    }
-    console.log("Retrieving transcript...");
-    const transcript = await retrieveTranscript(currentUrl);
-    console.log("Transcript retrieved, length:", transcript.length);
-    console.log("Sending transcript to Claude for summarization...");
-    const promptAnswer = await promptAI(
-      "Summarise with the most detail possible:   " + transcript
-    );
-    console.log("promptAnswer received from Claude, length:", promptAnswer.length);
-    displayPromptAnswer(promptAnswer);
-  } catch (error) {
-    console.error("Error in generateAutoTranscribeAndSummarize:", error);
-    throw new Error("Auto-transcribe failed: " + error.message);
-  }
-}
-
-
-
-
-
 
 //TODO: add dynamic list of custom prompts for use with ai models
