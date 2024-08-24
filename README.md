@@ -9,7 +9,7 @@ This Chrome extension provides a powerful suite of AI-driven text analysis tools
 
 ## Shortcuts
 
-CTRL - I opens the extension
+CTRL - I opens/closes the extension
 
 ## Screenshots
 
