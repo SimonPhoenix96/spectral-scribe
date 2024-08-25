@@ -7,7 +7,9 @@ The extension can easily be installed via the [Chrome Webstore](https://chromewe
 
 No External Libraries only pure Javascript, HTML and RESTAPI 
 
-This Chrome extension provides a powerful suite of AI-driven text analysis tools, leveraging Akash Network powered Llama3-8b or Anthropics Claude models . It offers various functionalities for processing and analyzing text from YouTube video transcripts, user input and more.
+This Chrome extension provides a powerful suite of AI-driven text analysis tools, leveraging Akash Network powered Llama3-8b or Anthropics Claude models . 
+
+It offers various functionalities for processing and analyzing text from YouTube video transcripts, Twitter Threads, Webpages, user input and more.
 
 ## Shortcuts
 
@@ -27,7 +29,10 @@ UI             |  Prompt Types | Adding Custom Prompts |
 - **Multi-Model AI Processing**: Utilizes both Claude (Anthropic) or {so far} a Akash Network ($AKT) powered llama3-8b model for text analysis.
 - **Multiple Analysis Types**:
   - Manual Prompt
-  - Auto-Transcribe and Summarize (YouTube)
+  - Find Bot Posts
+  - Find Sources to claims
+  - Fact Check
+  - Summarize Thread
   - Bullet Point Generation
   - Key Insights Extraction
   - Simple Explanations
