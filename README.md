@@ -1,7 +1,7 @@
 # Spectral Scribe <i> ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-logo100x.png)
 
 ## Install
-The extension can easily be installed via the [Chrome Webstore](https://chromewebstore.google.com/detail/spectral-scribe/mikpmbedokmdadmgbcphbkgjmlidpldd) - This version is a bit outdated wait 3 days for google to review the latest update (Last Update: 08/26/2024)
+The extension can easily be installed via the [Chrome Webstore](https://chromewebstore.google.com/detail/spectral-scribe/mikpmbedokmdadmgbcphbkgjmlidpldd) - This version is a bit outdated wait 7 days for google to review the latest update (Last Update: 08/26/2024)
 
 ## Overview
 
