@@ -45,7 +45,7 @@ function getSelectedAPI() {
 // Event listener that gets triggers as soon as popup closes
 document.addEventListener('visibilitychange', function() {
   if (document.visibilityState === 'hidden') {
-    saveInputAndAnswer();
+    saveSessionData();
   }
 });
 
@@ -58,10 +58,10 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('promptInput').focus();
   renderPoweredByProp();
   checkApiKeysAndPulsate();
-  updatePromptTypeSelectIcon();
-  loadInputAndAnswer(); 
+  loadSessionData(); 
   updatePlaceholder();
   loadCustomPrompts();
+  updatePromptTypeSelectIcon();
 });
 
 const clearButton = document.getElementById('clearButton');
@@ -479,7 +479,7 @@ function addCustomPrompt(name, instruction) {
   const option = document.createElement("option");
   option.value = name.toLowerCase().replace(/\s+/g, "_");
   option.textContent = name;
-  option.dataset.icon = 'resources/custom_prompt_icon.png';
+  option.dataset.icon = 'resources/label.png';
 
   // Find the position to insert the new custom prompt
   const firstDefaultOption = Array.from(promptTypeSelect.options).find(opt => !opt.value.startsWith('custom_'));
@@ -591,7 +591,7 @@ modal.appendChild(closeButton);
   form.appendChild(nameInput);
 
   const instructionInput = document.createElement('textarea');
-  instructionInput.placeholder = 'Example: In Spanish - Generate a product sheet\n\nNote: after adding it will temporarily be at the bottom of the prompt type menu';
+  instructionInput.placeholder = 'Example: \n\nIn Spanish - Generate a product sheet';
   instructionInput.required = true;
   instructionInput.style.padding = '5px';
   instructionInput.style.borderRadius = '3px';
@@ -684,21 +684,45 @@ modal.appendChild(closeButton);
 }
 
 
-function addCustomPrompt(name, instruction) {
-  const option = document.createElement("option");
-  option.value = name.toLowerCase().replace(/\s+/g, "_");
-  option.textContent = name;
-  promptTypeSelect.appendChild(option);
 
-  // Save custom prompt to storage
-  chrome.storage.sync.get("customPrompts", (result) => {
-    const customPrompts = result.customPrompts || {};
-    customPrompts[option.value] = instruction;
-    chrome.storage.sync.set({ customPrompts }, () => {
-      console.log("Custom prompt saved");
-    });
+
+
+
+function saveSessionData() {
+  const data = {
+    selectedAPI: document.getElementById("apiSelect").value,
+    selectedPromptType: document.getElementById("promptTypeSelect").value,
+    selectedAkashModel: document.getElementById("akashModelSelect").value,
+    selectedClaudeModel: document.getElementById("claudeModelSelect").value,
+    input: document.getElementById("promptInput").value,
+    answer: document.getElementById("promptAnswer").innerHTML
+  };
+
+  chrome.storage.local.set({ sessionData: data }, function() {
+    console.log('Session data saved');
   });
-  updatePromptTypeSelectIcon();
+}
+function loadSessionData() {
+  chrome.storage.local.get(['sessionData'], function(result) {
+    if (result.sessionData) {
+      document.getElementById("apiSelect").value = result.sessionData.selectedAPI;
+      document.getElementById("promptTypeSelect").value = result.sessionData.selectedPromptType;
+      document.getElementById("akashModelSelect").value = result.sessionData.selectedAkashModel;
+      document.getElementById("claudeModelSelect").value = result.sessionData.selectedClaudeModel;
+      document.getElementById("promptInput").value = result.sessionData.input;
+      document.getElementById("promptAnswer").innerHTML = result.sessionData.answer;
+
+      // Apply the saved API icon
+      const apiSelect = document.getElementById("apiSelect");
+      const selectedOption = apiSelect.options[apiSelect.selectedIndex];
+      if (selectedOption && selectedOption.getAttribute('data-icon')) {
+        apiSelect.style.backgroundImage = `url('${selectedOption.getAttribute('data-icon')}')`;
+      }
+
+      updatePromptTypeSelectIcon();
+      renderPoweredByProp();
+    }
+  });
 }
 
 function saveInputAndAnswer() {
