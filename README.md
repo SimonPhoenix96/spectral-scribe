@@ -5,6 +5,8 @@ The extension can easily be installed via the [Chrome Webstore](https://chromewe
 
 ## Overview
 
+No External Libraries only pure Javascript, HTML and RESTAPI 
+
 This Chrome extension provides a powerful suite of AI-driven text analysis tools, leveraging Akash Network powered Llama3-8b or Anthropics Claude models . It offers various functionalities for processing and analyzing text from YouTube video transcripts, user input and more.
 
 ## Shortcuts
