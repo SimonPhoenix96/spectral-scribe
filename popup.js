@@ -48,6 +48,8 @@ document.addEventListener('visibilitychange', function() {
     saveInputAndAnswer();
   }
 });
+
+
 // Event listener that gets triggers as soon as popup loads
 //TODO: adapt when needed
 document.addEventListener('DOMContentLoaded', function() {
@@ -59,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
   updatePromptTypeSelectIcon();
   loadInputAndAnswer(); 
   updatePlaceholder();
+  loadCustomPrompts();
 });
 
 const clearButton = document.getElementById('clearButton');
@@ -104,15 +107,23 @@ function processPrompt() {
   try {
     console.log("Showing loading spinner");
     showLoadingSpinner();
-    switch (selectedOption) {
-      case "manualPrompt":
-        console.log("Handling manual prompt");
-        promptInput.placeholder = "Enter your manual prompt here";
-        return promptAI(textInput);
-      case "bulletPoints":
-        console.log("Handling bullet points");
-        promptInput.placeholder = "Enter the text to generate bullet points";
-        return promptAI("Generate bullet points for this: " + textInput);
+
+    // Check if it's a custom prompt
+    chrome.storage.sync.get("customPrompts", (result) => {
+      const customPrompts = result.customPrompts || {};
+      if (customPrompts[selectedOption]) {
+        // It's a custom prompt
+        const customInstruction = customPrompts[selectedOption];
+        return promptAI(customInstruction + ": " + textInput);
+      } else {
+        // It's a predefined prompt
+        switch (selectedOption) {
+          case "manualPrompt":
+            console.log("Handling manual prompt");
+            return promptAI(textInput);
+          case "bulletPoints":
+            console.log("Handling bullet points");
+            return promptAI("Generate bullet points for this: " + textInput);
       case "keyInsights":
         console.log("Handling key insights");
         promptInput.placeholder = "Enter the text to extract key insights";
@@ -205,10 +216,11 @@ function processPrompt() {
           promptInput.placeholder = "Enter claims to find potential sources";
           return promptAI("*BE UNBIASED* Analyze these claims and suggest potential sources or references: " + textInput);
       default:
-        console.log("Handling default case");
-        promptInput.placeholder = "Enter your text here";
-        return promptAI(textInput);
-    }
+            console.log("Handling default case");
+            return promptAI(textInput);
+        }
+      }
+    });
   } catch (error) {
     console.error("Error in processText:", error);
     handleError(error);
@@ -216,8 +228,15 @@ function processPrompt() {
 }
 
 function updatePlaceholder() {
-  const selectedOption = promptTypeSelect.value;
-  switch (selectedOption) {
+  const selectedValue = promptTypeSelect.value;
+  
+  chrome.storage.sync.get("customPrompts", (result) => {
+    const customPrompts = result.customPrompts || {};
+    
+    if (customPrompts[selectedValue]) {
+      promptInput.placeholder = customPrompts[selectedValue];
+    } else {
+      switch (selectedValue) {
     case "manualPrompt":
       promptInput.placeholder = "Enter your manual prompt here";
       break;
@@ -293,9 +312,11 @@ function updatePlaceholder() {
       case "findSourcestoClaims":
         promptInput.placeholder = "Enter claims to find potential sources";
         break;
-    default:
-      promptInput.placeholder = "Enter your text here";
-  }
+        default:
+          promptInput.placeholder = "Enter your text here";
+      }
+    }
+  });
 }
 
 processPromptBtn.addEventListener("click", processPrompt);
@@ -312,16 +333,7 @@ document.addEventListener('keydown', function(event) {
 // customprompt listener
 const addCustomPromptBtn = document.getElementById("addCustomPromptBtn");
 
-addCustomPromptBtn.addEventListener("click", () => {
-  const customPromptName = prompt("Enter a name for your custom prompt:");
-  if (customPromptName) {
-    const customPromptInstruction = prompt("Enter the instruction for your custom prompt:");
-    if (customPromptInstruction) {
-      addCustomPrompt(customPromptName, customPromptInstruction);
-    }
-  }
-});
-
+addCustomPromptBtn.addEventListener("click", addCustomPromptWithPopup);
 
 // listener for extract video transcript button
 extractTranscriptBtn.addEventListener("click", async function () {
@@ -401,6 +413,109 @@ function copyPromptAnswer() {
 }
 
 // Helper Functions
+function loadCustomPrompts() {
+  chrome.storage.sync.get("customPrompts", (result) => {
+    const customPrompts = result.customPrompts || {};
+    for (const [value, instruction] of Object.entries(customPrompts)) {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = value.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase());
+      option.dataset.icon = 'resources/custom_prompt_icon.png';
+      promptTypeSelect.appendChild(option);
+    }
+    updatePromptTypeSelectIcon();
+  });
+}
+
+function addCustomPrompt(name, instruction) {
+  const option = document.createElement("option");
+  option.value = name.toLowerCase().replace(/\s+/g, "_");
+  option.textContent = name;
+  option.dataset.icon = 'resources/custom_prompt_icon.png'; // Add a custom icon for new prompts
+  promptTypeSelect.appendChild(option);
+
+  // Save custom prompt to storage
+  chrome.storage.sync.get("customPrompts", (result) => {
+    const customPrompts = result.customPrompts || {};
+    customPrompts[option.value] = instruction;
+    chrome.storage.sync.set({ customPrompts }, () => {
+      console.log("Custom prompt saved");
+    });
+  });
+
+  updatePromptTypeSelectIcon();
+}
+
+function addCustomPromptWithPopup() {
+  const modal = document.createElement('div');
+  modal.style.position = 'fixed';
+  modal.style.left = '0';
+  modal.style.top = '0';
+  modal.style.width = '100%';
+  modal.style.height = '100%';
+  modal.style.backgroundColor = 'rgba(43, 43, 43, 0.9)'; // Changed to match popup background
+  modal.style.display = 'flex';
+  modal.style.justifyContent = 'center';
+  modal.style.alignItems = 'center';
+
+  const form = document.createElement('form');
+  form.style.backgroundColor = '#f5f5dc'; // Kept the same as it already matches
+  form.style.padding = '20px';
+  form.style.borderRadius = '5px';
+  form.style.color = '#ffffff';
+  form.style.display = 'flex';
+  form.style.flexDirection = 'column';
+  form.style.gap = '10px';
+
+  const nameInput = document.createElement('input');
+  nameInput.type = 'text';
+  nameInput.placeholder = 'Enter prompt name';
+  nameInput.required = true;
+  nameInput.style.padding = '5px';
+  nameInput.style.borderRadius = '3px';
+  nameInput.style.border = '1px solid #fa2b39';
+  nameInput.style.backgroundColor = '#00000';
+  nameInput.style.color = '#ffffff';
+  form.appendChild(nameInput);
+
+  const instructionInput = document.createElement('textarea');
+  instructionInput.placeholder = 'Enter prompt instruction \n\nExample: Generate a product sheet';
+  instructionInput.required = true;
+  instructionInput.style.padding = '5px';
+  instructionInput.style.borderRadius = '3px';
+  instructionInput.style.border = '1px solid #fa2b39';
+  instructionInput.style.backgroundColor = '#00000';
+  instructionInput.style.color = '#ffffff';
+  instructionInput.style.minHeight = '100px';
+  form.appendChild(instructionInput);
+
+  const submitButton = document.createElement('button');
+  submitButton.textContent = 'Add Custom Prompt';
+  submitButton.style.backgroundColor = '#fa2b39';
+  submitButton.style.color = '#ffffff';
+  submitButton.style.border = 'none';
+  submitButton.style.padding = '10px';
+  submitButton.style.borderRadius = '3px';
+  submitButton.style.cursor = 'pointer';
+  form.appendChild(submitButton);
+
+  modal.appendChild(form);
+  document.body.appendChild(modal);
+
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    const name = nameInput.value;
+    const instruction = instructionInput.value;
+    addCustomPrompt(name, instruction);
+    document.body.removeChild(modal);
+  };
+
+  modal.onclick = (e) => {
+    if (e.target === modal) {
+      document.body.removeChild(modal);
+    }
+  };
+}
 
 function addCustomPrompt(name, instruction) {
   const option = document.createElement("option");
