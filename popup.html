@@ -158,10 +158,10 @@
     </style>
 </head>
 <body>
-  <div id="headerLogo" style="display: flex; justify-content: center; align-items: center; padding: 0px;">
-    <h1 style="font-family: fantasy; font-size: 30px; color: #fa2b39">SPECTRAL<br>SCRIBE</h1>
-    <span><img src="resources/spectralscribe-logo75x.png"></span>
-</div>
+    <div id="headerLogo" style="display: flex; justify-content: center; align-items: center; padding: 0px;">
+      <h1 style="font-family: fantasy; font-size: 30px; color: #fa2b39">SPECTRAL<br>SCRIBE</h1>
+      <span><img src="resources/spectralscribe-logo75x.png"></span>
+  </div>
 
     <div style="display: flex; justify-content: space-between; align-items: center">
         <p id="extractTranscriptBtn" style="width: auto; padding: 5px 10px; cursor: pointer; transition: transform 0.3s ease;" title="Extract YouTube Video Transcript">
@@ -176,14 +176,13 @@
           </a>
       </p>
     </div>
-
-    <br>
-    <select id="apiSelect" style="background-image: url('resources/akash_small_icon.jpg'); background-position: 5px center; background-repeat: no-repeat; background-size: 20px; padding-left: 30px; padding-right: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center">
+    <select id="apiSelect" style="background-image: url('resources/akash_small_icon.jpg'); background-position: 5px center; background-repeat: no-repeat; background-size: 20px; padding-left: 30px; padding-right: 10px;">
       <option value="akash" data-icon="resources/akash_small_icon.jpg">Akash API</option>
       <option value="claude" data-icon="resources/anthropic_small_icon.jpg">Claude API</option>
     </select>
         
-    <select id="promptTypeSelect" style="background-image: url('resources/edit.png'); background-position: 5px center; background-repeat: no-repeat; background-size: 20px; padding-left: 30px; padding-right: 20px;">
+    <select id="promptTypeSelect" style="background-image: url('resources/edit.png'); background-position: 5px center; background-repeat: no-repeat; background-size: 20px; padding-left: 30px; padding-right: 10px;">
       <option value="manualPrompt" data-icon="resources/edit.png">Manual Prompt</option>
       <option value="bulletPoints" data-icon="resources/list.png">Generate Bullet Points</option>
       <option value="keyInsights" data-icon="resources/lightbulb.png">Extract Key Insights</option>
@@ -202,7 +201,16 @@
       <option value="generateProductSheet" data-icon="resources/product.png">Generate Product Sheet</option>
       <option value="timeManagement" data-icon="resources/time.png">Time Management</option>
       <option value="recipeSuggestions" data-icon="resources/recipe.png">Recipe Suggestions</option>
+      <option value="summarizeThread" data-icon="resources/summarize.png">Summarize Thread</option>
+      <option value="checkIfAIGenerated" data-icon="resources/ai_generated.png">Check if AI Generated</option>
+      <option value="findBotPosts" data-icon="resources/bot.png">Find Bot Posts</option>
+      <option value="findTrollPosts" data-icon="resources/troll.png">Find Troll Posts</option>
+      <option value="findMisinformation" data-icon="resources/misinformation.png">Find Misinformation</option>
+      <option value="findSourcestoClaims" data-icon="resources/source.png">Find Sources to Claims</option>
      </select>
+
+     <button id="addCustomPromptBtn" style="width: 15px; height: 15px; padding: 0; margin-left: 5px; border-radius: 50%; font-size: 10px; line-height: 1; background: transparent; color: #fa2b39; border: 1px solid #fa2b39;">+</button>
+    </div>
 
     <div style="display: flex; justify-content: center; gap: 10px;">
       <select id="akashModelSelect" style="background-position: 5px center; background-repeat: no-repeat; background-size: 20px; padding-left: 30px; padding-right: 20px;">
@@ -218,9 +226,11 @@
       </select>
     </div>
     <br>
-    
+
+    <div>
     <textarea id="promptInput" placeholder="Manual Prompt (Example: What's the weather like in Beirut?)"></textarea>
-    
+    </div>
+
     <div style="display: flex; flex-direction: column; gap: 5px;">
       <button id="processPromptBtn" style="width: 100%; background: #fa2b39; color: #ffffff; border: none;">
         <span class="material-icons">play_arrow</span>Process Prompt (Ctrl+Enter)
@@ -234,11 +244,14 @@
         </button>
       </div>
     </div>
+
     <div id="poweredByProp"></div>
+    <br>
     
-    <div style="position: relative;">
-      <p id="promptAnswer"></p>
-    </div>
+<div style="position: relative;">
+  <p id="promptAnswer" style="margin-top: 0; padding-top: 0;"></p>
+</div>
+
     <div style="text-align: center; margin-top: 20px; opacity: 0.5;">
       <a href="https://github.com/SimonPhoenix96/spectral-scribe" target="_blank" style="color: #fa2b39; text-decoration: none; font-size: 12px;">
           github.com/SimonPhoenix96/spectral-scribe

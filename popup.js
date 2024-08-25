@@ -59,11 +59,16 @@ document.addEventListener('DOMContentLoaded', function() {
   updatePromptTypeSelectIcon();
   loadInputAndAnswer(); 
   updatePlaceholder();
-  const clearButton = document.getElementById('clearButton');
-  clearButton.addEventListener('click', function() {
-      document.getElementById('promptInput').value = '';
-      document.getElementById('promptAnswer').innerHTML = '';
-  });
+});
+
+const clearButton = document.getElementById('clearButton');
+clearButton.addEventListener("click", () => {
+  promptInput.value = "";
+  promptAnswerDiv.innerHTML = "";
+  const promptTitle = document.querySelector('h3');
+  if (promptTitle) {
+    promptTitle.remove();
+  }
 });
 
 document.getElementById('promptTypeSelect').addEventListener('change', updatePromptTypeSelectIcon);
@@ -172,6 +177,33 @@ function processPrompt() {
         console.log("Handling recipe suggestions");
         promptInput.placeholder = "Enter ingredients or dietary preferences for recipe ideas";
         return promptAI("Suggest recipes based on these ingredients or dietary preferences: " + textInput);
+        case "summarizeThread":
+          console.log("Handling AI-generated content check");
+          promptInput.placeholder = "Enter text to check if it's AI-generated";
+          return promptAI("Analyze this text and determine if it's likely to be AI-generated: " + textInput);
+        case "checkIfAIGenerated":
+          console.log("Handling AI-generated content check");
+          promptInput.placeholder = "Enter text to check if it's AI-generated";
+          return promptAI("Analyze this text and determine if it's likely to be AI-generated: " + textInput);
+        case "findBotPosts":
+          console.log("Handling bot post detection");
+          promptInput.placeholder = "Enter text to identify potential bot posts";
+          return promptAI("Analyze this text and identify potential bot-generated posts: " + textInput);
+        
+        case "findTrollPosts":
+          console.log("Handling troll post detection");
+          promptInput.placeholder = "Enter text to identify potential troll posts";
+          return promptAI("Analyze this text and identify potential troll posts: " + textInput);
+        
+        case "findMisinformation":
+          console.log("Handling misinformation detection");
+          promptInput.placeholder = "Enter text to check for potential misinformation";
+          return promptAI("Analyze this text and identify potential misinformation: " + textInput);
+        
+        case "findSourcestoClaims":
+          console.log("Handling source finding for claims");
+          promptInput.placeholder = "Enter claims to find potential sources";
+          return promptAI("*BE UNBIASED* Analyze these claims and suggest potential sources or references: " + textInput);
       default:
         console.log("Handling default case");
         promptInput.placeholder = "Enter your text here";
@@ -243,6 +275,24 @@ function updatePlaceholder() {
     case "recipeSuggestions":
       promptInput.placeholder = "Enter ingredients or dietary preferences for recipe ideas";
       break;
+      case "summarizeThread":
+        promptInput.placeholder = "Enter the thread text to summarize";
+        break;
+      case "checkIfAIGenerated":
+        promptInput.placeholder = "Enter text to check if it's AI-generated";
+        break;
+      case "findBotPosts":
+        promptInput.placeholder = "Enter text to identify potential bot posts";
+        break;
+      case "findTrollPosts":
+        promptInput.placeholder = "Enter text to identify potential troll posts";
+        break;
+      case "findMisinformation":
+        promptInput.placeholder = "Enter text to check for potential misinformation";
+        break;
+      case "findSourcestoClaims":
+        promptInput.placeholder = "Enter claims to find potential sources";
+        break;
     default:
       promptInput.placeholder = "Enter your text here";
   }
@@ -256,6 +306,19 @@ document.addEventListener('keydown', function(event) {
   if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
     event.preventDefault();
     processPrompt();
+  }
+});
+
+// customprompt listener
+const addCustomPromptBtn = document.getElementById("addCustomPromptBtn");
+
+addCustomPromptBtn.addEventListener("click", () => {
+  const customPromptName = prompt("Enter a name for your custom prompt:");
+  if (customPromptName) {
+    const customPromptInstruction = prompt("Enter the instruction for your custom prompt:");
+    if (customPromptInstruction) {
+      addCustomPrompt(customPromptName, customPromptInstruction);
+    }
   }
 });
 
@@ -338,6 +401,25 @@ function copyPromptAnswer() {
 }
 
 // Helper Functions
+
+function addCustomPrompt(name, instruction) {
+  const option = document.createElement("option");
+  option.value = name.toLowerCase().replace(/\s+/g, "_");
+  option.textContent = name;
+  promptTypeSelect.appendChild(option);
+
+  // Save custom prompt to storage
+  chrome.storage.sync.get("customPrompts", (result) => {
+    const customPrompts = result.customPrompts || {};
+    customPrompts[option.value] = instruction;
+    chrome.storage.sync.set({ customPrompts }, () => {
+      console.log("Custom prompt saved");
+    });
+  });
+
+  updatePromptTypeSelectIcon();
+}
+
 function saveInputAndAnswer() {
   chrome.storage.local.set({
     'savedPromptInput': promptInput.value,
@@ -481,11 +563,22 @@ function showLoadingSpinner() {
 
 function displayPromptAnswer(promptAnswer) {
   promptAnswerDiv.innerHTML = '';
+  
   const answerElement = document.createElement('div');
   answerElement.innerHTML = promptAnswer;
   promptAnswerDiv.appendChild(answerElement);
+  displayPromptTypeTitle();
 }
 
+function displayPromptTypeTitle() {
+  const titleElement = document.createElement('h3');
+  titleElement.textContent = promptTypeSelect.options[promptTypeSelect.selectedIndex].text;
+  titleElement.style.color = '#fa2b39';
+  titleElement.style.textAlign = 'center';
+  titleElement.style.margin = '0';
+  titleElement.style.paddingTop = '10px'; // Add some padding to separate from poweredByProp
+  poweredByProp.insertAdjacentElement('afterend', titleElement);
+}
 function renderPoweredByProp() {
   poweredByProp.innerHTML = '';
   const answerElement = document.createElement('div');
