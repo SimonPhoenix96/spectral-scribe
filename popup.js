@@ -58,9 +58,9 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('promptInput').focus();
   renderPoweredByProp();
   checkApiKeysAndPulsate();
-  loadSessionData(); 
   updatePlaceholder();
   loadCustomPrompts();
+  loadSessionData(); 
   updatePromptTypeSelectIcon();
 });
 
@@ -702,13 +702,31 @@ function saveSessionData() {
     console.log('Session data saved');
   });
 }
+
+
 function loadSessionData() {
   chrome.storage.local.get(['sessionData'], function(result) {
     if (result.sessionData) {
       document.getElementById("apiSelect").value = result.sessionData.selectedAPI;
       document.getElementById("promptTypeSelect").value = result.sessionData.selectedPromptType;
-      document.getElementById("akashModelSelect").value = result.sessionData.selectedAkashModel;
-      document.getElementById("claudeModelSelect").value = result.sessionData.selectedClaudeModel;
+      
+      const akashModelSelect = document.getElementById("akashModelSelect");
+      const claudeModelSelect = document.getElementById("claudeModelSelect");
+      
+      if (result.sessionData.selectedAPI === 'akash') {
+        akashModelSelect.style.display = 'block';
+        claudeModelSelect.style.display = 'none';
+        if (result.sessionData.selectedAkashModel) {
+          akashModelSelect.value = result.sessionData.selectedAkashModel;
+        }
+      } else if (result.sessionData.selectedAPI === 'claude') {
+        akashModelSelect.style.display = 'none';
+        claudeModelSelect.style.display = 'block';
+        if (result.sessionData.selectedClaudeModel) {
+          claudeModelSelect.value = result.sessionData.selectedClaudeModel;
+        }
+      }
+      
       document.getElementById("promptInput").value = result.sessionData.input;
       document.getElementById("promptAnswer").innerHTML = result.sessionData.answer;
 
