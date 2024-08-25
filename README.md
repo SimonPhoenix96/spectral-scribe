@@ -17,9 +17,8 @@ UI             |  Prompt Types | Adding Custom Prompts |
 :-------------------------:|:-------------------------:|:-------------------------:
 ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-01.png)  |  ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-02.png) |  ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-03.png)
 
-## TODO
-- **Prompt Saving - Prompt History**
 ## Features
+- **Prompt Saving - Prompt History**
 - **YouTube Transcript Extraction**: Automatically fetches and processes transcripts from YouTube videos.
 - **Ergonomic Shortcuts**: For Example CTRL-I opens Spectral Scribe Extension, CTRL-ENTER processes the prompt
 - **Web Page Text Extraction**: Extracts text content from the current web page.
