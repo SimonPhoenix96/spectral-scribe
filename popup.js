@@ -189,9 +189,9 @@ function processPrompt() {
         promptInput.placeholder = "Enter ingredients or dietary preferences for recipe ideas";
         return promptAI("Suggest recipes based on these ingredients or dietary preferences: " + textInput);
         case "summarizeThread":
-          console.log("Handling AI-generated content check");
-          promptInput.placeholder = "Enter text to check if it's AI-generated";
-          return promptAI("Analyze this text and determine if it's likely to be AI-generated: " + textInput);
+          console.log("Handling Summarize thread");
+          promptInput.placeholder = "Enter thread text to summarize";
+          return promptAI("Summarize this thread: " + textInput);
         case "checkIfAIGenerated":
           console.log("Handling AI-generated content check");
           promptInput.placeholder = "Enter text to check if it's AI-generated";
