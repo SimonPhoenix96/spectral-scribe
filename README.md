@@ -13,9 +13,10 @@ CTRL - I opens/closes the extension
 
 ## Screenshots
 
-UI             |  Prompt Types
-:-------------------------:|:-------------------------:
-![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-1.png)  |  ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-2.png)
+UI             |  Prompt Types | Adding Custom Prompts |
+:-------------------------:|:-------------------------:|:-------------------------:
+![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-01.png)  |  ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-02.png) |  ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-03.png)
+
 ## TODO
 - **Prompt Saving - Prompt History**
 ## Features
