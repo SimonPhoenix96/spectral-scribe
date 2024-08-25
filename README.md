@@ -40,6 +40,7 @@ UI             |  Prompt Types | Adding Custom Prompts |
   - Sentiment Analysis
   - Keyword Extraction
   - Language Translation
+  - and more by adding custom prompts
 - **Options Page**: Allows users to securely set and store API keys for different AI providers.
 
 ## How It Works
