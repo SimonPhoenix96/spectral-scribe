@@ -536,6 +536,20 @@ function addCustomPromptWithPopup() {
   form.style.flexDirection = 'column';
   form.style.gap = '10px';
 
+// Add 'X' button
+const closeButton = document.createElement('button');
+closeButton.textContent = 'Click Background to cancel';
+closeButton.style.position = 'absolute';
+closeButton.style.bottom = '10px';
+closeButton.style.right = '10px';
+closeButton.style.backgroundColor = 'transparent';
+closeButton.style.border = 'none';
+closeButton.style.fontSize = '20px';
+closeButton.style.cursor = 'pointer';
+closeButton.style.color = '#fa2b39';
+closeButton.style.zIndex = '1000';
+modal.appendChild(closeButton);
+
   const actionSelect = document.createElement('select');
   actionSelect.style.padding = '5px';
   actionSelect.style.borderRadius = '3px';
@@ -597,6 +611,7 @@ function addCustomPromptWithPopup() {
   submitButton.style.cursor = 'pointer';
   form.appendChild(submitButton);
 
+
   modal.appendChild(form);
   document.body.appendChild(modal);
 
@@ -610,6 +625,18 @@ function addCustomPromptWithPopup() {
       customPromptSelect.appendChild(option);
     }
   });
+
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      document.body.removeChild(modal);
+    }
+  });
+
+  closeButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.body.removeChild(modal);
+  });
+  
 
   actionSelect.addEventListener('change', function() {
     if (this.value === 'add') {
