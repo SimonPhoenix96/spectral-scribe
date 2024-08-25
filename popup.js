@@ -425,16 +425,70 @@ function loadCustomPrompts() {
       option.dataset.icon = 'resources/custom_prompt_icon.png';
       promptTypeSelect.insertBefore(option, firstDefaultOption);
     }
+    
     updatePromptTypeSelectIcon();
   });
 }
+
+function populateCustomPromptSelect() {
+  customPromptSelect.innerHTML = ''; // Clear existing options
+  chrome.storage.sync.get("customPrompts", (result) => {
+    const customPrompts = result.customPrompts || {};
+    for (const [value, instruction] of Object.entries(customPrompts)) {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = value.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase());
+      customPromptSelect.appendChild(option);
+    }
+  });
+}
+function removeCustomPrompt(name) {
+  chrome.storage.sync.get("customPrompts", (result) => {
+    const customPrompts = result.customPrompts || {};
+    const promptKey = Object.keys(customPrompts).find(key => 
+      key.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase()) === name
+    );
+    
+    if (promptKey) {
+      delete customPrompts[promptKey];
+      chrome.storage.sync.set({ customPrompts }, () => {
+        console.log("Custom prompt removed");
+        // Remove the option from both select elements
+        removeOptionFromSelect(promptTypeSelect, name);
+        removeOptionFromSelect(customPromptSelect, name);
+        updatePromptTypeSelectIcon();
+      });
+    } else {
+      console.error("Custom prompt not found in storage");
+      alert("Custom prompt not found in storage.");
+    }
+  });
+}
+
+function removeOptionFromSelect(selectElement, optionText) {
+  const optionToRemove = Array.from(selectElement.options).find(option => 
+    option.textContent === optionText
+  );
+  if (optionToRemove) {
+    selectElement.removeChild(optionToRemove);
+  }
+}
+
 
 function addCustomPrompt(name, instruction) {
   const option = document.createElement("option");
   option.value = name.toLowerCase().replace(/\s+/g, "_");
   option.textContent = name;
-  option.dataset.icon = 'resources/custom_prompt_icon.png'; // Add a custom icon for new prompts
-  promptTypeSelect.appendChild(option);
+  option.dataset.icon = 'resources/custom_prompt_icon.png';
+
+  // Find the position to insert the new custom prompt
+  const firstDefaultOption = Array.from(promptTypeSelect.options).find(opt => !opt.value.startsWith('custom_'));
+  
+  if (firstDefaultOption) {
+    promptTypeSelect.insertBefore(option, firstDefaultOption);
+  } else {
+    promptTypeSelect.appendChild(option);
+  }
 
   // Save custom prompt to storage
   chrome.storage.sync.get("customPrompts", (result) => {
@@ -442,32 +496,74 @@ function addCustomPrompt(name, instruction) {
     customPrompts[option.value] = instruction;
     chrome.storage.sync.set({ customPrompts }, () => {
       console.log("Custom prompt saved");
+      
+      // Update the custom prompt select if it exists
+      const customPromptSelect = document.getElementById("customPromptSelect");
+      if (customPromptSelect) {
+        const newOption = document.createElement("option");
+        newOption.value = option.value;
+        newOption.textContent = option.textContent;
+        customPromptSelect.appendChild(newOption);
+      }
+      // Update the icon
+      updatePromptTypeSelectIcon();
     });
   });
-
-  updatePromptTypeSelectIcon();
 }
 
+
+
 function addCustomPromptWithPopup() {
+
+
   const modal = document.createElement('div');
   modal.style.position = 'fixed';
   modal.style.left = '0';
   modal.style.top = '0';
   modal.style.width = '100%';
   modal.style.height = '100%';
-  modal.style.backgroundColor = 'rgba(43, 43, 43, 0.9)'; // Changed to match popup background
+  modal.style.backgroundColor = 'rgba(43, 43, 43, 0.9)';
   modal.style.display = 'flex';
   modal.style.justifyContent = 'center';
   modal.style.alignItems = 'center';
 
   const form = document.createElement('form');
-  form.style.backgroundColor = '#f5f5dc'; // Kept the same as it already matches
+  form.style.backgroundColor = '#f5f5dc';
   form.style.padding = '20px';
   form.style.borderRadius = '5px';
-  form.style.color = '#ffffff';
+  form.style.color = '#000000';
   form.style.display = 'flex';
   form.style.flexDirection = 'column';
   form.style.gap = '10px';
+
+  const actionSelect = document.createElement('select');
+  actionSelect.style.padding = '5px';
+  actionSelect.style.borderRadius = '3px';
+  actionSelect.style.border = '1px solid #fa2b39';
+  actionSelect.style.backgroundColor = '#ffffff';
+  actionSelect.style.color = '#000000';
+  actionSelect.style.marginBottom = '10px';
+
+  const addOption = document.createElement('option');
+  addOption.value = 'add';
+  addOption.textContent = 'Add Custom Prompt';
+  actionSelect.appendChild(addOption);
+
+  const removeOption = document.createElement('option');
+  removeOption.value = 'remove';
+  removeOption.textContent = 'Remove Custom Prompt';
+  actionSelect.appendChild(removeOption);
+
+  form.appendChild(actionSelect);
+
+  const customPromptSelect = document.createElement('select');
+  customPromptSelect.style.padding = '5px';
+  customPromptSelect.style.borderRadius = '3px';
+  customPromptSelect.style.border = '1px solid #fa2b39';
+  customPromptSelect.style.backgroundColor = '#ffffff';
+  customPromptSelect.style.color = '#000000';
+  customPromptSelect.style.display = 'none';
+  form.appendChild(customPromptSelect);
 
   const nameInput = document.createElement('input');
   nameInput.type = 'text';
@@ -476,18 +572,18 @@ function addCustomPromptWithPopup() {
   nameInput.style.padding = '5px';
   nameInput.style.borderRadius = '3px';
   nameInput.style.border = '1px solid #fa2b39';
-  nameInput.style.backgroundColor = '#00000';
-  nameInput.style.color = '#00000';
+  nameInput.style.backgroundColor = '#ffffff';
+  nameInput.style.color = '#000000';
   form.appendChild(nameInput);
 
   const instructionInput = document.createElement('textarea');
-  instructionInput.placeholder = 'Enter prompt instruction \n\nExample: Generate a product sheet';
+  instructionInput.placeholder = 'Example: Generate a product sheet\n\nNote: after adding it will temporarily be at the bottom of the prompt type menu';
   instructionInput.required = true;
   instructionInput.style.padding = '5px';
   instructionInput.style.borderRadius = '3px';
   instructionInput.style.border = '1px solid #fa2b39';
-  instructionInput.style.backgroundColor = '#00000';
-  instructionInput.style.color = '#00000';
+  instructionInput.style.backgroundColor = '#ffffff';
+  instructionInput.style.color = '#000000';
   instructionInput.style.minHeight = '100px';
   form.appendChild(instructionInput);
 
@@ -504,20 +600,62 @@ function addCustomPromptWithPopup() {
   modal.appendChild(form);
   document.body.appendChild(modal);
 
-  form.onsubmit = (e) => {
-    e.preventDefault();
-    const name = nameInput.value;
-    const instruction = instructionInput.value;
-    addCustomPrompt(name, instruction);
-    document.body.removeChild(modal);
-  };
-
-  modal.onclick = (e) => {
-    if (e.target === modal) {
-      document.body.removeChild(modal);
+  // Populate custom prompt select
+  chrome.storage.sync.get("customPrompts", (result) => {
+    const customPrompts = result.customPrompts || {};
+    for (const [value, instruction] of Object.entries(customPrompts)) {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = value.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase());
+      customPromptSelect.appendChild(option);
     }
-  };
+  });
+
+  actionSelect.addEventListener('change', function() {
+    if (this.value === 'add') {
+      nameInput.style.display = 'block';
+      instructionInput.style.display = 'block';
+      customPromptSelect.style.display = 'none';
+      submitButton.textContent = 'Add Custom Prompt';
+      
+      // Remove required attribute when hidden
+      customPromptSelect.removeAttribute('required');
+      nameInput.setAttribute('required', '');
+      instructionInput.setAttribute('required', '');
+    } else if (this.value === 'remove') {
+      nameInput.style.display = 'none';
+      instructionInput.style.display = 'none';
+      customPromptSelect.style.display = 'block';
+      submitButton.textContent = 'Remove Custom Prompt';
+      
+      // Remove required attribute when hidden
+      nameInput.removeAttribute('required');
+      instructionInput.removeAttribute('required');
+      customPromptSelect.setAttribute('required', '');
+    }
+  });
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (actionSelect.value === 'add') {
+      if (nameInput.value && instructionInput.value) {
+        addCustomPrompt(nameInput.value, instructionInput.value);
+        document.body.removeChild(modal);
+      } else {
+        alert('Please fill in all fields');
+      }
+    } else if (actionSelect.value === 'remove') {
+      if (customPromptSelect.value) {
+        removeCustomPrompt(customPromptSelect.options[customPromptSelect.selectedIndex].text);
+        document.body.removeChild(modal);
+      } else {
+        alert('Please select a prompt to remove');
+      }
+    }
+  });
+
 }
+
 
 function addCustomPrompt(name, instruction) {
   const option = document.createElement("option");
@@ -533,7 +671,6 @@ function addCustomPrompt(name, instruction) {
       console.log("Custom prompt saved");
     });
   });
-
   updatePromptTypeSelectIcon();
 }
 
@@ -683,9 +820,10 @@ function displayPromptAnswer(promptAnswer) {
   
   const answerElement = document.createElement('div');
   answerElement.innerHTML = promptAnswer;
+  answerElement.style.paddingTop = '10px'; // add top padding
   promptAnswerDiv.appendChild(answerElement);
   displayPromptTypeTitle();
-}
+  }
 
 function displayPromptTypeTitle() {
   const titleElement = document.createElement('h3');
