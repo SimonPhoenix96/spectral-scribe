@@ -18,13 +18,17 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     });
     
-    // Clear all Chrome storage when the clear button is clicked
-    document.getElementById('clear-button').addEventListener('click', function() {
-    chrome.storage.sync.clear(function() {
-    alert('All Chrome storage cleared');
-    // Clear input fields
-    document.getElementById('anthropic-api-key').value = '';
-    document.getElementById('akash-api-key').value = '';
-    });
-    });
+// Clear all Chrome storage when the clear button is clicked
+document.getElementById('clear-button').addEventListener('click', function() {
+    if (confirm('Are you sure you want to clear all Chrome storage? This action cannot be undone.')) {
+        chrome.storage.sync.clear(function() {
+            alert('All Chrome storage cleared');
+            // Clear input fields
+            document.getElementById('anthropic-api-key').value = '';
+            document.getElementById('akash-api-key').value = '';
+        });
+    }
+});
+
+
     });
