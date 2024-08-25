@@ -824,16 +824,23 @@ function displayPromptAnswer(promptAnswer) {
   promptAnswerDiv.appendChild(answerElement);
   displayPromptTypeTitle();
   }
-
-function displayPromptTypeTitle() {
-  const titleElement = document.createElement('h3');
-  titleElement.textContent = promptTypeSelect.options[promptTypeSelect.selectedIndex].text;
-  titleElement.style.color = '#fa2b39';
-  titleElement.style.textAlign = 'center';
-  titleElement.style.margin = '0';
-  titleElement.style.paddingTop = '10px'; // Add some padding to separate from poweredByProp
-  poweredByProp.insertAdjacentElement('afterend', titleElement);
-}
+  function displayPromptTypeTitle() {
+    // Remove existing prompt title if it exists
+    const existingTitle = document.querySelector('h3.prompt-type-title');
+    if (existingTitle) {
+      existingTitle.remove();
+    }
+  
+    const titleElement = document.createElement('h3');
+    titleElement.textContent = promptTypeSelect.options[promptTypeSelect.selectedIndex].text;
+    titleElement.style.color = '#fa2b39';
+    titleElement.style.textAlign = 'center';
+    titleElement.style.margin = '0';
+    titleElement.style.paddingTop = '10px';
+    titleElement.classList.add('prompt-type-title'); // Add a class for easy identification
+    poweredByProp.insertAdjacentElement('afterend', titleElement);
+  }
+  
 function renderPoweredByProp() {
   poweredByProp.innerHTML = '';
   const answerElement = document.createElement('div');
