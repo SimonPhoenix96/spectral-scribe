@@ -15,7 +15,7 @@ CTRL - I opens/closes the extension
 
 UI             |  Prompt Types
 :-------------------------:|:-------------------------:
-![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screen.png)  |  ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screen-2.png)
+![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-1.png)  |  ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-2.png)
 ## TODO
 - **Prompt Saving - Prompt History**
 ## Features
