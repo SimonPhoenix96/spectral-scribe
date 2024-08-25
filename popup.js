@@ -416,12 +416,14 @@ function copyPromptAnswer() {
 function loadCustomPrompts() {
   chrome.storage.sync.get("customPrompts", (result) => {
     const customPrompts = result.customPrompts || {};
+    const firstDefaultOption = promptTypeSelect.firstChild;
+
     for (const [value, instruction] of Object.entries(customPrompts)) {
       const option = document.createElement("option");
       option.value = value;
       option.textContent = value.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase());
       option.dataset.icon = 'resources/custom_prompt_icon.png';
-      promptTypeSelect.appendChild(option);
+      promptTypeSelect.insertBefore(option, firstDefaultOption);
     }
     updatePromptTypeSelectIcon();
   });
