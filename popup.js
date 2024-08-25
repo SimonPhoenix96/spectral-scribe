@@ -591,7 +591,7 @@ modal.appendChild(closeButton);
   form.appendChild(nameInput);
 
   const instructionInput = document.createElement('textarea');
-  instructionInput.placeholder = 'Example: Generate a product sheet\n\nNote: after adding it will temporarily be at the bottom of the prompt type menu';
+  instructionInput.placeholder = 'Example: In Spanish - Generate a product sheet\n\nNote: after adding it will temporarily be at the bottom of the prompt type menu';
   instructionInput.required = true;
   instructionInput.style.padding = '5px';
   instructionInput.style.borderRadius = '3px';
