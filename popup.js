@@ -477,7 +477,7 @@ function addCustomPromptWithPopup() {
   nameInput.style.borderRadius = '3px';
   nameInput.style.border = '1px solid #fa2b39';
   nameInput.style.backgroundColor = '#00000';
-  nameInput.style.color = '#ffffff';
+  nameInput.style.color = '#00000';
   form.appendChild(nameInput);
 
   const instructionInput = document.createElement('textarea');
@@ -487,7 +487,7 @@ function addCustomPromptWithPopup() {
   instructionInput.style.borderRadius = '3px';
   instructionInput.style.border = '1px solid #fa2b39';
   instructionInput.style.backgroundColor = '#00000';
-  instructionInput.style.color = '#ffffff';
+  instructionInput.style.color = '#00000';
   instructionInput.style.minHeight = '100px';
   form.appendChild(instructionInput);
 
