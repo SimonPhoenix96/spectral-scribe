@@ -5,7 +5,7 @@ The extension can easily be installed via the [Chrome Webstore](https://chromewe
 
 ## Overview
 
-No External Libraries only pure Javascript, HTML and Claude and Akash Networks (FREE) LLM RESTAPI 
+No External Libraries only pure Javascript, HTML and Claude or Akash Networks (FREE) LLM RESTAPI 
 
 This Chrome extension provides a powerful suite of AI-driven text analysis tools, leveraging Akash Network powered Llama3-8b or Anthropics Claude models . 
 
