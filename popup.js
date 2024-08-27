@@ -106,6 +106,7 @@ function processPrompt() {
   console.log("Selected option:", selectedOption);
   try {
     console.log("Showing loading spinner");
+    displayPromptTypeTitle();
     showLoadingSpinner();
 
     // Check if it's a custom prompt
