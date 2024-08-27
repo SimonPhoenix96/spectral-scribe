@@ -1,11 +1,11 @@
 # Spectral Scribe <i> ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-logo100x.png)
 
 ## Install
-The extension can easily be installed via the [Chrome Webstore](https://chromewebstore.google.com/detail/spectral-scribe/mikpmbedokmdadmgbcphbkgjmlidpldd) - This version is a bit outdated wait 7 days for google to review the latest update (Last Update: 08/26/2024)
+The extension can easily be installed via the [Chrome Webstore](https://chromewebstore.google.com/detail/spectral-scribe/mikpmbedokmdadmgbcphbkgjmlidpldd)
 
 ## Overview
 
-No External Libraries only pure Javascript, HTML and RESTAPI 
+No External Libraries only pure Javascript, HTML and Claude or Akash Networks (FREE) LLM RESTAPI 
 
 This Chrome extension provides a powerful suite of AI-driven text analysis tools, leveraging Akash Network powered Llama3-8b or Anthropics Claude models . 
 
