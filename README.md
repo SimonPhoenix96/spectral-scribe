@@ -1,7 +1,7 @@
 # Spectral Scribe <i> ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-logo100x.png)
 
 ## Install
-The extension can easily be installed via the [Chrome Webstore](https://chromewebstore.google.com/detail/spectral-scribe/mikpmbedokmdadmgbcphbkgjmlidpldd)
+The extension can easily be installed via the [Chrome/Edge Webstore](https://chromewebstore.google.com/detail/spectral-scribe/mikpmbedokmdadmgbcphbkgjmlidpldd)
 
 ## Overview
 No External Libraries only pure Javascript, HTML and Claude or Akash Networks (FREE) LLM RESTAPI 
