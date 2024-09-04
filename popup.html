@@ -177,39 +177,40 @@
       </p>
     </div>
     <div style="display: flex; justify-content: space-between; align-items: center">
-    <select id="apiSelect" style="background-image: url('resources/akash_small_icon.jpg'); background-position: 5px center; background-repeat: no-repeat; background-size: 20px; padding-left: 30px; padding-right: 10px;">
-      <option value="akash" data-icon="resources/akash_small_icon.jpg">Akash API</option>
-      <option value="claude" data-icon="resources/anthropic_small_icon.jpg">Claude API</option>
-    </select>
-        
-    <select id="promptTypeSelect" style="background-image: url('resources/edit.png'); background-position: 5px center; background-repeat: no-repeat; background-size: 20px; padding-left: 30px; padding-right: 10px;">
-      <option value="manualPrompt" data-icon="resources/edit.png">Manual Prompt</option>
-      <option value="bulletPoints" data-icon="resources/list.png">Generate Bullet Points</option>
-      <option value="keyInsights" data-icon="resources/lightbulb.png">Extract Key Insights</option>
-      <option value="explainSimply" data-icon="resources/explain.png">Explain Simply</option>
-      <option value="topicAnalysis" data-icon="resources/category.png">Analyze Topics</option>
-      <option value="sentimentAnalysis" data-icon="resources/mood.png">Analyze Sentiment</option>
-      <option value="keywordExtraction" data-icon="resources/label.png">Extract Keywords</option>
-      <option value="languageTranslation" data-icon="resources/translate.png">Translate Language</option>
-      <option value="summarizeText" data-icon="resources/summarize.png">Summarize Text</option>
-      <option value="generateQuiz" data-icon="resources/quiz.png">Generate Quiz</option>
-      <option value="explainLikeImFive" data-icon="resources/child.png">Explain Like I'm Five</option>
-      <option value="findLogicalFallacies" data-icon="resources/fallacy.png">Find Logical Fallacies</option>
-      <option value="generateAnalogy" data-icon="resources/analogy.png">Generate Analogy</option>
-      <option value="historicalContext" data-icon="resources/history.png">Historical Context</option>
-      <option value="generateEssayOutline" data-icon="resources/outline.png">Generate Essay Outline</option>
-      <option value="generateProductSheet" data-icon="resources/product.png">Generate Product Sheet</option>
-      <option value="timeManagement" data-icon="resources/time.png">Time Management</option>
-      <option value="recipeSuggestions" data-icon="resources/recipe.png">Recipe Suggestions</option>
-      <option value="summarizeThread" data-icon="resources/summarize.png">Summarize Thread</option>
-      <option value="checkIfAIGenerated" data-icon="resources/ai_generated.png">Check if AI Generated</option>
-      <option value="findBotPosts" data-icon="resources/bot.png">Find Bot Posts</option>
-      <option value="findTrollPosts" data-icon="resources/troll.png">Find Troll Posts</option>
-      <option value="findMisinformation" data-icon="resources/misinformation.png">Find Misinformation</option>
-      <option value="findSourcestoClaims" data-icon="resources/source.png">Find Sources to Claims</option>
-     </select>
+      <select id="apiSelect" style="background-position: 5px center; background-repeat: no-repeat; background-size: 20px; padding-left: 30px; padding-right: 10px;">
+        <option value="claude" data-icon="resources/anthropic_small_icon.jpg">Claude</option>
+        <option value="akash" data-icon="resources/akash_small_icon.jpg">Akash</option>
+        <option value="openrouter" data-icon="resources/openrouter_small_icon.jpg">OpenRouter</option>
+      </select>
 
-     <button id="addCustomPromptBtn" style="width: 15px; height: 15px; padding: 0; margin-left: 5px; border-radius: 50%; font-size: 10px; line-height: 1; background: transparent; color: #fa2b39; border: 1px solid #fa2b39;">+</button>
+      <button id="promptSettingsBtn" style="width: 15px; height: 15px; padding: 0; margin-left: 5px;margin-right: 10px; border-radius: 50%; font-size: 10px; line-height: 1; background: transparent; color: #fa2b39; border: 1px solid #fa2b39;">+</button>
+      <select id="promptTypeSelect" style="background-image: url('resources/edit.png'); background-position: 5px center; background-repeat: no-repeat; background-size: 20px; padding-left: 30px; padding-right: 10px;">
+        <option value="manualPrompt" data-icon="resources/edit.png">Manual Prompt</option>
+        <option value="bulletPoints" data-icon="resources/list.png">Generate Bullet Points</option>
+        <option value="keyInsights" data-icon="resources/lightbulb.png">Extract Key Insights</option>
+        <option value="explainSimply" data-icon="resources/explain.png">Explain Simply</option>
+        <option value="topicAnalysis" data-icon="resources/category.png">Analyze Topics</option>
+        <option value="sentimentAnalysis" data-icon="resources/mood.png">Analyze Sentiment</option>
+        <option value="keywordExtraction" data-icon="resources/label.png">Extract Keywords</option>
+        <option value="languageTranslation" data-icon="resources/translate.png">Translate Language</option>
+        <option value="summarizeText" data-icon="resources/summarize.png">Summarize Text</option>
+        <option value="generateQuiz" data-icon="resources/quiz.png">Generate Quiz</option>
+        <option value="explainLikeImFive" data-icon="resources/child.png">Explain Like I'm Five</option>
+        <option value="findLogicalFallacies" data-icon="resources/fallacy.png">Find Logical Fallacies</option>
+        <option value="generateAnalogy" data-icon="resources/analogy.png">Generate Analogy</option>
+        <option value="historicalContext" data-icon="resources/history.png">Historical Context</option>
+        <option value="generateEssayOutline" data-icon="resources/outline.png">Generate Essay Outline</option>
+        <option value="generateProductSheet" data-icon="resources/product.png">Generate Product Sheet</option>
+        <option value="timeManagement" data-icon="resources/time.png">Time Management</option>
+        <option value="recipeSuggestions" data-icon="resources/recipe.png">Recipe Suggestions</option>
+        <option value="summarizeThread" data-icon="resources/summarize.png">Summarize Thread</option>
+        <option value="checkIfAIGenerated" data-icon="resources/ai_generated.png">Check if AI Generated</option>
+        <option value="findBotPosts" data-icon="resources/bot.png">Find Bot Posts</option>
+        <option value="findTrollPosts" data-icon="resources/troll.png">Find Troll Posts</option>
+        <option value="findMisinformation" data-icon="resources/misinformation.png">Find Misinformation</option>
+        <option value="findSourcestoClaims" data-icon="resources/source.png">Find Sources to Claims</option>
+      </select>
+
     
     </div>
 
@@ -223,6 +224,10 @@
         <option value="claude-3-opus-20240229">claude-3-opus-20240229</option>
         <option value="claude-3-sonnet-20240229">claude-3-sonnet-20240229</option>
         <option value="claude-2.1">claude-2.1</option>
+      </select>
+
+      <select id="openrouterModelSelect" style="display: none;">
+        <option value="huggingfaceh4/zephyr-7b-beta:free">huggingfaceh4/zephyr-7b-beta:free</option>
       </select>
     </div>
     <br>

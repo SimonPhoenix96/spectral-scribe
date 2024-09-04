@@ -2,6 +2,9 @@
 const YT_INITIAL_PLAYER_RESPONSE_RE =
   /ytInitialPlayerResponse\s*=\s*({.+?})\s*;\s*(?:var\s+(?:meta|head)|<\/script|\n)/;
 
+let OPENROUTER_API_KEY = '';
+const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
+
 let ANTHROPIC_API_KEY = '';
 const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
 
@@ -25,12 +28,14 @@ const optionsLink = document.getElementById("optionsLink");
 
 function loadApiKeys(callback) {
   console.log('Starting to load API keys');
-  chrome.storage.sync.get(['ANTHROPIC_API_KEY', 'AKASH_API_KEY'], function(result) {
+  chrome.storage.sync.get(['ANTHROPIC_API_KEY', 'AKASH_API_KEY', 'OPENROUTER_API_KEY'], function(result) {
     console.log('Retrieved API keys from storage');
     ANTHROPIC_API_KEY = result.ANTHROPIC_API_KEY || '';
     AKASH_API_KEY = result.AKASH_API_KEY || '';
+    OPENROUTER_API_KEY = result.OPENROUTER_API_KEY || '';
     console.log('ANTHROPIC_API_KEY set:', ANTHROPIC_API_KEY ? 'Yes' : 'No');
     console.log('AKASH_API_KEY set:', AKASH_API_KEY ? 'Yes' : 'No');
+    console.log('OPENROUTER_API_KEY set:', OPENROUTER_API_KEY ? 'Yes' : 'No');
     callback();
     console.log('Callback executed');
   });
@@ -80,13 +85,18 @@ document.getElementById("apiSelect").addEventListener('change', function() {
   const selectedAPI = this.value;
   const akashModelSelect = document.getElementById("akashModelSelect");
   const claudeModelSelect = document.getElementById("claudeModelSelect");
+  const openrouterModelSelect = document.getElementById("openrouterModelSelect");
+  
+  akashModelSelect.style.display = 'none';
+  claudeModelSelect.style.display = 'none';
+  openrouterModelSelect.style.display = 'none';
   
   if (selectedAPI === 'akash') {
     akashModelSelect.style.display = 'inline-block';
-    claudeModelSelect.style.display = 'none';
   } else if (selectedAPI === 'claude') {
-    akashModelSelect.style.display = 'none';
     claudeModelSelect.style.display = 'inline-block';
+  } else if (selectedAPI === 'openrouter') {
+    openrouterModelSelect.style.display = 'inline-block';
   }
   
   renderPoweredByProp();
@@ -332,9 +342,9 @@ document.addEventListener('keydown', function(event) {
 });
 
 // customprompt listener
-const addCustomPromptBtn = document.getElementById("addCustomPromptBtn");
+const promptSettingsBtn = document.getElementById("promptSettingsBtn");
 
-addCustomPromptBtn.addEventListener("click", addCustomPromptWithPopup);
+promptSettingsBtn.addEventListener("click", addCustomPromptWithPopup);
 
 // listener for extract video transcript button
 extractTranscriptBtn.addEventListener("click", async function () {
@@ -695,6 +705,7 @@ function saveSessionData() {
     selectedPromptType: document.getElementById("promptTypeSelect").value,
     selectedAkashModel: document.getElementById("akashModelSelect").value,
     selectedClaudeModel: document.getElementById("claudeModelSelect").value,
+    selectedOpenRouterModel: document.getElementById("openrouterModelSelect").value,
     input: document.getElementById("promptInput").value,
     answer: document.getElementById("promptAnswer").innerHTML
   };
@@ -704,7 +715,6 @@ function saveSessionData() {
   });
 }
 
-
 function loadSessionData() {
   chrome.storage.local.get(['sessionData'], function(result) {
     if (result.sessionData) {
@@ -713,18 +723,26 @@ function loadSessionData() {
       
       const akashModelSelect = document.getElementById("akashModelSelect");
       const claudeModelSelect = document.getElementById("claudeModelSelect");
+      const openrouterModelSelect = document.getElementById("openrouterModelSelect");
       
+      akashModelSelect.style.display = 'none';
+      claudeModelSelect.style.display = 'none';
+      openrouterModelSelect.style.display = 'none';
+
       if (result.sessionData.selectedAPI === 'akash') {
         akashModelSelect.style.display = 'block';
-        claudeModelSelect.style.display = 'none';
         if (result.sessionData.selectedAkashModel) {
           akashModelSelect.value = result.sessionData.selectedAkashModel;
         }
       } else if (result.sessionData.selectedAPI === 'claude') {
-        akashModelSelect.style.display = 'none';
         claudeModelSelect.style.display = 'block';
         if (result.sessionData.selectedClaudeModel) {
           claudeModelSelect.value = result.sessionData.selectedClaudeModel;
+        }
+      } else if (result.sessionData.selectedAPI === 'openrouter') {
+        openrouterModelSelect.style.display = 'block';
+        if (result.sessionData.selectedOpenRouterModel) {
+          openrouterModelSelect.value = result.sessionData.selectedOpenRouterModel;
         }
       }
       
@@ -795,14 +813,11 @@ async function extractTextFromPage() {
   });
 }
 function checkApiKeysAndPulsate() {
-  chrome.storage.sync.get(['ANTHROPIC_API_KEY', 'AKASH_API_KEY'], function(result) {
-      const settingsButton = document.getElementById('settingsButton');
-      if (!result.ANTHROPIC_API_KEY && !result.AKASH_API_KEY) {
-          settingsButton.classList.add('pulsate');
-      } else {
-          settingsButton.classList.remove('pulsate');
-      }
-  });
+  if (!ANTHROPIC_API_KEY && !AKASH_API_KEY && !OPENROUTER_API_KEY) {
+    optionsLink.classList.add('pulsate');
+  } else {
+    optionsLink.classList.remove('pulsate');
+  }
 }
 async function retrieveTranscript(youtubeLink) {
   try {
@@ -964,6 +979,28 @@ function renderPoweredByProp() {
     link.appendChild(titleSpan);
     link.appendChild(logo);
     answerElement.appendChild(link);
+  } else if (selectedAPI === 'openrouter') {
+    const link = document.createElement('a');
+    link.href = 'https://openrouter.ai/';
+    link.target = '_blank';
+    link.style.textDecoration = 'none';
+    link.style.color = 'inherit';
+    link.style.display = 'flex';
+    link.style.alignItems = 'center';
+
+    const logo = document.createElement('img');
+    logo.src = 'resources/openrouter_small_icon.jpg';
+    logo.alt = 'OpenRouter Logo';
+    logo.style.width = '20px';
+    logo.style.marginLeft = '5px';
+    logo.style.verticalAlign = 'middle';
+
+    const titleSpan = document.createElement('span');
+    titleSpan.textContent = "Powered by OpenRouter";
+    
+    link.appendChild(titleSpan);
+    link.appendChild(logo);
+    answerElement.appendChild(link);
   }
 
   answerElement.style.opacity = '0';
@@ -999,6 +1036,10 @@ async function promptAI(text) {
       console.log("Using Akash API");
       const akashModel = document.getElementById("akashModelSelect").value;
       result = await promptAkash(text, akashModel);
+    } else if (selectedAPI === "openrouter") {
+      console.log("Using OpenRouter API");
+      const openrouterModel = document.getElementById("openrouterModelSelect").value;
+      result = await promptOpenRouter(text, openrouterModel);
     } else {
       throw new Error("Invalid API selected");
     }
@@ -1014,7 +1055,6 @@ async function promptAI(text) {
     console.log("Exiting promptAI function");
   }
 }
-
 
 async function promptClaude(text, claudeModel) {
   try {
@@ -1095,4 +1135,29 @@ async function promptAkash(text, akashModel) {
   }
 }
 
-//TODO: add dynamic list of custom prompts for use with ai models
+async function promptOpenRouter(prompt) {
+  if (!OPENROUTER_API_KEY) {
+    throw new Error('OpenRouter API key is not set');
+  }
+
+  const model = document.getElementById('openrouterModelSelect').value;
+
+  const response = await fetch(OPENROUTER_API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${OPENROUTER_API_KEY}`
+    },
+    body: JSON.stringify({
+      model: model,
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data.choices[0].message.content;
+}
