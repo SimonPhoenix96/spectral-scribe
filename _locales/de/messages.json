@@ -1,0 +1,95 @@
+{
+    "processPrompt": {
+      "message": "Prompt verarbeiten (STRG-Enter)"
+    },
+    "copyButton": {
+      "message": "Antwort kopieren"
+    },
+    "clearButton": {
+      "message": "Eingabe und Antwort löschen"
+    },
+    "languageToggle": {
+      "message": "Sprache umschalten"
+    },
+    "extractTranscript": {
+      "message": "YouTube-Video-Transkript extrahieren"
+    },
+    "extractHtmlText": {
+      "message": "Text von Webseite extrahieren"
+    },
+    "openSettings": {
+      "message": "Einstellungen öffnen"
+    },
+    "manualPrompt": {
+      "message": "Manueller Prompt"
+    },
+    "generateBulletPoints": {
+      "message": "Aufzählungspunkte generieren"
+    },
+    "extractKeyInsights": {
+      "message": "Wichtige Erkenntnisse extrahieren"
+    },
+    "explainSimply": {
+      "message": "Einfach erklären"
+    },
+    "analyzeTopics": {
+      "message": "Themen analysieren"
+    },
+    "analyzeSentiment": {
+      "message": "Stimmung analysieren"
+    },
+    "extractKeywords": {
+      "message": "Schlüsselwörter extrahieren"
+    },
+    "translateLanguage": {
+      "message": "Sprache übersetzen"
+    },
+    "summarizeText": {
+      "message": "Text zusammenfassen"
+    },
+    "generateQuiz": {
+      "message": "Quiz generieren"
+    },
+    "explainLikeImFive": {
+      "message": "Erkläre es mir wie einem Fünfjährigen"
+    },
+    "findLogicalFallacies": {
+      "message": "Logische Fehlschlüsse finden"
+    },
+    "generateAnalogy": {
+      "message": "Analogie generieren"
+    },
+    "historicalContext": {
+      "message": "Historischer Kontext"
+    },
+    "generateEssayOutline": {
+      "message": "Aufsatzgliederung generieren"
+    },
+    "generateProductSheet": {
+      "message": "Produktdatenblatt generieren"
+    },
+    "timeManagement": {
+      "message": "Zeitmanagement"
+    },
+    "recipeSuggestions": {
+      "message": "Rezeptvorschläge"
+    },
+    "summarizeThread": {
+      "message": "Thread zusammenfassen"
+    },
+    "checkIfAIGenerated": {
+      "message": "Prüfen, ob KI-generiert"
+    },
+    "findBotPosts": {
+      "message": "Bot-Beiträge finden"
+    },
+    "findTrollPosts": {
+      "message": "Troll-Beiträge finden"
+    },
+    "findMisinformation": {
+      "message": "Fehlinformationen finden"
+    },
+    "findSourcestoClaims": {
+      "message": "Quellen für Behauptungen finden"
+    }
+  }
