@@ -547,8 +547,8 @@ function removeCustomPrompt(name) {
       chrome.storage.sync.set({ customPrompts }, () => {
         console.log("Custom prompt removed");
         // Remove the option from both select elements
-        removeOptionFromSelect(promptTypeSelect, name);
-        removeOptionFromSelect(customPromptSelect, name);
+        removePromptTypeOptionFromSelect(promptTypeSelect, name);
+        removePromptTypeOptionFromSelect(customPromptSelect, name);
         updatePromptTypeSelectIcon();
       });
     } else {
@@ -558,7 +558,78 @@ function removeCustomPrompt(name) {
   });
 }
 
-function removeOptionFromSelect(selectElement, optionText) {
+function addCustomModel(name, apiSelect) {
+  const option = document.createElement("option");
+  option.value = name.toLowerCase().replace(/\s+/g, "_");
+  option.textContent = name;
+  option.dataset.icon = "resources/custom_model_icon.png";
+
+  // Find the position to insert the new custom model
+  const modelSelect = document.getElementById(`${apiSelect}ModelSelect`);
+  const firstDefaultOption = Array.from(modelSelect.options).find(
+    (opt) => !opt.value.startsWith("custom_")
+  );
+
+  if (firstDefaultOption) {
+    modelSelect.insertBefore(option, firstDefaultOption);
+  } else {
+    modelSelect.appendChild(option);
+  }
+
+  // Save custom model to storage
+  chrome.storage.sync.get("customModels", (result) => {
+    const customModels = result.customModels || {};
+    if (!customModels[apiSelect]) {
+      customModels[apiSelect] = [];
+    }
+    customModels[apiSelect].push(option.value);
+    chrome.storage.sync.set({ customModels }, () => {
+      console.log("Custom model saved");
+      updateModelSelectIcon();
+    });
+  });
+}
+
+function removeCustomModel(name) {
+  chrome.storage.sync.get("customModels", (result) => {
+    const customModels = result.customModels || [];
+    const modelIndex = customModels.findIndex(
+      (model) => model.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()) === name
+    );
+
+    if (modelIndex !== -1) {
+      customModels.splice(modelIndex, 1);
+      chrome.storage.sync.set({ customModels }, () => {
+        console.log("Custom model removed");
+        // Remove the option from the model select element
+        const modelSelect = document.getElementById("akashModelSelect");
+        removeModelOptionFromSelect(modelSelect, name);
+        updateModelSelectIcon();
+      });
+    } else {
+      console.error("Custom model not found in storage");
+      alert("Custom model not found in storage.");
+    }
+  });
+}
+
+function removeModelOptionFromSelect(selectElement, optionText) {
+  const optionToRemove = Array.from(selectElement.options).find(
+    (option) => option.textContent === optionText
+  );
+  if (optionToRemove) {
+    selectElement.removeChild(optionToRemove);
+  }
+}
+
+function updateModelSelectIcon() {
+  const modelSelect = document.getElementById("akashModelSelect");
+  const selectedOption = modelSelect.options[modelSelect.selectedIndex];
+  const icon = selectedOption.getAttribute("data-icon");
+  modelSelect.style.backgroundImage = `url('${icon}')`;
+}
+
+function removePromptTypeOptionFromSelect(selectElement, optionText) {
   const optionToRemove = Array.from(selectElement.options).find(
     (option) => option.textContent === optionText
   );
@@ -604,7 +675,6 @@ function addCustomPrompt(name, instruction) {
     });
   });
 }
-
 function openPromptSettingsPopup() {
   const modal = document.createElement("div");
   modal.style.position = "fixed";
@@ -648,15 +718,25 @@ function openPromptSettingsPopup() {
   actionSelect.style.color = "#000000";
   actionSelect.style.marginBottom = "10px";
 
-  const addOption = document.createElement("option");
-  addOption.value = "add";
-  addOption.textContent = "Add Custom Prompt";
-  actionSelect.appendChild(addOption);
+  const addPromptTypeOption = document.createElement("option");
+  addPromptTypeOption.value = "add_prompt";
+  addPromptTypeOption.textContent = "Add Custom Prompt";
+  actionSelect.appendChild(addPromptTypeOption);
 
-  const removeOption = document.createElement("option");
-  removeOption.value = "remove";
-  removeOption.textContent = "Remove Custom Prompt";
-  actionSelect.appendChild(removeOption);
+  const removePromptTypeOption = document.createElement("option");
+  removePromptTypeOption.value = "remove_prompt";
+  removePromptTypeOption.textContent = "Remove Custom Prompt";
+  actionSelect.appendChild(removePromptTypeOption);
+
+  const addCustomModelOption = document.createElement("option");
+  addCustomModelOption.value = "add_model";
+  addCustomModelOption.textContent = "Add Custom Model";
+  actionSelect.appendChild(addCustomModelOption);
+  
+  const removeCustomModelOption = document.createElement("option");
+  removeCustomModelOption.value = "remove_model";
+  removeCustomModelOption.textContent = "Remove Custom Model";
+  actionSelect.appendChild(removeCustomModelOption);
 
   form.appendChild(actionSelect);
 
@@ -671,7 +751,7 @@ function openPromptSettingsPopup() {
 
   const nameInput = document.createElement("input");
   nameInput.type = "text";
-  nameInput.placeholder = "Enter prompt name";
+  nameInput.placeholder = "Enter name";
   nameInput.required = true;
   nameInput.style.padding = "5px";
   nameInput.style.borderRadius = "3px";
@@ -680,20 +760,33 @@ function openPromptSettingsPopup() {
   nameInput.style.color = "#000000";
   form.appendChild(nameInput);
 
-  const instructionInput = document.createElement("textarea");
-  instructionInput.placeholder =
-    "Example: \n\nIn Spanish - Generate a product sheet";
-  instructionInput.required = true;
-  instructionInput.style.padding = "5px";
-  instructionInput.style.borderRadius = "3px";
-  instructionInput.style.border = "1px solid #fa2b39";
-  instructionInput.style.backgroundColor = "#ffffff";
-  instructionInput.style.color = "#000000";
-  instructionInput.style.minHeight = "100px";
-  form.appendChild(instructionInput);
+  const instructionTextarea = document.createElement("textarea");
+  instructionTextarea.placeholder = "Enter instruction (for prompts only)";
+  instructionTextarea.style.padding = "5px";
+  instructionTextarea.style.borderRadius = "3px";
+  instructionTextarea.style.border = "1px solid #fa2b39";
+  instructionTextarea.style.backgroundColor = "#ffffff";
+  instructionTextarea.style.color = "#000000";
+  instructionTextarea.style.minHeight = "100px";
+  form.appendChild(instructionTextarea);
+
+  const apiSelect = document.createElement("select");
+  apiSelect.style.padding = "5px";
+  apiSelect.style.borderRadius = "3px";
+  apiSelect.style.border = "1px solid #fa2b39";
+  apiSelect.style.backgroundColor = "#ffffff";
+  apiSelect.style.color = "#000000";
+  apiSelect.style.display = "none";
+  ["akash", "claude", "openrouter"].forEach(api => {
+    const option = document.createElement("option");
+    option.value = api;
+    option.textContent = api.charAt(0).toUpperCase() + api.slice(1);
+    apiSelect.appendChild(option);
+  });
+  form.appendChild(apiSelect);
 
   const submitButton = document.createElement("button");
-  submitButton.textContent = "Add Custom Prompt";
+  submitButton.textContent = "Add";
   submitButton.style.backgroundColor = "#fa2b39";
   submitButton.style.color = "#ffffff";
   submitButton.style.border = "none";
@@ -705,16 +798,25 @@ function openPromptSettingsPopup() {
   modal.appendChild(form);
   document.body.appendChild(modal);
 
-  // Populate custom prompt select
-  chrome.storage.sync.get("customPrompts", (result) => {
+  // Populate custom prompt and model selects
+  chrome.storage.sync.get(["customPrompts", "customModels"], (result) => {
     const customPrompts = result.customPrompts || {};
+    const customModels = result.customModels || {};
+
     for (const [value, instruction] of Object.entries(customPrompts)) {
       const option = document.createElement("option");
       option.value = value;
-      option.textContent = value
-        .replace(/_/g, " ")
-        .replace(/\b\w/g, (l) => l.toUpperCase());
+      option.textContent = value.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
       customPromptSelect.appendChild(option);
+    }
+
+    for (const api in customModels) {
+      customModels[api].forEach(model => {
+        const option = document.createElement("option");
+        option.value = model;
+        option.textContent = model.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
+        customPromptSelect.appendChild(option);
+      });
     }
   });
 
@@ -730,51 +832,49 @@ function openPromptSettingsPopup() {
   });
 
   actionSelect.addEventListener("change", function () {
-    if (this.value === "add") {
-      nameInput.style.display = "block";
-      instructionInput.style.display = "block";
-      customPromptSelect.style.display = "none";
-      submitButton.textContent = "Add Custom Prompt";
+    const action = this.value;
+    nameInput.style.display = action.startsWith("add") ? "block" : "none";
+    instructionTextarea.style.display = action === "add_prompt" ? "block" : "none";
+    customPromptSelect.style.display = action.startsWith("remove") ? "block" : "none";
+    apiSelect.style.display = action === "add_model" ? "block" : "none";
+    submitButton.textContent = action.includes("add") ? "Add" : "Remove";
 
-      // Remove required attribute when hidden
-      customPromptSelect.removeAttribute("required");
-      nameInput.setAttribute("required", "");
-      instructionInput.setAttribute("required", "");
-    } else if (this.value === "remove") {
-      nameInput.style.display = "none";
-      instructionInput.style.display = "none";
-      customPromptSelect.style.display = "block";
-      submitButton.textContent = "Remove Custom Prompt";
-
-      // Remove required attribute when hidden
-      nameInput.removeAttribute("required");
-      instructionInput.removeAttribute("required");
-      customPromptSelect.setAttribute("required", "");
-    }
+    // Set required attributes
+    nameInput.required = action.startsWith("add");
+    instructionTextarea.required = action === "add_prompt";
+    customPromptSelect.required = action.startsWith("remove");
+    apiSelect.required = action === "add_model";
   });
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
-    if (actionSelect.value === "add") {
-      if (nameInput.value && instructionInput.value) {
-        addCustomPrompt(nameInput.value, instructionInput.value);
+    const action = actionSelect.value;
+
+    if (action.startsWith("add")) {
+      if (nameInput.value && (action === "add_model" || instructionTextarea.value)) {
+        if (action === "add_prompt") {
+          addCustomPrompt(nameInput.value, instructionTextarea.value);
+        } else {
+          addCustomModel(nameInput.value, apiSelect.value);
+        }
         document.body.removeChild(modal);
       } else {
         alert("Please fill in all fields");
       }
-    } else if (actionSelect.value === "remove") {
+    } else if (action.startsWith("remove")) {
       if (customPromptSelect.value) {
-        removeCustomPrompt(
-          customPromptSelect.options[customPromptSelect.selectedIndex].text
-        );
+        if (action === "remove_prompt") {
+          removeCustomPrompt(customPromptSelect.options[customPromptSelect.selectedIndex].text);
+        } else {
+          removeCustomModel(customPromptSelect.options[customPromptSelect.selectedIndex].text);
+        }
         document.body.removeChild(modal);
       } else {
-        alert("Please select a prompt to remove");
+        alert(`Please select a ${action.includes("prompt") ? "prompt" : "model"} to remove`);
       }
     }
   });
 }
-
 function saveSessionData() {
   const data = {
     selectedAPI: document.getElementById("apiSelect").value,
@@ -810,39 +910,71 @@ function loadSessionData() {
       claudeModelSelect.style.display = "none";
       openrouterModelSelect.style.display = "none";
 
-      if (result.sessionData.selectedAPI === "akash") {
-        akashModelSelect.style.display = "block";
-        if (result.sessionData.selectedAkashModel) {
-          akashModelSelect.value = result.sessionData.selectedAkashModel;
-        }
-      } else if (result.sessionData.selectedAPI === "claude") {
-        claudeModelSelect.style.display = "block";
-        if (result.sessionData.selectedClaudeModel) {
-          claudeModelSelect.value = result.sessionData.selectedClaudeModel;
-        }
-      } else if (result.sessionData.selectedAPI === "openrouter") {
-        openrouterModelSelect.style.display = "block";
-        if (result.sessionData.selectedOpenRouterModel) {
-          openrouterModelSelect.value =
-            result.sessionData.selectedOpenRouterModel;
-        }
-      }
+      // Load custom models
+      chrome.storage.sync.get(["customModels"], function (customModelsResult) {
+        const customModels = customModelsResult.customModels || {};
 
-      document.getElementById("promptInput").value = result.sessionData.input;
-      document.getElementById("promptAnswer").innerHTML =
-        result.sessionData.answer;
+        if (result.sessionData.selectedAPI === "akash") {
+          akashModelSelect.style.display = "block";
+          // Add custom Akash models
+          if (customModels.akash) {
+            customModels.akash.forEach(model => {
+              const option = document.createElement("option");
+              option.value = model;
+              option.textContent = model;
+              akashModelSelect.appendChild(option);
+            });
+          }
+          if (result.sessionData.selectedAkashModel) {
+            akashModelSelect.value = result.sessionData.selectedAkashModel;
+          }
+        } else if (result.sessionData.selectedAPI === "claude") {
+          claudeModelSelect.style.display = "block";
+          // Add custom Claude models
+          if (customModels.claude) {
+            customModels.claude.forEach(model => {
+              const option = document.createElement("option");
+              option.value = model;
+              option.textContent = model;
+              claudeModelSelect.appendChild(option);
+            });
+          }
+          if (result.sessionData.selectedClaudeModel) {
+            claudeModelSelect.value = result.sessionData.selectedClaudeModel;
+          }
+        } else if (result.sessionData.selectedAPI === "openrouter") {
+          openrouterModelSelect.style.display = "block";
+          // Add custom OpenRouter models
+          if (customModels.openrouter) {
+            customModels.openrouter.forEach(model => {
+              const option = document.createElement("option");
+              option.value = model;
+              option.textContent = model;
+              openrouterModelSelect.appendChild(option);
+            });
+          }
+          if (result.sessionData.selectedOpenRouterModel) {
+            openrouterModelSelect.value =
+              result.sessionData.selectedOpenRouterModel;
+          }
+        }
 
-      // Apply the saved API icon
-      const apiSelect = document.getElementById("apiSelect");
-      const selectedOption = apiSelect.options[apiSelect.selectedIndex];
-      if (selectedOption && selectedOption.getAttribute("data-icon")) {
-        apiSelect.style.backgroundImage = `url('${selectedOption.getAttribute(
-          "data-icon"
-        )}')`;
-      }
+        document.getElementById("promptInput").value = result.sessionData.input;
+        document.getElementById("promptAnswer").innerHTML =
+          result.sessionData.answer;
 
-      updatePromptTypeSelectIcon();
-      renderPoweredByProp();
+        // Apply the saved API icon
+        const apiSelect = document.getElementById("apiSelect");
+        const selectedOption = apiSelect.options[apiSelect.selectedIndex];
+        if (selectedOption && selectedOption.getAttribute("data-icon")) {
+          apiSelect.style.backgroundImage = `url('${selectedOption.getAttribute(
+            "data-icon"
+          )}')`;
+        }
+
+        updatePromptTypeSelectIcon();
+        renderPoweredByProp();
+      });
     }
   });
 }
