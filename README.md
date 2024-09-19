@@ -4,8 +4,10 @@
 The extension can easily be installed via the [Chrome/Edge Webstore](https://chromewebstore.google.com/detail/spectral-scribe/mikpmbedokmdadmgbcphbkgjmlidpldd)
 
 ## Overview
-No External Libraries only pure Javascript, HTML and Claude or Akash Networks (FREE) LLM RESTAPI 
-This Chrome extension provides a powerful suite of AI-driven text analysis tools, leveraging Akash Network powered Llama3-8b or Anthropics Claude models . 
+
+No External Libraries only pure Javascript, HTML and Claude, Openrouter or Akash Networks (FREE) LLM RESTAPI 
+
+This Chrome extension provides a powerful suite of AI-driven text analysis tools. 
 It offers various functionalities for processing and analyzing text from YouTube video transcripts, Twitter Threads, Webpages, user input and more.
 
 ## Shortcuts
