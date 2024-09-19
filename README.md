@@ -62,10 +62,11 @@ UI             |  Prompt Types | Adding Custom Prompts | Adding Custom Models |
 
 1. Clone the repository.
 2. Load the extension in Chrome's developer mode.
-3. Access the options page to set your Anthropic (Claude) and Akash API keys.
+3. Access the options page to set your Anthropic (Claude), Akash or Openrouter API keys.
    
 https://chatapi.akash.network/
 https://console.anthropic.com/settings/keys
+https://openrouter.ai/settings/keys
 
 
 ## Usage
