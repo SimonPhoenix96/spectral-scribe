@@ -12,7 +12,7 @@ It offers various functionalities for processing and analyzing text from YouTube
 CTRL - I opens/closes the extension
 
 ## TODO
-- **Add Custom AI APIs**
+
 
 ## Screenshots
 
@@ -21,6 +21,7 @@ UI             |  Prompt Types | Adding Custom Prompts |
 ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-01.png)  |  ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-02.png) |  ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-03.png)
 
 ## Features
+- **Add Custom Openrouter/Akash/Claude Models (Futureproofing)**
 - **Prompt Saving - Prompt History**
 - **YouTube Transcript Extraction**: Automatically fetches and processes transcripts from YouTube videos.
 - **Ergonomic Shortcuts**: For Example CTRL-I opens Spectral Scribe Extension, CTRL-ENTER processes the prompt
