@@ -813,9 +813,28 @@ async function extractTextFromPage() {
   });
 }
 function checkApiKeysAndPulsate() {
+  console.log('Checking API keys...');
+  if (ANTHROPIC_API_KEY) {
+    console.log('Anthropic API key is set');
+  } else {
+    console.warn('Anthropic API key is not set');
+  }
+  if (AKASH_API_KEY) {
+    console.log('Akash API key is set');
+  } else {
+    console.warn('Akash API key is not set');
+  }
+  if (OPENROUTER_API_KEY) {
+    console.log('OpenRouter API key is set');
+  } else {
+    console.warn('OpenRouter API key is not set');
+  }
+  
   if (ANTHROPIC_API_KEY || AKASH_API_KEY || OPENROUTER_API_KEY) {
+    console.log('At least one API key is set, removing pulsate class');
     optionsLink.classList.remove('pulsate');
   } else {
+    console.warn('No API keys are set, adding pulsate class');
     optionsLink.classList.add('pulsate');
   }
 }
