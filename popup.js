@@ -813,10 +813,10 @@ async function extractTextFromPage() {
   });
 }
 function checkApiKeysAndPulsate() {
-  if (!ANTHROPIC_API_KEY && !AKASH_API_KEY && !OPENROUTER_API_KEY) {
-    optionsLink.classList.add('pulsate');
-  } else {
+  if (ANTHROPIC_API_KEY || AKASH_API_KEY || OPENROUTER_API_KEY) {
     optionsLink.classList.remove('pulsate');
+  } else {
+    optionsLink.classList.add('pulsate');
   }
 }
 async function retrieveTranscript(youtubeLink) {
