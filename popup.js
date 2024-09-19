@@ -36,6 +36,7 @@ function loadApiKeys(callback) {
     console.log('ANTHROPIC_API_KEY set:', ANTHROPIC_API_KEY ? 'Yes' : 'No');
     console.log('AKASH_API_KEY set:', AKASH_API_KEY ? 'Yes' : 'No');
     console.log('OPENROUTER_API_KEY set:', OPENROUTER_API_KEY ? 'Yes' : 'No');
+    checkApiKeysAndPulsate();
     callback();
     console.log('Callback executed');
   });
@@ -62,7 +63,6 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   document.getElementById('promptInput').focus();
   renderPoweredByProp();
-  checkApiKeysAndPulsate();
   updatePlaceholder();
   loadCustomPrompts();
   loadSessionData(); 
@@ -813,23 +813,7 @@ async function extractTextFromPage() {
   });
 }
 function checkApiKeysAndPulsate() {
-  console.log('Checking API keys...');
-  if (ANTHROPIC_API_KEY) {
-    console.log('Anthropic API key is set');
-  } else {
-    console.warn('Anthropic API key is not set');
-  }
-  if (AKASH_API_KEY) {
-    console.log('Akash API key is set');
-  } else {
-    console.warn('Akash API key is not set');
-  }
-  if (OPENROUTER_API_KEY) {
-    console.log('OpenRouter API key is set');
-  } else {
-    console.warn('OpenRouter API key is not set');
-  }
-  
+
   if (ANTHROPIC_API_KEY || AKASH_API_KEY || OPENROUTER_API_KEY) {
     console.log('At least one API key is set, removing pulsate class');
     optionsLink.classList.remove('pulsate');
