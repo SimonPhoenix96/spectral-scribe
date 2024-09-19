@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Spectral Scribe - AI-Powered Text Analysis",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "AI-driven text analysis tools for processing and analyzing text from web pages, YouTube videos, and user input.",
   "default_locale": "en",
   "permissions": [

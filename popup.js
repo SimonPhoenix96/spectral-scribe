@@ -415,7 +415,7 @@ document.addEventListener("keydown", function (event) {
 // customprompt listener
 const promptSettingsBtn = document.getElementById("promptSettingsBtn");
 
-promptSettingsBtn.addEventListener("click", openPromptSettingsPopup);
+promptSettingsBtn.addEventListener("click", openPromptAndModelSettingsPopup);
 
 // listener for extract video transcript button
 extractTranscriptBtn.addEventListener("click", async function () {
@@ -675,7 +675,7 @@ function addCustomPrompt(name, instruction) {
     });
   });
 }
-function openPromptSettingsPopup() {
+function openPromptAndModelSettingsPopup() {
   const modal = document.createElement("div");
   modal.style.position = "fixed";
   modal.style.left = "0";
@@ -749,6 +749,15 @@ function openPromptSettingsPopup() {
   customPromptSelect.style.display = "none";
   form.appendChild(customPromptSelect);
 
+  const customModelSelect = document.createElement("select");
+  customModelSelect.style.padding = "5px";
+  customModelSelect.style.borderRadius = "3px";
+  customModelSelect.style.border = "1px solid #fa2b39";
+  customModelSelect.style.backgroundColor = "#ffffff";
+  customModelSelect.style.color = "#000000";
+  customModelSelect.style.display = "none";
+  form.appendChild(customModelSelect);
+
   const nameInput = document.createElement("input");
   nameInput.type = "text";
   nameInput.placeholder = "Enter name";
@@ -815,7 +824,7 @@ function openPromptSettingsPopup() {
         const option = document.createElement("option");
         option.value = model;
         option.textContent = model.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
-        customPromptSelect.appendChild(option);
+        customModelSelect.appendChild(option);
       });
     }
   });
@@ -835,14 +844,16 @@ function openPromptSettingsPopup() {
     const action = this.value;
     nameInput.style.display = action.startsWith("add") ? "block" : "none";
     instructionTextarea.style.display = action === "add_prompt" ? "block" : "none";
-    customPromptSelect.style.display = action.startsWith("remove") ? "block" : "none";
+    customPromptSelect.style.display = action === "remove_prompt" ? "block" : "none";
+    customModelSelect.style.display = action === "remove_model" ? "block" : "none";
     apiSelect.style.display = action === "add_model" ? "block" : "none";
     submitButton.textContent = action.includes("add") ? "Add" : "Remove";
 
     // Set required attributes
     nameInput.required = action.startsWith("add");
     instructionTextarea.required = action === "add_prompt";
-    customPromptSelect.required = action.startsWith("remove");
+    customPromptSelect.required = action === "remove_prompt";
+    customModelSelect.required = action === "remove_model";
     apiSelect.required = action === "add_model";
   });
 
@@ -862,11 +873,12 @@ function openPromptSettingsPopup() {
         alert("Please fill in all fields");
       }
     } else if (action.startsWith("remove")) {
-      if (customPromptSelect.value) {
+      if ((action === "remove_prompt" && customPromptSelect.value) || 
+          (action === "remove_model" && customModelSelect.value)) {
         if (action === "remove_prompt") {
           removeCustomPrompt(customPromptSelect.options[customPromptSelect.selectedIndex].text);
         } else {
-          removeCustomModel(customPromptSelect.options[customPromptSelect.selectedIndex].text);
+          removeCustomModel(customModelSelect.options[customModelSelect.selectedIndex].text);
         }
         document.body.removeChild(modal);
       } else {
@@ -875,6 +887,7 @@ function openPromptSettingsPopup() {
     }
   });
 }
+
 function saveSessionData() {
   const data = {
     selectedAPI: document.getElementById("apiSelect").value,
