@@ -4,23 +4,26 @@
 The extension can easily be installed via the [Chrome/Edge Webstore](https://chromewebstore.google.com/detail/spectral-scribe/mikpmbedokmdadmgbcphbkgjmlidpldd)
 
 ## Overview
-No External Libraries only pure Javascript, HTML and Claude or Akash Networks (FREE) LLM RESTAPI 
-This Chrome extension provides a powerful suite of AI-driven text analysis tools, leveraging Akash Network powered Llama3-8b or Anthropics Claude models . 
+
+No External Libraries only pure Javascript, HTML and Claude, Openrouter or Akash Networks (FREE) LLM RESTAPI 
+
+This Chrome extension provides a powerful suite of AI-driven text analysis tools. 
 It offers various functionalities for processing and analyzing text from YouTube video transcripts, Twitter Threads, Webpages, user input and more.
 
 ## Shortcuts
 CTRL - I opens/closes the extension
 
 ## TODO
-- **Add Custom AI APIs**
+(I consider this now feature complete 09/20/24 , but if you have suggestions feel free to hit me up @ https://github.com/SimonPhoenix96/spectral-scribe/issues)
 
 ## Screenshots
 
-UI             |  Prompt Types | Adding Custom Prompts |
-:-------------------------:|:-------------------------:|:-------------------------:
-![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-01.png)  |  ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-02.png) |  ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-03.png)
+UI             |  Prompt Types | Adding Custom Prompts | Adding Custom Models |
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-01.png)  |  ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-02.png) |  ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-03.png) |  ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-04.png)
 
 ## Features
+- **Add Custom Openrouter/Akash/Claude Models (Futureproofing)**
 - **Prompt Saving - Prompt History**
 - **YouTube Transcript Extraction**: Automatically fetches and processes transcripts from YouTube videos.
 - **Ergonomic Shortcuts**: For Example CTRL-I opens Spectral Scribe Extension, CTRL-ENTER processes the prompt
@@ -61,10 +64,11 @@ UI             |  Prompt Types | Adding Custom Prompts |
 
 1. Clone the repository.
 2. Load the extension in Chrome's developer mode.
-3. Access the options page to set your Anthropic (Claude) and Akash API keys.
+3. Access the options page to set your Anthropic (Claude), Akash or Openrouter API keys.
    
 https://chatapi.akash.network/
 https://console.anthropic.com/settings/keys
+https://openrouter.ai/settings/keys
 
 
 ## Usage
