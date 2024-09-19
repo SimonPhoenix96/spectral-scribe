@@ -2,20 +2,22 @@
 const YT_INITIAL_PLAYER_RESPONSE_RE =
   /ytInitialPlayerResponse\s*=\s*({.+?})\s*;\s*(?:var\s+(?:meta|head)|<\/script|\n)/;
 
-let OPENROUTER_API_KEY = '';
+let OPENROUTER_API_KEY = "";
 const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
-let ANTHROPIC_API_KEY = '';
+let ANTHROPIC_API_KEY = "";
 const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
 
-let AKASH_API_KEY = '';
+let AKASH_API_KEY = "";
 const AKASH_API_URL = "https://chatapi.akash.network/api/v1/chat/completions";
 // DOM Elements
 const summarizeBtn = document.getElementById("summarizeBtn");
 const promptAnswerDiv = document.getElementById("promptAnswer");
-const poweredByProp= document.getElementById("poweredByProp");
+const poweredByProp = document.getElementById("poweredByProp");
 const promptInput = document.getElementById("promptInput");
-const autoTranscribeAndSummarizeBtn = document.getElementById("autoTranscribeAndSummarize");
+const autoTranscribeAndSummarizeBtn = document.getElementById(
+  "autoTranscribeAndSummarize"
+);
 const processPromptBtn = document.getElementById("processPromptBtn");
 const extractTranscriptBtn = document.getElementById("extractTranscriptBtn");
 const extractHtmlTextBtn = document.getElementById("extractHtmlTextBtn");
@@ -23,93 +25,95 @@ const promptTypeSelect = document.getElementById("promptTypeSelect");
 const apiSelect = document.getElementById("apiSelect");
 const optionsLink = document.getElementById("optionsLink");
 
-
 // Main Functions
 
 function loadApiKeys(callback) {
-  console.log('Starting to load API keys');
-  chrome.storage.sync.get(['ANTHROPIC_API_KEY', 'AKASH_API_KEY', 'OPENROUTER_API_KEY'], function(result) {
-    console.log('Retrieved API keys from storage');
-    ANTHROPIC_API_KEY = result.ANTHROPIC_API_KEY || '';
-    AKASH_API_KEY = result.AKASH_API_KEY || '';
-    OPENROUTER_API_KEY = result.OPENROUTER_API_KEY || '';
-    console.log('ANTHROPIC_API_KEY set:', ANTHROPIC_API_KEY ? 'Yes' : 'No');
-    console.log('AKASH_API_KEY set:', AKASH_API_KEY ? 'Yes' : 'No');
-    console.log('OPENROUTER_API_KEY set:', OPENROUTER_API_KEY ? 'Yes' : 'No');
-    checkApiKeysAndPulsate();
-    callback();
-    console.log('Callback executed');
-  });
+  console.log("Starting to load API keys");
+  chrome.storage.sync.get(
+    ["ANTHROPIC_API_KEY", "AKASH_API_KEY", "OPENROUTER_API_KEY"],
+    function (result) {
+      console.log("Retrieved API keys from storage");
+      ANTHROPIC_API_KEY = result.ANTHROPIC_API_KEY || "";
+      AKASH_API_KEY = result.AKASH_API_KEY || "";
+      OPENROUTER_API_KEY = result.OPENROUTER_API_KEY || "";
+      console.log("ANTHROPIC_API_KEY set:", ANTHROPIC_API_KEY ? "Yes" : "No");
+      console.log("AKASH_API_KEY set:", AKASH_API_KEY ? "Yes" : "No");
+      console.log("OPENROUTER_API_KEY set:", OPENROUTER_API_KEY ? "Yes" : "No");
+      checkApiKeysAndPulsate();
+      callback();
+      console.log("Callback executed");
+    }
+  );
 }
 
 function getSelectedAPI() {
-    const apiSelect = document.getElementById("apiSelect");
-    return apiSelect.value; // 'claude' or 'akash'
+  const apiSelect = document.getElementById("apiSelect");
+  return apiSelect.value; // 'claude' or 'akash'
 }
 
 // Event Listeners
 // Event listener that gets triggers as soon as popup closes
-document.addEventListener('visibilitychange', function() {
-  if (document.visibilityState === 'hidden') {
+document.addEventListener("visibilitychange", function () {
+  if (document.visibilityState === "hidden") {
     saveSessionData();
   }
 });
 
-
 // Event listener that gets triggers as soon as popup loads
 //TODO: adapt when needed
-document.addEventListener('DOMContentLoaded', function() {
-  loadApiKeys(function() {
-  });
-  document.getElementById('promptInput').focus();
+document.addEventListener("DOMContentLoaded", function () {
+  loadApiKeys(function () {});
+  document.getElementById("promptInput").focus();
   renderPoweredByProp();
   updatePlaceholder();
   loadCustomPrompts();
-  loadSessionData(); 
+  loadSessionData();
   updatePromptTypeSelectIcon();
 });
 
-const clearButton = document.getElementById('clearButton');
+const clearButton = document.getElementById("clearButton");
 clearButton.addEventListener("click", () => {
   promptInput.value = "";
   promptAnswerDiv.innerHTML = "";
-  const promptTitle = document.querySelector('h3');
+  const promptTitle = document.querySelector("h3");
   if (promptTitle) {
     promptTitle.remove();
   }
 });
 
-document.getElementById('promptTypeSelect').addEventListener('change', updatePromptTypeSelectIcon);
+document
+  .getElementById("promptTypeSelect")
+  .addEventListener("change", updatePromptTypeSelectIcon);
 
-document.getElementById("apiSelect").addEventListener('change', function() {
+document.getElementById("apiSelect").addEventListener("change", function () {
   const selectedAPI = this.value;
   const akashModelSelect = document.getElementById("akashModelSelect");
   const claudeModelSelect = document.getElementById("claudeModelSelect");
-  const openrouterModelSelect = document.getElementById("openrouterModelSelect");
-  
-  akashModelSelect.style.display = 'none';
-  claudeModelSelect.style.display = 'none';
-  openrouterModelSelect.style.display = 'none';
-  
-  if (selectedAPI === 'akash') {
-    akashModelSelect.style.display = 'inline-block';
-  } else if (selectedAPI === 'claude') {
-    claudeModelSelect.style.display = 'inline-block';
-  } else if (selectedAPI === 'openrouter') {
-    openrouterModelSelect.style.display = 'inline-block';
+  const openrouterModelSelect = document.getElementById(
+    "openrouterModelSelect"
+  );
+
+  akashModelSelect.style.display = "none";
+  claudeModelSelect.style.display = "none";
+  openrouterModelSelect.style.display = "none";
+
+  if (selectedAPI === "akash") {
+    akashModelSelect.style.display = "inline-block";
+  } else if (selectedAPI === "claude") {
+    claudeModelSelect.style.display = "inline-block";
+  } else if (selectedAPI === "openrouter") {
+    openrouterModelSelect.style.display = "inline-block";
   }
-  
+
   renderPoweredByProp();
 });
 
-
-optionsLink.addEventListener('click', function(e) {
+optionsLink.addEventListener("click", function (e) {
   e.preventDefault();
   chrome.runtime.openOptionsPage();
 });
 
-
-// TODO: finish implementation of last few added cases  
+// TODO: finish implementation of last few added cases
 function processPrompt() {
   const selectedOption = promptTypeSelect.value;
   const textInput = promptInput.value.trim();
@@ -135,98 +139,153 @@ function processPrompt() {
           case "bulletPoints":
             console.log("Handling bullet points");
             return promptAI("Generate bullet points for this: " + textInput);
-      case "keyInsights":
-        console.log("Handling key insights");
-        promptInput.placeholder = "Enter the text to extract key insights";
-        return promptAI("Extract key insights from this text: " + textInput);
-      case "explainSimply":
-        console.log("Handling explain simply");
-        promptInput.placeholder = "Enter the text to explain simply";
-        return promptAI("Explain this simply: " + textInput);
-      case "topicAnalysis":
-        console.log("Handling topic analysis");
-        promptInput.placeholder = "Enter the text for topic analysis";
-        return promptAI("Analyze the main topics in this text: " + textInput);
-      case "sentimentAnalysis":
-        console.log("Handling sentiment analysis");
-        promptInput.placeholder = "Enter the text for sentiment analysis";
-        return promptAI("Analyze the sentiment of this text: " + textInput);
-      case "keywordExtraction":
-        console.log("Handling keyword extraction");
-        promptInput.placeholder = "Enter the text for keyword extraction";
-        return promptAI("Extract the key words from this text: " + textInput);
-      case "languageTranslation":
-        console.log("Handling language translation");
-        promptInput.placeholder = "Enter the text to translate";
-        return promptAI("Translate this text to English if it's not already in English: " + textInput);
-      case "summarizeText":
-        console.log("Handling summarizeText");
-        promptInput.placeholder = "Paste your text here to summarize";
-        return promptAI("Summarize this text: " + textInput);
-      case "generateQuiz":
-        console.log("Handling quiz generation");
-        promptInput.placeholder = "Enter a topic to generate a quiz about it";
-        return promptAI("Generate a quiz about this topic: " + textInput);
-      case "explainLikeImFive":
-        console.log("Handling ELI5 explanations");
-        promptInput.placeholder = "Enter a complex topic to explain like I'm five";
-        return promptAI("Explain this topic as if I'm five years old: " + textInput);
-      case "findLogicalFallacies":
-        console.log("Handling logical fallacy detection");
-        promptInput.placeholder = "Enter an argument to identify potential logical fallacies";
-        return promptAI("Identify potential logical fallacies in this argument: " + textInput);
-      case "generateAnalogy":
-        console.log("Handling analogy generation");
-        promptInput.placeholder = "Enter a concept to create an analogy for it";
-        return promptAI("Create an analogy for this concept: " + textInput);
-      case "historicalContext":
-        console.log("Handling historical context explanation");
-        promptInput.placeholder = "Enter a historical event for context and analysis";
-        return promptAI("Provide historical context and analysis for this event: " + textInput);
-      case "generateEssayOutline":
-        console.log("Handling essay outline generation");
-        promptInput.placeholder = "Enter an essay topic to generate an outline";
-        return promptAI("Generate an essay outline for this topic: " + textInput);
-      case "generateProductSheet":
-        console.log("Handling product sheet generation");
-        promptInput.placeholder = "Enter product details to generate a product sheet";
-        return promptAI("Generate a product sheet based on these details: " + textInput);
-      case "timeManagement":
-        console.log("Handling time management");
-        promptInput.placeholder = "Describe your daily tasks for time management suggestions";
-        return promptAI("Provide time management suggestions for these daily tasks: " + textInput);
-      case "recipeSuggestions":
-        console.log("Handling recipe suggestions");
-        promptInput.placeholder = "Enter ingredients or dietary preferences for recipe ideas";
-        return promptAI("Suggest recipes based on these ingredients or dietary preferences: " + textInput);
-        case "summarizeThread":
-          console.log("Handling Summarize thread");
-          promptInput.placeholder = "Enter thread text to summarize";
-          return promptAI("Summarize this thread: " + textInput);
-        case "checkIfAIGenerated":
-          console.log("Handling AI-generated content check");
-          promptInput.placeholder = "Enter text to check if it's AI-generated";
-          return promptAI("Analyze this text and determine if it's likely to be AI-generated: " + textInput);
-        case "findBotPosts":
-          console.log("Handling bot post detection");
-          promptInput.placeholder = "Enter text to identify potential bot posts";
-          return promptAI("Analyze this text and identify potential bot-generated posts: " + textInput);
-        
-        case "findTrollPosts":
-          console.log("Handling troll post detection");
-          promptInput.placeholder = "Enter text to identify potential troll posts";
-          return promptAI("Analyze this text and identify potential troll posts: " + textInput);
-        
-        case "findMisinformation":
-          console.log("Handling misinformation detection");
-          promptInput.placeholder = "Enter text to check for potential misinformation";
-          return promptAI("Analyze this text and identify potential misinformation: " + textInput);
-        
-        case "findSourcestoClaims":
-          console.log("Handling source finding for claims");
-          promptInput.placeholder = "Enter claims to find potential sources";
-          return promptAI("*BE UNBIASED* Analyze these claims and suggest potential sources or references: " + textInput);
-      default:
+          case "keyInsights":
+            console.log("Handling key insights");
+            promptInput.placeholder = "Enter the text to extract key insights";
+            return promptAI(
+              "Extract key insights from this text: " + textInput
+            );
+          case "explainSimply":
+            console.log("Handling explain simply");
+            promptInput.placeholder = "Enter the text to explain simply";
+            return promptAI("Explain this simply: " + textInput);
+          case "topicAnalysis":
+            console.log("Handling topic analysis");
+            promptInput.placeholder = "Enter the text for topic analysis";
+            return promptAI(
+              "Analyze the main topics in this text: " + textInput
+            );
+          case "sentimentAnalysis":
+            console.log("Handling sentiment analysis");
+            promptInput.placeholder = "Enter the text for sentiment analysis";
+            return promptAI("Analyze the sentiment of this text: " + textInput);
+          case "keywordExtraction":
+            console.log("Handling keyword extraction");
+            promptInput.placeholder = "Enter the text for keyword extraction";
+            return promptAI(
+              "Extract the key words from this text: " + textInput
+            );
+          case "languageTranslation":
+            console.log("Handling language translation");
+            promptInput.placeholder = "Enter the text to translate";
+            return promptAI(
+              "Translate this text to English if it's not already in English: " +
+                textInput
+            );
+          case "summarizeText":
+            console.log("Handling summarizeText");
+            promptInput.placeholder = "Paste your text here to summarize";
+            return promptAI("Summarize this text: " + textInput);
+          case "generateQuiz":
+            console.log("Handling quiz generation");
+            promptInput.placeholder =
+              "Enter a topic to generate a quiz about it";
+            return promptAI("Generate a quiz about this topic: " + textInput);
+          case "explainLikeImFive":
+            console.log("Handling ELI5 explanations");
+            promptInput.placeholder =
+              "Enter a complex topic to explain like I'm five";
+            return promptAI(
+              "Explain this topic as if I'm five years old: " + textInput
+            );
+          case "findLogicalFallacies":
+            console.log("Handling logical fallacy detection");
+            promptInput.placeholder =
+              "Enter an argument to identify potential logical fallacies";
+            return promptAI(
+              "Identify potential logical fallacies in this argument: " +
+                textInput
+            );
+          case "generateAnalogy":
+            console.log("Handling analogy generation");
+            promptInput.placeholder =
+              "Enter a concept to create an analogy for it";
+            return promptAI("Create an analogy for this concept: " + textInput);
+          case "historicalContext":
+            console.log("Handling historical context explanation");
+            promptInput.placeholder =
+              "Enter a historical event for context and analysis";
+            return promptAI(
+              "Provide historical context and analysis for this event: " +
+                textInput
+            );
+          case "generateEssayOutline":
+            console.log("Handling essay outline generation");
+            promptInput.placeholder =
+              "Enter an essay topic to generate an outline";
+            return promptAI(
+              "Generate an essay outline for this topic: " + textInput
+            );
+          case "generateProductSheet":
+            console.log("Handling product sheet generation");
+            promptInput.placeholder =
+              "Enter product details to generate a product sheet";
+            return promptAI(
+              "Generate a product sheet based on these details: " + textInput
+            );
+          case "timeManagement":
+            console.log("Handling time management");
+            promptInput.placeholder =
+              "Describe your daily tasks for time management suggestions";
+            return promptAI(
+              "Provide time management suggestions for these daily tasks: " +
+                textInput
+            );
+          case "recipeSuggestions":
+            console.log("Handling recipe suggestions");
+            promptInput.placeholder =
+              "Enter ingredients or dietary preferences for recipe ideas";
+            return promptAI(
+              "Suggest recipes based on these ingredients or dietary preferences: " +
+                textInput
+            );
+          case "summarizeThread":
+            console.log("Handling Summarize thread");
+            promptInput.placeholder = "Enter thread text to summarize";
+            return promptAI("Summarize this thread: " + textInput);
+          case "checkIfAIGenerated":
+            console.log("Handling AI-generated content check");
+            promptInput.placeholder =
+              "Enter text to check if it's AI-generated";
+            return promptAI(
+              "Analyze this text and determine if it's likely to be AI-generated: " +
+                textInput
+            );
+          case "findBotPosts":
+            console.log("Handling bot post detection");
+            promptInput.placeholder =
+              "Enter text to identify potential bot posts";
+            return promptAI(
+              "Analyze this text and identify potential bot-generated posts: " +
+                textInput
+            );
+
+          case "findTrollPosts":
+            console.log("Handling troll post detection");
+            promptInput.placeholder =
+              "Enter text to identify potential troll posts";
+            return promptAI(
+              "Analyze this text and identify potential troll posts: " +
+                textInput
+            );
+
+          case "findMisinformation":
+            console.log("Handling misinformation detection");
+            promptInput.placeholder =
+              "Enter text to check for potential misinformation";
+            return promptAI(
+              "Analyze this text and identify potential misinformation: " +
+                textInput
+            );
+
+          case "findSourcestoClaims":
+            console.log("Handling source finding for claims");
+            promptInput.placeholder = "Enter claims to find potential sources";
+            return promptAI(
+              "*BE UNBIASED* Analyze these claims and suggest potential sources or references: " +
+                textInput
+            );
+          default:
             console.log("Handling default case");
             return promptAI(textInput);
         }
@@ -240,89 +299,101 @@ function processPrompt() {
 
 function updatePlaceholder() {
   const selectedValue = promptTypeSelect.value;
-  
+
   chrome.storage.sync.get("customPrompts", (result) => {
     const customPrompts = result.customPrompts || {};
-    
+
     if (customPrompts[selectedValue]) {
       promptInput.placeholder = customPrompts[selectedValue];
     } else {
       switch (selectedValue) {
-    case "manualPrompt":
-      promptInput.placeholder = "Enter your manual prompt here";
-      break;
-    case "autoTranscribeAndSummarize":
-      promptInput.placeholder = "Will fetch the transcript from the current YouTube video and summarise it";
-      break;
-    case "bulletPoints":
-      promptInput.placeholder = "Enter the text to generate bullet points";
-      break;
-    case "keyInsights":
-      promptInput.placeholder = "Enter the text to extract key insights";
-      break;
-    case "explainSimply":
-      promptInput.placeholder = "Enter the text to explain simply";
-      break;
-    case "topicAnalysis":
-      promptInput.placeholder = "Enter the text for topic analysis";
-      break;
-    case "sentimentAnalysis":
-      promptInput.placeholder = "Enter the text for sentiment analysis";
-      break;
-    case "keywordExtraction":
-      promptInput.placeholder = "Enter the text for keyword extraction";
-      break;
-    case "languageTranslation":
-      promptInput.placeholder = "Enter the text to translate";
-      break;
-    case "summarizeText":
-      promptInput.placeholder = "Paste your text here to summarize";
-      break;
-    case "generateQuiz":
-      promptInput.placeholder = "Enter a topic to generate a quiz about it";
-      break;
-    case "explainLikeImFive":
-      promptInput.placeholder = "Enter a complex topic to explain like I'm five";
-      break;
-    case "findLogicalFallacies":
-      promptInput.placeholder = "Enter an argument to identify potential logical fallacies";
-      break;
-    case "generateAnalogy":
-      promptInput.placeholder = "Enter a concept to create an analogy for it";
-      break;
-    case "historicalContext":
-      promptInput.placeholder = "Enter a historical event for context and analysis";
-      break;
-    case "generateEssayOutline":
-      promptInput.placeholder = "Enter an essay topic to generate an outline";
-      break;
-    case "generateProductSheet":
-      promptInput.placeholder = "Enter product details to generate a product sheet";
-      break;
-    case "timeManagement":
-      promptInput.placeholder = "Describe your daily tasks for time management suggestions";
-      break;
-    case "recipeSuggestions":
-      promptInput.placeholder = "Enter ingredients or dietary preferences for recipe ideas";
-      break;
-      case "summarizeThread":
-        promptInput.placeholder = "Enter the thread text to summarize";
-        break;
-      case "checkIfAIGenerated":
-        promptInput.placeholder = "Enter text to check if it's AI-generated";
-        break;
-      case "findBotPosts":
-        promptInput.placeholder = "Enter text to identify potential bot posts";
-        break;
-      case "findTrollPosts":
-        promptInput.placeholder = "Enter text to identify potential troll posts";
-        break;
-      case "findMisinformation":
-        promptInput.placeholder = "Enter text to check for potential misinformation";
-        break;
-      case "findSourcestoClaims":
-        promptInput.placeholder = "Enter claims to find potential sources";
-        break;
+        case "manualPrompt":
+          promptInput.placeholder = "Enter your manual prompt here";
+          break;
+        case "autoTranscribeAndSummarize":
+          promptInput.placeholder =
+            "Will fetch the transcript from the current YouTube video and summarise it";
+          break;
+        case "bulletPoints":
+          promptInput.placeholder = "Enter the text to generate bullet points";
+          break;
+        case "keyInsights":
+          promptInput.placeholder = "Enter the text to extract key insights";
+          break;
+        case "explainSimply":
+          promptInput.placeholder = "Enter the text to explain simply";
+          break;
+        case "topicAnalysis":
+          promptInput.placeholder = "Enter the text for topic analysis";
+          break;
+        case "sentimentAnalysis":
+          promptInput.placeholder = "Enter the text for sentiment analysis";
+          break;
+        case "keywordExtraction":
+          promptInput.placeholder = "Enter the text for keyword extraction";
+          break;
+        case "languageTranslation":
+          promptInput.placeholder = "Enter the text to translate";
+          break;
+        case "summarizeText":
+          promptInput.placeholder = "Paste your text here to summarize";
+          break;
+        case "generateQuiz":
+          promptInput.placeholder = "Enter a topic to generate a quiz about it";
+          break;
+        case "explainLikeImFive":
+          promptInput.placeholder =
+            "Enter a complex topic to explain like I'm five";
+          break;
+        case "findLogicalFallacies":
+          promptInput.placeholder =
+            "Enter an argument to identify potential logical fallacies";
+          break;
+        case "generateAnalogy":
+          promptInput.placeholder =
+            "Enter a concept to create an analogy for it";
+          break;
+        case "historicalContext":
+          promptInput.placeholder =
+            "Enter a historical event for context and analysis";
+          break;
+        case "generateEssayOutline":
+          promptInput.placeholder =
+            "Enter an essay topic to generate an outline";
+          break;
+        case "generateProductSheet":
+          promptInput.placeholder =
+            "Enter product details to generate a product sheet";
+          break;
+        case "timeManagement":
+          promptInput.placeholder =
+            "Describe your daily tasks for time management suggestions";
+          break;
+        case "recipeSuggestions":
+          promptInput.placeholder =
+            "Enter ingredients or dietary preferences for recipe ideas";
+          break;
+        case "summarizeThread":
+          promptInput.placeholder = "Enter the thread text to summarize";
+          break;
+        case "checkIfAIGenerated":
+          promptInput.placeholder = "Enter text to check if it's AI-generated";
+          break;
+        case "findBotPosts":
+          promptInput.placeholder =
+            "Enter text to identify potential bot posts";
+          break;
+        case "findTrollPosts":
+          promptInput.placeholder =
+            "Enter text to identify potential troll posts";
+          break;
+        case "findMisinformation":
+          promptInput.placeholder =
+            "Enter text to check for potential misinformation";
+          break;
+        case "findSourcestoClaims":
+          promptInput.placeholder = "Enter claims to find potential sources";
+          break;
         default:
           promptInput.placeholder = "Enter your text here";
       }
@@ -332,10 +403,10 @@ function updatePlaceholder() {
 
 processPromptBtn.addEventListener("click", processPrompt);
 
-promptTypeSelect.addEventListener('change', updatePlaceholder);
+promptTypeSelect.addEventListener("change", updatePlaceholder);
 
-document.addEventListener('keydown', function(event) {
-  if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+document.addEventListener("keydown", function (event) {
+  if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
     event.preventDefault();
     processPrompt();
   }
@@ -344,7 +415,7 @@ document.addEventListener('keydown', function(event) {
 // customprompt listener
 const promptSettingsBtn = document.getElementById("promptSettingsBtn");
 
-promptSettingsBtn.addEventListener("click", addCustomPromptWithPopup);
+promptSettingsBtn.addEventListener("click", openPromptSettingsPopup);
 
 // listener for extract video transcript button
 extractTranscriptBtn.addEventListener("click", async function () {
@@ -360,7 +431,7 @@ extractTranscriptBtn.addEventListener("click", async function () {
     handleError(error);
   }
 });
-document.getElementById('apiSelect').addEventListener('change', function() {
+document.getElementById("apiSelect").addEventListener("change", function () {
   const selectedOption = this.options[this.selectedIndex];
   this.style.backgroundImage = `url('${selectedOption.dataset.icon}')`;
 });
@@ -372,7 +443,10 @@ extractHtmlTextBtn.addEventListener("click", async function () {
       throw new Error("chrome.scripting API is not available");
     }
 
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    const [tab] = await chrome.tabs.query({
+      active: true,
+      currentWindow: true,
+    });
     if (!tab) {
       throw new Error("No active tab found");
     }
@@ -381,7 +455,7 @@ extractHtmlTextBtn.addEventListener("click", async function () {
       target: { tabId: tab.id },
       func: () => {
         const bodyText = document.body.innerText;
-        return bodyText.replace(/\s+/g, ' ').trim();
+        return bodyText.replace(/\s+/g, " ").trim();
       },
     });
 
@@ -406,20 +480,23 @@ copyButton.addEventListener("click", copyPromptAnswer);
 // Add this function to your existing code
 function copyPromptAnswer() {
   const promptAnswerText = promptAnswerDiv.innerText;
-  
+
   if (promptAnswerText) {
-    navigator.clipboard.writeText(promptAnswerText).then(() => {
-      // Temporarily change button text to indicate successful copy
-      const originalText = copyButton.textContent;
-      setTimeout(() => {
-        copyButton.textContent = originalText;
-      }, 2000);
-    }).catch(err => {
-      console.error('Failed to copy text: ', err);
-      alert('Failed to copy text. Please try again.');
-    });
+    navigator.clipboard
+      .writeText(promptAnswerText)
+      .then(() => {
+        // Temporarily change button text to indicate successful copy
+        const originalText = copyButton.textContent;
+        setTimeout(() => {
+          copyButton.textContent = originalText;
+        }, 2000);
+      })
+      .catch((err) => {
+        console.error("Failed to copy text: ", err);
+        alert("Failed to copy text. Please try again.");
+      });
   } else {
-    alert('There is no text to copy.');
+    alert("There is no text to copy.");
   }
 }
 
@@ -432,23 +509,27 @@ function loadCustomPrompts() {
     for (const [value, instruction] of Object.entries(customPrompts)) {
       const option = document.createElement("option");
       option.value = value;
-      option.textContent = value.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase());
-      option.dataset.icon = 'resources/custom_prompt_icon.png';
+      option.textContent = value
+        .replace(/_/g, " ")
+        .replace(/\b\w/g, (l) => l.toUpperCase());
+      option.dataset.icon = "resources/custom_prompt_icon.png";
       promptTypeSelect.insertBefore(option, firstDefaultOption);
     }
-    
+
     updatePromptTypeSelectIcon();
   });
 }
 
 function populateCustomPromptSelect() {
-  customPromptSelect.innerHTML = ''; // Clear existing options
+  customPromptSelect.innerHTML = ""; // Clear existing options
   chrome.storage.sync.get("customPrompts", (result) => {
     const customPrompts = result.customPrompts || {};
     for (const [value, instruction] of Object.entries(customPrompts)) {
       const option = document.createElement("option");
       option.value = value;
-      option.textContent = value.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase());
+      option.textContent = value
+        .replace(/_/g, " ")
+        .replace(/\b\w/g, (l) => l.toUpperCase());
       customPromptSelect.appendChild(option);
     }
   });
@@ -456,10 +537,11 @@ function populateCustomPromptSelect() {
 function removeCustomPrompt(name) {
   chrome.storage.sync.get("customPrompts", (result) => {
     const customPrompts = result.customPrompts || {};
-    const promptKey = Object.keys(customPrompts).find(key => 
-      key.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase()) === name
+    const promptKey = Object.keys(customPrompts).find(
+      (key) =>
+        key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()) === name
     );
-    
+
     if (promptKey) {
       delete customPrompts[promptKey];
       chrome.storage.sync.set({ customPrompts }, () => {
@@ -477,24 +559,25 @@ function removeCustomPrompt(name) {
 }
 
 function removeOptionFromSelect(selectElement, optionText) {
-  const optionToRemove = Array.from(selectElement.options).find(option => 
-    option.textContent === optionText
+  const optionToRemove = Array.from(selectElement.options).find(
+    (option) => option.textContent === optionText
   );
   if (optionToRemove) {
     selectElement.removeChild(optionToRemove);
   }
 }
 
-
 function addCustomPrompt(name, instruction) {
   const option = document.createElement("option");
   option.value = name.toLowerCase().replace(/\s+/g, "_");
   option.textContent = name;
-  option.dataset.icon = 'resources/label.png';
+  option.dataset.icon = "resources/label.png";
 
   // Find the position to insert the new custom prompt
-  const firstDefaultOption = Array.from(promptTypeSelect.options).find(opt => !opt.value.startsWith('custom_'));
-  
+  const firstDefaultOption = Array.from(promptTypeSelect.options).find(
+    (opt) => !opt.value.startsWith("custom_")
+  );
+
   if (firstDefaultOption) {
     promptTypeSelect.insertBefore(option, firstDefaultOption);
   } else {
@@ -507,7 +590,7 @@ function addCustomPrompt(name, instruction) {
     customPrompts[option.value] = instruction;
     chrome.storage.sync.set({ customPrompts }, () => {
       console.log("Custom prompt saved");
-      
+
       // Update the custom prompt select if it exists
       const customPromptSelect = document.getElementById("customPromptSelect");
       if (customPromptSelect) {
@@ -522,106 +605,102 @@ function addCustomPrompt(name, instruction) {
   });
 }
 
+function openPromptSettingsPopup() {
+  const modal = document.createElement("div");
+  modal.style.position = "fixed";
+  modal.style.left = "0";
+  modal.style.top = "0";
+  modal.style.width = "100%";
+  modal.style.height = "100%";
+  modal.style.backgroundColor = "rgba(43, 43, 43, 0.9)";
+  modal.style.display = "flex";
+  modal.style.justifyContent = "center";
+  modal.style.alignItems = "center";
 
+  const form = document.createElement("form");
+  form.style.backgroundColor = "#f5f5dc";
+  form.style.padding = "20px";
+  form.style.borderRadius = "5px";
+  form.style.color = "#000000";
+  form.style.display = "flex";
+  form.style.flexDirection = "column";
+  form.style.gap = "10px";
 
-function addCustomPromptWithPopup() {
+  // Add 'X' button
+  const closeButton = document.createElement("button");
+  closeButton.textContent = "Click Background to cancel";
+  closeButton.style.position = "absolute";
+  closeButton.style.bottom = "10px";
+  closeButton.style.right = "10px";
+  closeButton.style.backgroundColor = "transparent";
+  closeButton.style.border = "none";
+  closeButton.style.fontSize = "20px";
+  closeButton.style.cursor = "pointer";
+  closeButton.style.color = "#fa2b39";
+  closeButton.style.zIndex = "1000";
+  modal.appendChild(closeButton);
 
+  const actionSelect = document.createElement("select");
+  actionSelect.style.padding = "5px";
+  actionSelect.style.borderRadius = "3px";
+  actionSelect.style.border = "1px solid #fa2b39";
+  actionSelect.style.backgroundColor = "#ffffff";
+  actionSelect.style.color = "#000000";
+  actionSelect.style.marginBottom = "10px";
 
-  const modal = document.createElement('div');
-  modal.style.position = 'fixed';
-  modal.style.left = '0';
-  modal.style.top = '0';
-  modal.style.width = '100%';
-  modal.style.height = '100%';
-  modal.style.backgroundColor = 'rgba(43, 43, 43, 0.9)';
-  modal.style.display = 'flex';
-  modal.style.justifyContent = 'center';
-  modal.style.alignItems = 'center';
-
-  const form = document.createElement('form');
-  form.style.backgroundColor = '#f5f5dc';
-  form.style.padding = '20px';
-  form.style.borderRadius = '5px';
-  form.style.color = '#000000';
-  form.style.display = 'flex';
-  form.style.flexDirection = 'column';
-  form.style.gap = '10px';
-
-// Add 'X' button
-const closeButton = document.createElement('button');
-closeButton.textContent = 'Click Background to cancel';
-closeButton.style.position = 'absolute';
-closeButton.style.bottom = '10px';
-closeButton.style.right = '10px';
-closeButton.style.backgroundColor = 'transparent';
-closeButton.style.border = 'none';
-closeButton.style.fontSize = '20px';
-closeButton.style.cursor = 'pointer';
-closeButton.style.color = '#fa2b39';
-closeButton.style.zIndex = '1000';
-modal.appendChild(closeButton);
-
-  const actionSelect = document.createElement('select');
-  actionSelect.style.padding = '5px';
-  actionSelect.style.borderRadius = '3px';
-  actionSelect.style.border = '1px solid #fa2b39';
-  actionSelect.style.backgroundColor = '#ffffff';
-  actionSelect.style.color = '#000000';
-  actionSelect.style.marginBottom = '10px';
-
-  const addOption = document.createElement('option');
-  addOption.value = 'add';
-  addOption.textContent = 'Add Custom Prompt';
+  const addOption = document.createElement("option");
+  addOption.value = "add";
+  addOption.textContent = "Add Custom Prompt";
   actionSelect.appendChild(addOption);
 
-  const removeOption = document.createElement('option');
-  removeOption.value = 'remove';
-  removeOption.textContent = 'Remove Custom Prompt';
+  const removeOption = document.createElement("option");
+  removeOption.value = "remove";
+  removeOption.textContent = "Remove Custom Prompt";
   actionSelect.appendChild(removeOption);
 
   form.appendChild(actionSelect);
 
-  const customPromptSelect = document.createElement('select');
-  customPromptSelect.style.padding = '5px';
-  customPromptSelect.style.borderRadius = '3px';
-  customPromptSelect.style.border = '1px solid #fa2b39';
-  customPromptSelect.style.backgroundColor = '#ffffff';
-  customPromptSelect.style.color = '#000000';
-  customPromptSelect.style.display = 'none';
+  const customPromptSelect = document.createElement("select");
+  customPromptSelect.style.padding = "5px";
+  customPromptSelect.style.borderRadius = "3px";
+  customPromptSelect.style.border = "1px solid #fa2b39";
+  customPromptSelect.style.backgroundColor = "#ffffff";
+  customPromptSelect.style.color = "#000000";
+  customPromptSelect.style.display = "none";
   form.appendChild(customPromptSelect);
 
-  const nameInput = document.createElement('input');
-  nameInput.type = 'text';
-  nameInput.placeholder = 'Enter prompt name';
+  const nameInput = document.createElement("input");
+  nameInput.type = "text";
+  nameInput.placeholder = "Enter prompt name";
   nameInput.required = true;
-  nameInput.style.padding = '5px';
-  nameInput.style.borderRadius = '3px';
-  nameInput.style.border = '1px solid #fa2b39';
-  nameInput.style.backgroundColor = '#ffffff';
-  nameInput.style.color = '#000000';
+  nameInput.style.padding = "5px";
+  nameInput.style.borderRadius = "3px";
+  nameInput.style.border = "1px solid #fa2b39";
+  nameInput.style.backgroundColor = "#ffffff";
+  nameInput.style.color = "#000000";
   form.appendChild(nameInput);
 
-  const instructionInput = document.createElement('textarea');
-  instructionInput.placeholder = 'Example: \n\nIn Spanish - Generate a product sheet';
+  const instructionInput = document.createElement("textarea");
+  instructionInput.placeholder =
+    "Example: \n\nIn Spanish - Generate a product sheet";
   instructionInput.required = true;
-  instructionInput.style.padding = '5px';
-  instructionInput.style.borderRadius = '3px';
-  instructionInput.style.border = '1px solid #fa2b39';
-  instructionInput.style.backgroundColor = '#ffffff';
-  instructionInput.style.color = '#000000';
-  instructionInput.style.minHeight = '100px';
+  instructionInput.style.padding = "5px";
+  instructionInput.style.borderRadius = "3px";
+  instructionInput.style.border = "1px solid #fa2b39";
+  instructionInput.style.backgroundColor = "#ffffff";
+  instructionInput.style.color = "#000000";
+  instructionInput.style.minHeight = "100px";
   form.appendChild(instructionInput);
 
-  const submitButton = document.createElement('button');
-  submitButton.textContent = 'Add Custom Prompt';
-  submitButton.style.backgroundColor = '#fa2b39';
-  submitButton.style.color = '#ffffff';
-  submitButton.style.border = 'none';
-  submitButton.style.padding = '10px';
-  submitButton.style.borderRadius = '3px';
-  submitButton.style.cursor = 'pointer';
+  const submitButton = document.createElement("button");
+  submitButton.textContent = "Add Custom Prompt";
+  submitButton.style.backgroundColor = "#fa2b39";
+  submitButton.style.color = "#ffffff";
+  submitButton.style.border = "none";
+  submitButton.style.padding = "10px";
+  submitButton.style.borderRadius = "3px";
+  submitButton.style.cursor = "pointer";
   form.appendChild(submitButton);
-
 
   modal.appendChild(form);
   document.body.appendChild(modal);
@@ -632,72 +711,69 @@ modal.appendChild(closeButton);
     for (const [value, instruction] of Object.entries(customPrompts)) {
       const option = document.createElement("option");
       option.value = value;
-      option.textContent = value.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase());
+      option.textContent = value
+        .replace(/_/g, " ")
+        .replace(/\b\w/g, (l) => l.toUpperCase());
       customPromptSelect.appendChild(option);
     }
   });
 
-  modal.addEventListener('click', function(e) {
+  modal.addEventListener("click", function (e) {
     if (e.target === modal) {
       document.body.removeChild(modal);
     }
   });
 
-  closeButton.addEventListener('click', function(e) {
+  closeButton.addEventListener("click", function (e) {
     e.preventDefault();
     document.body.removeChild(modal);
   });
-  
 
-  actionSelect.addEventListener('change', function() {
-    if (this.value === 'add') {
-      nameInput.style.display = 'block';
-      instructionInput.style.display = 'block';
-      customPromptSelect.style.display = 'none';
-      submitButton.textContent = 'Add Custom Prompt';
-      
+  actionSelect.addEventListener("change", function () {
+    if (this.value === "add") {
+      nameInput.style.display = "block";
+      instructionInput.style.display = "block";
+      customPromptSelect.style.display = "none";
+      submitButton.textContent = "Add Custom Prompt";
+
       // Remove required attribute when hidden
-      customPromptSelect.removeAttribute('required');
-      nameInput.setAttribute('required', '');
-      instructionInput.setAttribute('required', '');
-    } else if (this.value === 'remove') {
-      nameInput.style.display = 'none';
-      instructionInput.style.display = 'none';
-      customPromptSelect.style.display = 'block';
-      submitButton.textContent = 'Remove Custom Prompt';
-      
+      customPromptSelect.removeAttribute("required");
+      nameInput.setAttribute("required", "");
+      instructionInput.setAttribute("required", "");
+    } else if (this.value === "remove") {
+      nameInput.style.display = "none";
+      instructionInput.style.display = "none";
+      customPromptSelect.style.display = "block";
+      submitButton.textContent = "Remove Custom Prompt";
+
       // Remove required attribute when hidden
-      nameInput.removeAttribute('required');
-      instructionInput.removeAttribute('required');
-      customPromptSelect.setAttribute('required', '');
+      nameInput.removeAttribute("required");
+      instructionInput.removeAttribute("required");
+      customPromptSelect.setAttribute("required", "");
     }
   });
 
-  form.addEventListener('submit', function(e) {
+  form.addEventListener("submit", function (e) {
     e.preventDefault();
-    if (actionSelect.value === 'add') {
+    if (actionSelect.value === "add") {
       if (nameInput.value && instructionInput.value) {
         addCustomPrompt(nameInput.value, instructionInput.value);
         document.body.removeChild(modal);
       } else {
-        alert('Please fill in all fields');
+        alert("Please fill in all fields");
       }
-    } else if (actionSelect.value === 'remove') {
+    } else if (actionSelect.value === "remove") {
       if (customPromptSelect.value) {
-        removeCustomPrompt(customPromptSelect.options[customPromptSelect.selectedIndex].text);
+        removeCustomPrompt(
+          customPromptSelect.options[customPromptSelect.selectedIndex].text
+        );
         document.body.removeChild(modal);
       } else {
-        alert('Please select a prompt to remove');
+        alert("Please select a prompt to remove");
       }
     }
   });
-
 }
-
-
-
-
-
 
 function saveSessionData() {
   const data = {
@@ -705,55 +781,64 @@ function saveSessionData() {
     selectedPromptType: document.getElementById("promptTypeSelect").value,
     selectedAkashModel: document.getElementById("akashModelSelect").value,
     selectedClaudeModel: document.getElementById("claudeModelSelect").value,
-    selectedOpenRouterModel: document.getElementById("openrouterModelSelect").value,
+    selectedOpenRouterModel: document.getElementById("openrouterModelSelect")
+      .value,
     input: document.getElementById("promptInput").value,
-    answer: document.getElementById("promptAnswer").innerHTML
+    answer: document.getElementById("promptAnswer").innerHTML,
   };
 
-  chrome.storage.local.set({ sessionData: data }, function() {
-    console.log('Session data saved');
+  chrome.storage.local.set({ sessionData: data }, function () {
+    console.log("Session data saved");
   });
 }
 
 function loadSessionData() {
-  chrome.storage.local.get(['sessionData'], function(result) {
+  chrome.storage.local.get(["sessionData"], function (result) {
     if (result.sessionData) {
-      document.getElementById("apiSelect").value = result.sessionData.selectedAPI;
-      document.getElementById("promptTypeSelect").value = result.sessionData.selectedPromptType;
-      
+      document.getElementById("apiSelect").value =
+        result.sessionData.selectedAPI;
+      document.getElementById("promptTypeSelect").value =
+        result.sessionData.selectedPromptType;
+
       const akashModelSelect = document.getElementById("akashModelSelect");
       const claudeModelSelect = document.getElementById("claudeModelSelect");
-      const openrouterModelSelect = document.getElementById("openrouterModelSelect");
-      
-      akashModelSelect.style.display = 'none';
-      claudeModelSelect.style.display = 'none';
-      openrouterModelSelect.style.display = 'none';
+      const openrouterModelSelect = document.getElementById(
+        "openrouterModelSelect"
+      );
 
-      if (result.sessionData.selectedAPI === 'akash') {
-        akashModelSelect.style.display = 'block';
+      akashModelSelect.style.display = "none";
+      claudeModelSelect.style.display = "none";
+      openrouterModelSelect.style.display = "none";
+
+      if (result.sessionData.selectedAPI === "akash") {
+        akashModelSelect.style.display = "block";
         if (result.sessionData.selectedAkashModel) {
           akashModelSelect.value = result.sessionData.selectedAkashModel;
         }
-      } else if (result.sessionData.selectedAPI === 'claude') {
-        claudeModelSelect.style.display = 'block';
+      } else if (result.sessionData.selectedAPI === "claude") {
+        claudeModelSelect.style.display = "block";
         if (result.sessionData.selectedClaudeModel) {
           claudeModelSelect.value = result.sessionData.selectedClaudeModel;
         }
-      } else if (result.sessionData.selectedAPI === 'openrouter') {
-        openrouterModelSelect.style.display = 'block';
+      } else if (result.sessionData.selectedAPI === "openrouter") {
+        openrouterModelSelect.style.display = "block";
         if (result.sessionData.selectedOpenRouterModel) {
-          openrouterModelSelect.value = result.sessionData.selectedOpenRouterModel;
+          openrouterModelSelect.value =
+            result.sessionData.selectedOpenRouterModel;
         }
       }
-      
+
       document.getElementById("promptInput").value = result.sessionData.input;
-      document.getElementById("promptAnswer").innerHTML = result.sessionData.answer;
+      document.getElementById("promptAnswer").innerHTML =
+        result.sessionData.answer;
 
       // Apply the saved API icon
       const apiSelect = document.getElementById("apiSelect");
       const selectedOption = apiSelect.options[apiSelect.selectedIndex];
-      if (selectedOption && selectedOption.getAttribute('data-icon')) {
-        apiSelect.style.backgroundImage = `url('${selectedOption.getAttribute('data-icon')}')`;
+      if (selectedOption && selectedOption.getAttribute("data-icon")) {
+        apiSelect.style.backgroundImage = `url('${selectedOption.getAttribute(
+          "data-icon"
+        )}')`;
       }
 
       updatePromptTypeSelectIcon();
@@ -763,32 +848,38 @@ function loadSessionData() {
 }
 
 function saveInputAndAnswer() {
-  chrome.storage.local.set({
-    'savedPromptInput': promptInput.value,
-    'savedPromptAnswer': promptAnswerDiv.innerHTML
-  }, function() {
-    console.log('Input and answer saved');
-  });
+  chrome.storage.local.set(
+    {
+      savedPromptInput: promptInput.value,
+      savedPromptAnswer: promptAnswerDiv.innerHTML,
+    },
+    function () {
+      console.log("Input and answer saved");
+    }
+  );
 }
 
 function loadInputAndAnswer() {
-  chrome.storage.local.get(['savedPromptInput', 'savedPromptAnswer'], function(result) {
-    if (result.savedPromptInput) {
-      promptInput.value = result.savedPromptInput;
-    }
-    if (result.savedPromptAnswer) {
-      if (result.savedPromptAnswer.toLowerCase().includes('error:')) {
-        promptAnswerDiv.innerHTML = '';
-      } else {
-        promptAnswerDiv.innerHTML = result.savedPromptAnswer;
+  chrome.storage.local.get(
+    ["savedPromptInput", "savedPromptAnswer"],
+    function (result) {
+      if (result.savedPromptInput) {
+        promptInput.value = result.savedPromptInput;
+      }
+      if (result.savedPromptAnswer) {
+        if (result.savedPromptAnswer.toLowerCase().includes("error:")) {
+          promptAnswerDiv.innerHTML = "";
+        } else {
+          promptAnswerDiv.innerHTML = result.savedPromptAnswer;
+        }
       }
     }
-  });
+  );
 }
 function updatePromptTypeSelectIcon() {
-  const select = document.getElementById('promptTypeSelect');
+  const select = document.getElementById("promptTypeSelect");
   const selectedOption = select.options[select.selectedIndex];
-  const icon = selectedOption.getAttribute('data-icon');
+  const icon = selectedOption.getAttribute("data-icon");
   select.style.backgroundImage = `url('${icon}')`;
 }
 
@@ -813,13 +904,12 @@ async function extractTextFromPage() {
   });
 }
 function checkApiKeysAndPulsate() {
-
   if (ANTHROPIC_API_KEY || AKASH_API_KEY || OPENROUTER_API_KEY) {
-    console.log('At least one API key is set, removing pulsate class');
-    optionsLink.classList.remove('pulsate');
+    console.log("At least one API key is set, removing pulsate class");
+    optionsLink.classList.remove("pulsate");
   } else {
-    console.warn('No API keys are set, adding pulsate class');
-    optionsLink.classList.add('pulsate');
+    console.warn("No API keys are set, adding pulsate class");
+    optionsLink.classList.add("pulsate");
   }
 }
 async function retrieveTranscript(youtubeLink) {
@@ -878,140 +968,144 @@ function compareTracks(track1, track2) {
 }
 
 function showLoadingSpinner() {
-  promptAnswerDiv.innerHTML = '<div class="spinner-container"><div class="spinner"></div></div>';
-  const spinnerContainer = promptAnswerDiv.querySelector('.spinner-container');
-  spinnerContainer.style.display = 'flex';
-  spinnerContainer.style.justifyContent = 'center';
-  spinnerContainer.style.alignItems = 'center';
-  spinnerContainer.style.height = '100%';
-  spinnerContainer.style.width = '100%';
-  spinnerContainer.style.padding = '5px';
-  spinnerContainer.style.padding = '20px 5px 5px 5px';
-  spinnerContainer.style.opacity = '0';
-  spinnerContainer.style.transition = 'opacity 0.5s ease-in-out';
+  promptAnswerDiv.innerHTML =
+    '<div class="spinner-container"><div class="spinner"></div></div>';
+  const spinnerContainer = promptAnswerDiv.querySelector(".spinner-container");
+  spinnerContainer.style.display = "flex";
+  spinnerContainer.style.justifyContent = "center";
+  spinnerContainer.style.alignItems = "center";
+  spinnerContainer.style.height = "100%";
+  spinnerContainer.style.width = "100%";
+  spinnerContainer.style.padding = "5px";
+  spinnerContainer.style.padding = "20px 5px 5px 5px";
+  spinnerContainer.style.opacity = "0";
+  spinnerContainer.style.transition = "opacity 0.5s ease-in-out";
   setTimeout(() => {
-    spinnerContainer.style.opacity = '1';
+    spinnerContainer.style.opacity = "1";
   }, 50);
   return {
     hide: () => {
-      spinnerContainer.style.opacity = '0';
-      return new Promise(resolve => setTimeout(() => {
-        promptAnswerDiv.innerHTML = '';
-        resolve();
-      }, 500));
-    }
+      spinnerContainer.style.opacity = "0";
+      return new Promise((resolve) =>
+        setTimeout(() => {
+          promptAnswerDiv.innerHTML = "";
+          resolve();
+        }, 500)
+      );
+    },
   };
 }
 
 function displayPromptAnswer(promptAnswer) {
-  promptAnswerDiv.innerHTML = '';
-  
-  const answerElement = document.createElement('div');
+  promptAnswerDiv.innerHTML = "";
+
+  const answerElement = document.createElement("div");
   answerElement.innerHTML = promptAnswer;
-  answerElement.style.paddingTop = '10px'; // add top padding
+  answerElement.style.paddingTop = "10px"; // add top padding
   promptAnswerDiv.appendChild(answerElement);
   displayPromptTypeTitle();
+}
+function displayPromptTypeTitle() {
+  // Remove existing prompt title if it exists
+  const existingTitle = document.querySelector("h3.prompt-type-title");
+  if (existingTitle) {
+    existingTitle.remove();
   }
-  function displayPromptTypeTitle() {
-    // Remove existing prompt title if it exists
-    const existingTitle = document.querySelector('h3.prompt-type-title');
-    if (existingTitle) {
-      existingTitle.remove();
-    }
-  
-    const titleElement = document.createElement('h3');
-    titleElement.textContent = promptTypeSelect.options[promptTypeSelect.selectedIndex].text;
-    titleElement.style.color = '#fa2b39';
-    titleElement.style.textAlign = 'center';
-    titleElement.style.margin = '0';
-    titleElement.style.paddingTop = '10px';
-    titleElement.classList.add('prompt-type-title'); // Add a class for easy identification
-    poweredByProp.insertAdjacentElement('afterend', titleElement);
-  }
-  
-function renderPoweredByProp() {
-  poweredByProp.innerHTML = '';
-  const answerElement = document.createElement('div');
 
-  answerElement.style.display = 'flex';
-  answerElement.style.justifyContent = 'center';
-  answerElement.style.alignItems = 'center';
+  const titleElement = document.createElement("h3");
+  titleElement.textContent =
+    promptTypeSelect.options[promptTypeSelect.selectedIndex].text;
+  titleElement.style.color = "#fa2b39";
+  titleElement.style.textAlign = "center";
+  titleElement.style.margin = "0";
+  titleElement.style.paddingTop = "10px";
+  titleElement.classList.add("prompt-type-title"); // Add a class for easy identification
+  poweredByProp.insertAdjacentElement("afterend", titleElement);
+}
+
+function renderPoweredByProp() {
+  poweredByProp.innerHTML = "";
+  const answerElement = document.createElement("div");
+
+  answerElement.style.display = "flex";
+  answerElement.style.justifyContent = "center";
+  answerElement.style.alignItems = "center";
 
   const selectedAPI = getSelectedAPI();
-  if (selectedAPI === 'akash') {
-    const link = document.createElement('a');
-    link.href = 'https://akash.network/';
-    link.target = '_blank';
-    link.style.textDecoration = 'none';
-    link.style.color = 'inherit';
-    link.style.display = 'flex';
-    link.style.alignItems = 'center';
+  if (selectedAPI === "akash") {
+    const link = document.createElement("a");
+    link.href = "https://akash.network/";
+    link.target = "_blank";
+    link.style.textDecoration = "none";
+    link.style.color = "inherit";
+    link.style.display = "flex";
+    link.style.alignItems = "center";
 
-    const logo = document.createElement('img');
-    logo.src = 'resources/akash_small_icon.jpg';
-    logo.alt = 'Akash Logo';
-    logo.style.width = '20px';
-    logo.style.marginLeft = '5px';
-    logo.style.verticalAlign = 'middle';
+    const logo = document.createElement("img");
+    logo.src = "resources/akash_small_icon.jpg";
+    logo.alt = "Akash Logo";
+    logo.style.width = "20px";
+    logo.style.marginLeft = "5px";
+    logo.style.verticalAlign = "middle";
 
-    const titleSpan = document.createElement('span');
+    const titleSpan = document.createElement("span");
     titleSpan.textContent = "Powered by Akash Network";
-    
+
     link.appendChild(titleSpan);
     link.appendChild(logo);
     answerElement.appendChild(link);
-  } else if (selectedAPI === 'claude') {
-    const link = document.createElement('a');
-    link.href = 'https://www.anthropic.com/';
-    link.target = '_blank';
-    link.style.textDecoration = 'none';
-    link.style.color = 'inherit';
-    link.style.display = 'flex';
-    link.style.alignItems = 'center';
+  } else if (selectedAPI === "claude") {
+    const link = document.createElement("a");
+    link.href = "https://www.anthropic.com/";
+    link.target = "_blank";
+    link.style.textDecoration = "none";
+    link.style.color = "inherit";
+    link.style.display = "flex";
+    link.style.alignItems = "center";
 
-    const logo = document.createElement('img');
-    logo.src = 'resources/anthropic_small_icon.jpg';
-    logo.alt = 'Claude Logo';
-    logo.style.width = '20px';
-    logo.style.marginLeft = '5px';
-    logo.style.verticalAlign = 'middle';
+    const logo = document.createElement("img");
+    logo.src = "resources/anthropic_small_icon.jpg";
+    logo.alt = "Claude Logo";
+    logo.style.width = "20px";
+    logo.style.marginLeft = "5px";
+    logo.style.verticalAlign = "middle";
 
-    const titleSpan = document.createElement('span');
+    const titleSpan = document.createElement("span");
     titleSpan.textContent = "Powered by Claude";
-    
+
     link.appendChild(titleSpan);
     link.appendChild(logo);
     answerElement.appendChild(link);
-  } else if (selectedAPI === 'openrouter') {
-    const link = document.createElement('a');
-    link.href = 'https://openrouter.ai/';
-    link.target = '_blank';
-    link.style.textDecoration = 'none';
-    link.style.color = 'inherit';
-    link.style.display = 'flex';
-    link.style.alignItems = 'center';
+  } else if (selectedAPI === "openrouter") {
+    const link = document.createElement("a");
+    link.href = "https://openrouter.ai/";
+    link.target = "_blank";
+    link.style.textDecoration = "none";
+    link.style.color = "inherit";
+    link.style.display = "flex";
+    link.style.alignItems = "center";
 
-    const logo = document.createElement('img');
-    logo.src = 'resources/openrouter_small_icon.jpg';
-    logo.alt = 'OpenRouter Logo';
-    logo.style.width = '20px';
-    logo.style.marginLeft = '5px';
-    logo.style.verticalAlign = 'middle';
+    const logo = document.createElement("img");
+    logo.src = "resources/openrouter_small_icon.jpg";
+    logo.alt = "OpenRouter Logo";
+    logo.style.width = "20px";
+    logo.style.marginLeft = "5px";
+    logo.style.verticalAlign = "middle";
 
-    const titleSpan = document.createElement('span');
+    const titleSpan = document.createElement("span");
     titleSpan.textContent = "Powered by OpenRouter";
-    
+
     link.appendChild(titleSpan);
     link.appendChild(logo);
     answerElement.appendChild(link);
   }
 
-  answerElement.style.opacity = '0';
-  answerElement.style.transition = 'opacity 0.5s ease-in';
+  answerElement.style.opacity = "0";
+  answerElement.style.transition = "opacity 0.5s ease-in";
   poweredByProp.appendChild(answerElement);
 
   setTimeout(() => {
-    answerElement.style.opacity = '1';
+    answerElement.style.opacity = "1";
   }, 50);
 }
 function displayError(message) {
@@ -1025,7 +1119,7 @@ function handleError(error) {
 
 async function promptAI(text) {
   console.log("Entering promptAI function");
-  promptAnswerDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  promptAnswerDiv.scrollIntoView({ behavior: "smooth", block: "start" });
   const selectedAPI = getSelectedAPI();
   console.log(`Selected API: ${selectedAPI}`);
 
@@ -1041,7 +1135,9 @@ async function promptAI(text) {
       result = await promptAkash(text, akashModel);
     } else if (selectedAPI === "openrouter") {
       console.log("Using OpenRouter API");
-      const openrouterModel = document.getElementById("openrouterModelSelect").value;
+      const openrouterModel = document.getElementById(
+        "openrouterModelSelect"
+      ).value;
       result = await promptOpenRouter(text, openrouterModel);
     } else {
       throw new Error("Invalid API selected");
@@ -1138,23 +1234,23 @@ async function promptAkash(text, akashModel) {
   }
 }
 
-async function promptOpenRouter(prompt) {
+async function promptOpenRouter(prompt, openrouterModel) {
   if (!OPENROUTER_API_KEY) {
-    throw new Error('OpenRouter API key is not set');
+    throw new Error("OpenRouter API key is not set");
   }
 
-  const model = document.getElementById('openrouterModelSelect').value;
+  const model = document.getElementById("openrouterModelSelect").value;
 
   const response = await fetch(OPENROUTER_API_URL, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${OPENROUTER_API_KEY}`
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${OPENROUTER_API_KEY}`,
     },
     body: JSON.stringify({
       model: model,
-      messages: [{ role: 'user', content: prompt }]
-    })
+      messages: [{ role: "user", content: prompt }],
+    }),
   });
 
   if (!response.ok) {
