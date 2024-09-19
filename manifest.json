@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Spectral Scribe - AI-Powered Text Analysis",
   "version": "1.4.2",
-  "description": "Easily extract insights from YouTube video transcripts, Twitter threads, web pages, and more. Our extension utilizes the latest Llama3-8b and Claude models from Akash Network and Anthropic, providing you with a comprehensive suite of text analysis tools.",
+  "description": "AI-driven text analysis tools for processing and analyzing text from web pages, YouTube videos, and user input.",
   "default_locale": "en",
   "permissions": [
     "activeTab",
