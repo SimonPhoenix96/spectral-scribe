@@ -1,95 +1,95 @@
 {
   "processPrompt": {
-    "message": "Process Prompt (CTRL-Enter)"
+    "message": "Обробити запит (CTRL-Enter)"
   },
   "copyButton": {
-    "message": "Copy prompt answer"
+    "message": "Копіювати відповідь на запит"
   },
   "clearButton": {
-    "message": "Clear input and answer"
+    "message": "Очистити введення та відповідь"
   },
   "languageToggle": {
-    "message": "Toggle Language"
+    "message": "Перемкнути мову"
   },
   "extractTranscript": {
-    "message": "Extract YouTube Video Transcript"
+    "message": "Витягти транскрипцію відео YouTube"
   },
   "extractHtmlText": {
-    "message": "Extract Text from Web Page"
+    "message": "Витягти текст з веб-сторінки"
   },
   "openSettings": {
-    "message": "Open Settings"
+    "message": "Відкрити налаштування"
   },
   "manualPrompt": {
-    "message": "Manual Prompt"
+    "message": "Ручний запит"
   },
   "generateBulletPoints": {
-    "message": "Generate Bullet Points"
+    "message": "Згенерувати маркери"
   },
   "extractKeyInsights": {
-    "message": "Extract Key Insights"
+    "message": "Витягти ключові ідеї"
   },
   "explainSimply": {
-    "message": "Explain Simply"
+    "message": "Пояснити просто"
   },
   "analyzeTopics": {
-    "message": "Analyze Topics"
+    "message": "Проаналізувати теми"
   },
   "analyzeSentiment": {
-    "message": "Analyze Sentiment"
+    "message": "Проаналізувати настрій"
   },
   "extractKeywords": {
-    "message": "Extract Keywords"
+    "message": "Витягти ключові слова"
   },
   "translateLanguage": {
-    "message": "Translate Language"
+    "message": "Перекласти мову"
   },
   "summarizeText": {
-    "message": "Summarize Text"
+    "message": "Підсумувати текст"
   },
   "generateQuiz": {
-    "message": "Generate Quiz"
+    "message": "Згенерувати вікторину"
   },
   "explainLikeImFive": {
-    "message": "Explain Like I'm Five"
+    "message": "Поясніть, ніби мені п'ять"
   },
   "findLogicalFallacies": {
-    "message": "Find Logical Fallacies"
+    "message": "Знайти логічні помилки"
   },
   "generateAnalogy": {
-    "message": "Generate Analogy"
+    "message": "Згенерувати аналогію"
   },
   "historicalContext": {
-    "message": "Historical Context"
+    "message": "Історичний контекст"
   },
   "generateEssayOutline": {
-    "message": "Generate Essay Outline"
+    "message": "Згенерувати план есе"
   },
   "generateProductSheet": {
-    "message": "Generate Product Sheet"
+    "message": "Згенерувати лист продукту"
   },
   "timeManagement": {
-    "message": "Time Management"
+    "message": "Управління часом"
   },
   "recipeSuggestions": {
-    "message": "Recipe Suggestions"
+    "message": "Пропозиції рецептів"
   },
   "summarizeThread": {
-    "message": "Summarize Thread"
+    "message": "Підсумувати тред"
   },
   "checkIfAIGenerated": {
-    "message": "Check if AI Generated"
+    "message": "Перевірити, чи згенеровано ШІ"
   },
   "findBotPosts": {
-    "message": "Find Bot Posts"
+    "message": "Знайти дописи ботів"
   },
   "findTrollPosts": {
-    "message": "Find Troll Posts"
+    "message": "Знайти дописи тролів"
   },
   "findMisinformation": {
-    "message": "Find Misinformation"
+    "message": "Знайти дезінформацію"
   },
   "findSourcestoClaims": {
-    "message": "Find Sources to Claims"
+    "message": "Знайти джерела для тверджень"
   }
 }
