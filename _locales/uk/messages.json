@@ -1,0 +1,95 @@
+{
+  "processPrompt": {
+    "message": "Process Prompt (CTRL-Enter)"
+  },
+  "copyButton": {
+    "message": "Copy prompt answer"
+  },
+  "clearButton": {
+    "message": "Clear input and answer"
+  },
+  "languageToggle": {
+    "message": "Toggle Language"
+  },
+  "extractTranscript": {
+    "message": "Extract YouTube Video Transcript"
+  },
+  "extractHtmlText": {
+    "message": "Extract Text from Web Page"
+  },
+  "openSettings": {
+    "message": "Open Settings"
+  },
+  "manualPrompt": {
+    "message": "Manual Prompt"
+  },
+  "generateBulletPoints": {
+    "message": "Generate Bullet Points"
+  },
+  "extractKeyInsights": {
+    "message": "Extract Key Insights"
+  },
+  "explainSimply": {
+    "message": "Explain Simply"
+  },
+  "analyzeTopics": {
+    "message": "Analyze Topics"
+  },
+  "analyzeSentiment": {
+    "message": "Analyze Sentiment"
+  },
+  "extractKeywords": {
+    "message": "Extract Keywords"
+  },
+  "translateLanguage": {
+    "message": "Translate Language"
+  },
+  "summarizeText": {
+    "message": "Summarize Text"
+  },
+  "generateQuiz": {
+    "message": "Generate Quiz"
+  },
+  "explainLikeImFive": {
+    "message": "Explain Like I'm Five"
+  },
+  "findLogicalFallacies": {
+    "message": "Find Logical Fallacies"
+  },
+  "generateAnalogy": {
+    "message": "Generate Analogy"
+  },
+  "historicalContext": {
+    "message": "Historical Context"
+  },
+  "generateEssayOutline": {
+    "message": "Generate Essay Outline"
+  },
+  "generateProductSheet": {
+    "message": "Generate Product Sheet"
+  },
+  "timeManagement": {
+    "message": "Time Management"
+  },
+  "recipeSuggestions": {
+    "message": "Recipe Suggestions"
+  },
+  "summarizeThread": {
+    "message": "Summarize Thread"
+  },
+  "checkIfAIGenerated": {
+    "message": "Check if AI Generated"
+  },
+  "findBotPosts": {
+    "message": "Find Bot Posts"
+  },
+  "findTrollPosts": {
+    "message": "Find Troll Posts"
+  },
+  "findMisinformation": {
+    "message": "Find Misinformation"
+  },
+  "findSourcestoClaims": {
+    "message": "Find Sources to Claims"
+  }
+}
