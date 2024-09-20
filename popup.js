@@ -512,7 +512,7 @@ function loadCustomPrompts() {
       option.value = value;
       option.textContent = value
         .replace(/_/g, " ")
-        .replace(/\b\w/g, (l) => l.toUpperCase());
+        .replace(/\b\w/g, (l) => l);
       option.dataset.icon = "resources/custom_prompt_icon.png";
       promptTypeSelect.insertBefore(option, firstDefaultOption);
     }
@@ -529,12 +529,19 @@ function loadCustomModels() {
       const modelSelect = document.getElementById(`${api}ModelSelect`);
       const firstDefaultOption = modelSelect.firstChild;
 
+      // Remove existing custom options
+      Array.from(modelSelect.options).forEach(option => {
+        if (option.value.startsWith('custom_')) {
+          modelSelect.removeChild(option);
+        }
+      });
+
       for (const model of models) {
         const option = document.createElement("option");
         option.value = model;
         option.textContent = model
           .replace(/_/g, " ")
-          .replace(/\b\w/g, (l) => l.toUpperCase());
+          .replace(/\b\w/g, (l) => l);
         option.dataset.icon = "resources/custom_model_icon.png";
         modelSelect.insertBefore(option, firstDefaultOption);
       }
@@ -555,7 +562,7 @@ function populateCustomPromptSelect() {
       option.value = value;
       option.textContent = value
         .replace(/_/g, " ")
-        .replace(/\b\w/g, (l) => l.toUpperCase());
+        .replace(/\b\w/g, (l) => l);
       customPromptSelect.appendChild(option);
     }
   });
@@ -565,7 +572,7 @@ function removeCustomPrompt(name) {
     const customPrompts = result.customPrompts || {};
     const promptKey = Object.keys(customPrompts).find(
       (key) =>
-        key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()) === name
+        key.replace(/_/g, " ").replace(/\b\w/g, (l) => l) === name
     );
 
     if (promptKey) {
@@ -623,7 +630,7 @@ function removeCustomModel(name) {
     
     for (const apiSelect of apiSelects) {
       const modelKey = customModels[apiSelect].find(
-        (key) => key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()) === name
+        (key) => key.replace(/_/g, " ").replace(/\b\w/g, (l) => l) === name
       );
 
       if (modelKey) {
@@ -670,8 +677,18 @@ function removePromptTypeOptionFromSelect(selectElement, optionText) {
 }
 
 function addCustomPrompt(name, instruction) {
+  // Check if the prompt already exists
+  const existingOption = Array.from(promptTypeSelect.options).find(
+    (option) => option.value === name.replace(/\s+/g, "_")
+  );
+
+  if (existingOption) {
+    console.log("Custom prompt already exists:", name);
+    return; // Exit the function if the prompt already exists
+  }
+
   const option = document.createElement("option");
-  option.value = name.toLowerCase().replace(/\s+/g, "_");
+  option.value = name.replace(/\s+/g, "_");
   option.textContent = name;
   option.dataset.icon = "resources/label.png";
 
@@ -820,7 +837,7 @@ function openPromptAndModelSettingsPopup() {
   ["akash", "claude", "openrouter"].forEach(api => {
     const option = document.createElement("option");
     option.value = api;
-    option.textContent = api.charAt(0).toUpperCase() + api.slice(1);
+    option.textContent = api.charAt(0) + api.slice(1);
     apiSelect.appendChild(option);
   });
   form.appendChild(apiSelect);
@@ -846,7 +863,7 @@ function openPromptAndModelSettingsPopup() {
     for (const [value, instruction] of Object.entries(customPrompts)) {
       const option = document.createElement("option");
       option.value = value;
-      option.textContent = value.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
+      option.textContent = value.replace(/_/g, " ").replace(/\b\w/g, (l) => l);
       customPromptSelect.appendChild(option);
     }
 
@@ -854,7 +871,7 @@ function openPromptAndModelSettingsPopup() {
       customModels[api].forEach(model => {
         const option = document.createElement("option");
         option.value = model;
-        option.textContent = model.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
+        option.textContent = model.replace(/_/g, " ").replace(/\b\w/g, (l) => l);
         customModelSelect.appendChild(option);
       });
     }
@@ -956,71 +973,39 @@ function loadSessionData() {
       claudeModelSelect.style.display = "none";
       openrouterModelSelect.style.display = "none";
 
-      // Load custom models
-      chrome.storage.sync.get(["customModels"], function (customModelsResult) {
-        const customModels = customModelsResult.customModels || {};
-
-        if (result.sessionData.selectedAPI === "akash") {
-          akashModelSelect.style.display = "block";
-          // Add custom Akash models
-          if (customModels.akash) {
-            customModels.akash.forEach(model => {
-              const option = document.createElement("option");
-              option.value = model;
-              option.textContent = model;
-              akashModelSelect.appendChild(option);
-            });
-          }
-          if (result.sessionData.selectedAkashModel) {
-            akashModelSelect.value = result.sessionData.selectedAkashModel;
-          }
-        } else if (result.sessionData.selectedAPI === "claude") {
-          claudeModelSelect.style.display = "block";
-          // Add custom Claude models
-          if (customModels.claude) {
-            customModels.claude.forEach(model => {
-              const option = document.createElement("option");
-              option.value = model;
-              option.textContent = model;
-              claudeModelSelect.appendChild(option);
-            });
-          }
-          if (result.sessionData.selectedClaudeModel) {
-            claudeModelSelect.value = result.sessionData.selectedClaudeModel;
-          }
-        } else if (result.sessionData.selectedAPI === "openrouter") {
-          openrouterModelSelect.style.display = "block";
-          // Add custom OpenRouter models
-          if (customModels.openrouter) {
-            customModels.openrouter.forEach(model => {
-              const option = document.createElement("option");
-              option.value = model;
-              option.textContent = model;
-              openrouterModelSelect.appendChild(option);
-            });
-          }
-          if (result.sessionData.selectedOpenRouterModel) {
-            openrouterModelSelect.value =
-              result.sessionData.selectedOpenRouterModel;
-          }
+      if (result.sessionData.selectedAPI === "akash") {
+        akashModelSelect.style.display = "block";
+        if (result.sessionData.selectedAkashModel) {
+          akashModelSelect.value = result.sessionData.selectedAkashModel;
         }
-
-        document.getElementById("promptInput").value = result.sessionData.input;
-        document.getElementById("promptAnswer").innerHTML =
-          result.sessionData.answer;
-
-        // Apply the saved API icon
-        const apiSelect = document.getElementById("apiSelect");
-        const selectedOption = apiSelect.options[apiSelect.selectedIndex];
-        if (selectedOption && selectedOption.getAttribute("data-icon")) {
-          apiSelect.style.backgroundImage = `url('${selectedOption.getAttribute(
-            "data-icon"
-          )}')`;
+      } else if (result.sessionData.selectedAPI === "claude") {
+        claudeModelSelect.style.display = "block";
+        if (result.sessionData.selectedClaudeModel) {
+          claudeModelSelect.value = result.sessionData.selectedClaudeModel;
         }
+      } else if (result.sessionData.selectedAPI === "openrouter") {
+        openrouterModelSelect.style.display = "block";
+        if (result.sessionData.selectedOpenRouterModel) {
+          openrouterModelSelect.value =
+            result.sessionData.selectedOpenRouterModel;
+        }
+      }
 
-        updatePromptTypeSelectIcon();
-        renderPoweredByProp();
-      });
+      document.getElementById("promptInput").value = result.sessionData.input;
+      document.getElementById("promptAnswer").innerHTML =
+        result.sessionData.answer;
+
+      // Apply the saved API icon
+      const apiSelect = document.getElementById("apiSelect");
+      const selectedOption = apiSelect.options[apiSelect.selectedIndex];
+      if (selectedOption && selectedOption.getAttribute("data-icon")) {
+        apiSelect.style.backgroundImage = `url('${selectedOption.getAttribute(
+          "data-icon"
+        )}')`;
+      }
+
+      updatePromptTypeSelectIcon();
+      renderPoweredByProp();
     }
   });
 }
@@ -1045,7 +1030,7 @@ function loadInputAndAnswer() {
         promptInput.value = result.savedPromptInput;
       }
       if (result.savedPromptAnswer) {
-        if (result.savedPromptAnswer.toLowerCase().includes("error:")) {
+        if (result.savedPromptAnswer.includes("error:")) {
           promptAnswerDiv.innerHTML = "";
         } else {
           promptAnswerDiv.innerHTML = result.savedPromptAnswer;
