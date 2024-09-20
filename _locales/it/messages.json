@@ -1,0 +1,95 @@
+{
+  "processPrompt": {
+    "message": "Elabora Prompt (CTRL-Invio)"
+  },
+  "copyButton": {
+    "message": "Copia risposta del prompt"
+  },
+  "clearButton": {
+    "message": "Cancella input e risposta"
+  },
+  "languageToggle": {
+    "message": "Cambia Lingua"
+  },
+  "extractTranscript": {
+    "message": "Estrai Trascrizione Video YouTube"
+  },
+  "extractHtmlText": {
+    "message": "Estrai Testo dalla Pagina Web"
+  },
+  "openSettings": {
+    "message": "Apri Impostazioni"
+  },
+  "manualPrompt": {
+    "message": "Prompt Manuale"
+  },
+  "generateBulletPoints": {
+    "message": "Genera Elenco Puntato"
+  },
+  "extractKeyInsights": {
+    "message": "Estrai Informazioni Chiave"
+  },
+  "explainSimply": {
+    "message": "Spiega Semplicemente"
+  },
+  "analyzeTopics": {
+    "message": "Analizza Argomenti"
+  },
+  "analyzeSentiment": {
+    "message": "Analizza Sentimento"
+  },
+  "extractKeywords": {
+    "message": "Estrai Parole Chiave"
+  },
+  "translateLanguage": {
+    "message": "Traduci Lingua"
+  },
+  "summarizeText": {
+    "message": "Riassumi Testo"
+  },
+  "generateQuiz": {
+    "message": "Genera Quiz"
+  },
+  "explainLikeImFive": {
+    "message": "Spiega Come se Avessi Cinque Anni"
+  },
+  "findLogicalFallacies": {
+    "message": "Trova Fallacie Logiche"
+  },
+  "generateAnalogy": {
+    "message": "Genera Analogia"
+  },
+  "historicalContext": {
+    "message": "Contesto Storico"
+  },
+  "generateEssayOutline": {
+    "message": "Genera Schema del Saggio"
+  },
+  "generateProductSheet": {
+    "message": "Genera Scheda Prodotto"
+  },
+  "timeManagement": {
+    "message": "Gestione del Tempo"
+  },
+  "recipeSuggestions": {
+    "message": "Suggerimenti per Ricette"
+  },
+  "summarizeThread": {
+    "message": "Riassumi Discussione"
+  },
+  "checkIfAIGenerated": {
+    "message": "Verifica se Generato da IA"
+  },
+  "findBotPosts": {
+    "message": "Trova Post di Bot"
+  },
+  "findTrollPosts": {
+    "message": "Trova Post di Troll"
+  },
+  "findMisinformation": {
+    "message": "Trova Disinformazione"
+  },
+  "findSourcestoClaims": {
+    "message": "Trova Fonti delle Affermazioni"
+  }
+}

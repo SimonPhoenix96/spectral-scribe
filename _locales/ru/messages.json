@@ -1,0 +1,95 @@
+{
+    "processPrompt": {
+    "message": "Обработать Промп"
+    },
+    "copyButton": {
+    "message": "Скопировать ответ на промп"
+    },
+    "clearButton": {
+    "message": "Очистить входной текст и ответ"
+    },
+    "languageToggle": {
+    "message": "Переключение языка"
+    },
+    "extractTranscript": {
+    "message": "Извлечь транскрипт видео YouTube"
+    },
+    "extractHtmlText": {
+    "message": "Извлечь текст с веб-страницы"
+    },
+    "openSettings": {
+    "message": "Открыть настройки"
+    },
+    "manualPrompt": {
+    "message": "Ручной промп"
+    },
+    "generateBulletPoints": {
+    "message": "Генерация маркированных списков"
+    },
+    "extractKeyInsights": {
+    "message": "Извлечь ключевые выводы"
+    },
+    "explainSimply": {
+    "message": "Объяснить простыми словами"
+    },
+    "analyzeTopics": {
+    "message": "Анализировать темы"
+    },
+    "analyzeSentiment": {
+    "message": "Анализировать сентимент"
+    },
+    "extractKeywords": {
+    "message": "Извлечь ключевые слова"
+    },
+    "translateLanguage": {
+    "message": "Перевести язык"
+    },
+    "summarizeText": {
+    "message": "Сократить текст"
+    },
+    "generateQuiz": {
+    "message": "Сгенерировать викторину"
+    },
+    "explainLikeImFive": {
+    "message": "Объяснить как пятилетнему"
+    },
+    "findLogicalFallacies": {
+    "message": "Найти логические ошибки"
+    },
+    "generateAnalogy": {
+    "message": "Сгенерировать аналогию"
+    },
+    "historicalContext": {
+    "message": "Исторический контекст"
+    },
+    "generateEssayOutline": {
+    "message": "Сгенерировать план для публикации"
+    },
+    "generateProductSheet": {
+    "message": "Сгенерировать лист продукта"
+    },
+    "timeManagement": {
+    "message": "Управление временем"
+    },
+    "recipeSuggestions": {
+    "message": "Рекомендации по рецептам"
+    },
+    "summarizeThread": {
+    "message": "Сократить тему"
+    },
+    "checkIfAIGenerated": {
+    "message": "Проверить если сгенерировано ЗИ"
+    },
+    "findBotPosts": {
+    "message": "Найти посты ботов"
+    },
+    "findTrollPosts": {
+    "message": "Найти троллинговые посты"
+    },
+    "findMisinformation": {
+    "message": "Найти ложную информацию"
+    },
+    "findSourcestoClaims": {
+    "message": "Найти источники к заявлениям"
+    }
+}

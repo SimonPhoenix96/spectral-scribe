@@ -1,0 +1,95 @@
+{
+  "processPrompt": {
+    "message": "Processar Prompt (CTRL-Enter)"
+  },
+  "copyButton": {
+    "message": "Copiar resposta do prompt"
+  },
+  "clearButton": {
+    "message": "Limpar entrada e resposta"
+  },
+  "languageToggle": {
+    "message": "Alternar Idioma"
+  },
+  "extractTranscript": {
+    "message": "Extrair Transcrição do Vídeo do YouTube"
+  },
+  "extractHtmlText": {
+    "message": "Extrair Texto da Página Web"
+  },
+  "openSettings": {
+    "message": "Abrir Configurações"
+  },
+  "manualPrompt": {
+    "message": "Prompt Manual"
+  },
+  "generateBulletPoints": {
+    "message": "Gerar Tópicos"
+  },
+  "extractKeyInsights": {
+    "message": "Extrair Insights Principais"
+  },
+  "explainSimply": {
+    "message": "Explicar Simplesmente"
+  },
+  "analyzeTopics": {
+    "message": "Analisar Tópicos"
+  },
+  "analyzeSentiment": {
+    "message": "Analisar Sentimento"
+  },
+  "extractKeywords": {
+    "message": "Extrair Palavras-chave"
+  },
+  "translateLanguage": {
+    "message": "Traduzir Idioma"
+  },
+  "summarizeText": {
+    "message": "Resumir Texto"
+  },
+  "generateQuiz": {
+    "message": "Gerar Questionário"
+  },
+  "explainLikeImFive": {
+    "message": "Explicar Como se Eu Tivesse Cinco Anos"
+  },
+  "findLogicalFallacies": {
+    "message": "Encontrar Falácias Lógicas"
+  },
+  "generateAnalogy": {
+    "message": "Gerar Analogia"
+  },
+  "historicalContext": {
+    "message": "Contexto Histórico"
+  },
+  "generateEssayOutline": {
+    "message": "Gerar Estrutura de Redação"
+  },
+  "generateProductSheet": {
+    "message": "Gerar Ficha de Produto"
+  },
+  "timeManagement": {
+    "message": "Gestão de Tempo"
+  },
+  "recipeSuggestions": {
+    "message": "Sugestões de Receitas"
+  },
+  "summarizeThread": {
+    "message": "Resumir Tópico"
+  },
+  "checkIfAIGenerated": {
+    "message": "Verificar se foi Gerado por IA"
+  },
+  "findBotPosts": {
+    "message": "Encontrar Posts de Bot"
+  },
+  "findTrollPosts": {
+    "message": "Encontrar Posts de Troll"
+  },
+  "findMisinformation": {
+    "message": "Encontrar Desinformação"
+  },
+  "findSourcestoClaims": {
+    "message": "Encontrar Fontes para Afirmações"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "processPrompt": {
+    "message": "প্রম্পট প্রক্রিয়া করুন (CTRL-Enter)"
+  },
+  "copyButton": {
+    "message": "প্রম্পট উত্তর কপি করুন"
+  },
+  "clearButton": {
+    "message": "ইনপুট এবং উত্তর মুছুন"
+  },
+  "languageToggle": {
+    "message": "ভাষা পরিবর্তন করুন"
+  },
+  "extractTranscript": {
+    "message": "ইউটিউব ভিডিও থেকে লিপি নিষ্কাশন করুন"
+  },
+  "extractHtmlText": {
+    "message": "ওয়েব পেজ থেকে টেক্সট নিষ্কাশন করুন"
+  },
+  "openSettings": {
+    "message": "সেটিংস খুলুন"
+  },
+  "manualPrompt": {
+    "message": "ম্যানুয়াল প্রম্পট"
+  },
+  "generateBulletPoints": {
+    "message": "বুলেট পয়েন্ট তৈরি করুন"
+  },
+  "extractKeyInsights": {
+    "message": "মূল অন্তর্দৃষ্টি নিষ্কাশন করুন"
+  },
+  "explainSimply": {
+    "message": "সহজভাবে ব্যাখ্যা করুন"
+  },
+  "analyzeTopics": {
+    "message": "বিষয়গুলি বিশ্লেষণ করুন"
+  },
+  "analyzeSentiment": {
+    "message": "মনোভাব বিশ্লেষণ করুন"
+  },
+  "extractKeywords": {
+    "message": "মূল শব্দ নিষ্কাশন করুন"
+  },
+  "translateLanguage": {
+    "message": "ভাষা অনুবাদ করুন"
+  },
+  "summarizeText": {
+    "message": "টেক্সট সংক্ষিপ্ত করুন"
+  },
+  "generateQuiz": {
+    "message": "কুইজ তৈরি করুন"
+  },
+  "explainLikeImFive": {
+    "message": "পাঁচ বছরের বাচ্চার মতো ব্যাখ্যা করুন"
+  },
+  "findLogicalFallacies": {
+    "message": "যুক্তিগত ত্রুটি খুঁজুন"
+  },
+  "generateAnalogy": {
+    "message": "অনুরূপতা তৈরি করুন"
+  },
+  "historicalContext": {
+    "message": "ঐতিহাসিক প্রেক্ষাপট"
+  },
+  "generateEssayOutline": {
+    "message": "প্রবন্ধের রূপরেখা তৈরি করুন"
+  },
+  "generateProductSheet": {
+    "message": "পণ্য বিবরণী তৈরি করুন"
+  },
+  "timeManagement": {
+    "message": "সময় ব্যবস্থাপনা"
+  },
+  "recipeSuggestions": {
+    "message": "রেসিপি পরামর্শ"
+  },
+  "summarizeThread": {
+    "message": "থ্রেড সংক্ষিপ্ত করুন"
+  },
+  "checkIfAIGenerated": {
+    "message": "AI দ্বারা তৈরি কিনা যাচাই করুন"
+  },
+  "findBotPosts": {
+    "message": "বট পোস্ট খুঁজুন"
+  },
+  "findTrollPosts": {
+    "message": "ট্রোল পোস্ট খুঁজুন"
+  },
+  "findMisinformation": {
+    "message": "ভুল তথ্য খুঁজুন"
+  },
+  "findSourcestoClaims": {
+    "message": "দাবির উৎস খুঁজুন"
+  }
+}

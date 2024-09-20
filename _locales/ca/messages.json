@@ -1,0 +1,95 @@
+{
+  "processPrompt": {
+    "message": "Processar petició (CTRL-Enter)"
+  },
+  "copyButton": {
+    "message": "Copiar resposta de la petició"
+  },
+  "clearButton": {
+    "message": "Esborrar entrada i resposta"
+  },
+  "languageToggle": {
+    "message": "Canviar idioma"
+  },
+  "extractTranscript": {
+    "message": "Extreure transcripció de vídeo de YouTube"
+  },
+  "extractHtmlText": {
+    "message": "Extreure text de la pàgina web"
+  },
+  "openSettings": {
+    "message": "Obrir configuració"
+  },
+  "manualPrompt": {
+    "message": "Petició manual"
+  },
+  "generateBulletPoints": {
+    "message": "Generar punts clau"
+  },
+  "extractKeyInsights": {
+    "message": "Extreure idees principals"
+  },
+  "explainSimply": {
+    "message": "Explicar simplement"
+  },
+  "analyzeTopics": {
+    "message": "Analitzar temes"
+  },
+  "analyzeSentiment": {
+    "message": "Analitzar sentiment"
+  },
+  "extractKeywords": {
+    "message": "Extreure paraules clau"
+  },
+  "translateLanguage": {
+    "message": "Traduir idioma"
+  },
+  "summarizeText": {
+    "message": "Resumir text"
+  },
+  "generateQuiz": {
+    "message": "Generar qüestionari"
+  },
+  "explainLikeImFive": {
+    "message": "Explicar com si tingués cinc anys"
+  },
+  "findLogicalFallacies": {
+    "message": "Trobar fal·làcies lògiques"
+  },
+  "generateAnalogy": {
+    "message": "Generar analogia"
+  },
+  "historicalContext": {
+    "message": "Context històric"
+  },
+  "generateEssayOutline": {
+    "message": "Generar esquema d'assaig"
+  },
+  "generateProductSheet": {
+    "message": "Generar full de producte"
+  },
+  "timeManagement": {
+    "message": "Gestió del temps"
+  },
+  "recipeSuggestions": {
+    "message": "Suggeriments de receptes"
+  },
+  "summarizeThread": {
+    "message": "Resumir fil de discussió"
+  },
+  "checkIfAIGenerated": {
+    "message": "Comprovar si és generat per IA"
+  },
+  "findBotPosts": {
+    "message": "Trobar publicacions de bots"
+  },
+  "findTrollPosts": {
+    "message": "Trobar publicacions de trolls"
+  },
+  "findMisinformation": {
+    "message": "Trobar desinformació"
+  },
+  "findSourcestoClaims": {
+    "message": "Trobar fonts de les afirmacions"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "processPrompt": {
+    "message": "معالجة الإدخال (CTRL-Enter)"
+  },
+  "copyButton": {
+    "message": "نسخ إجابة الإدخال"
+  },
+  "clearButton": {
+    "message": "مسح الإدخال والإجابة"
+  },
+  "languageToggle": {
+    "message": "تبديل اللغة"
+  },
+  "extractTranscript": {
+    "message": "استخراج نص فيديو يوتيوب"
+  },
+  "extractHtmlText": {
+    "message": "استخراج النص من صفحة الويب"
+  },
+  "openSettings": {
+    "message": "فتح الإعدادات"
+  },
+  "manualPrompt": {
+    "message": "إدخال يدوي"
+  },
+  "generateBulletPoints": {
+    "message": "إنشاء نقاط رئيسية"
+  },
+  "extractKeyInsights": {
+    "message": "استخراج الأفكار الرئيسية"
+  },
+  "explainSimply": {
+    "message": "شرح بسيط"
+  },
+  "analyzeTopics": {
+    "message": "تحليل المواضيع"
+  },
+  "analyzeSentiment": {
+    "message": "تحليل المشاعر"
+  },
+  "extractKeywords": {
+    "message": "استخراج الكلمات المفتاحية"
+  },
+  "translateLanguage": {
+    "message": "ترجمة اللغة"
+  },
+  "summarizeText": {
+    "message": "تلخيص النص"
+  },
+  "generateQuiz": {
+    "message": "إنشاء اختبار"
+  },
+  "explainLikeImFive": {
+    "message": "اشرح كأني في الخامسة"
+  },
+  "findLogicalFallacies": {
+    "message": "البحث عن المغالطات المنطقية"
+  },
+  "generateAnalogy": {
+    "message": "إنشاء تشبيه"
+  },
+  "historicalContext": {
+    "message": "السياق التاريخي"
+  },
+  "generateEssayOutline": {
+    "message": "إنشاء مخطط مقال"
+  },
+  "generateProductSheet": {
+    "message": "إنشاء ورقة منتج"
+  },
+  "timeManagement": {
+    "message": "إدارة الوقت"
+  },
+  "recipeSuggestions": {
+    "message": "اقتراحات وصفات"
+  },
+  "summarizeThread": {
+    "message": "تلخيص المحادثة"
+  },
+  "checkIfAIGenerated": {
+    "message": "التحقق إذا كان منشأ بواسطة الذكاء الاصطناعي"
+  },
+  "findBotPosts": {
+    "message": "البحث عن منشورات البوت"
+  },
+  "findTrollPosts": {
+    "message": "البحث عن منشورات المتصيدين"
+  },
+  "findMisinformation": {
+    "message": "البحث عن معلومات مضللة"
+  },
+  "findSourcestoClaims": {
+    "message": "البحث عن مصادر للادعاءات"
+  }
+}

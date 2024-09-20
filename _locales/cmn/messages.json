@@ -1,0 +1,95 @@
+{
+  "processPrompt": {
+    "message": "处理提示（CTRL-Enter）"
+  },
+  "copyButton": {
+    "message": "复制提示答案"
+  },
+  "clearButton": {
+    "message": "清除输入和答案"
+  },
+  "languageToggle": {
+    "message": "切换语言"
+  },
+  "extractTranscript": {
+    "message": "提取YouTube视频字幕"
+  },
+  "extractHtmlText": {
+    "message": "从网页提取文本"
+  },
+  "openSettings": {
+    "message": "打开设置"
+  },
+  "manualPrompt": {
+    "message": "手动提示"
+  },
+  "generateBulletPoints": {
+    "message": "生成要点"
+  },
+  "extractKeyInsights": {
+    "message": "提取关键洞察"
+  },
+  "explainSimply": {
+    "message": "简单解释"
+  },
+  "analyzeTopics": {
+    "message": "分析主题"
+  },
+  "analyzeSentiment": {
+    "message": "分析情感"
+  },
+  "extractKeywords": {
+    "message": "提取关键词"
+  },
+  "translateLanguage": {
+    "message": "翻译语言"
+  },
+  "summarizeText": {
+    "message": "总结文本"
+  },
+  "generateQuiz": {
+    "message": "生成测验"
+  },
+  "explainLikeImFive": {
+    "message": "像我五岁一样解释"
+  },
+  "findLogicalFallacies": {
+    "message": "寻找逻辑谬误"
+  },
+  "generateAnalogy": {
+    "message": "生成类比"
+  },
+  "historicalContext": {
+    "message": "历史背景"
+  },
+  "generateEssayOutline": {
+    "message": "生成论文大纲"
+  },
+  "generateProductSheet": {
+    "message": "生成产品说明书"
+  },
+  "timeManagement": {
+    "message": "时间管理"
+  },
+  "recipeSuggestions": {
+    "message": "菜谱建议"
+  },
+  "summarizeThread": {
+    "message": "总结主题"
+  },
+  "checkIfAIGenerated": {
+    "message": "检查是否由AI生成"
+  },
+  "findBotPosts": {
+    "message": "查找机器人帖子"
+  },
+  "findTrollPosts": {
+    "message": "查找恶意帖子"
+  },
+  "findMisinformation": {
+    "message": "查找错误信息"
+  },
+  "findSourcestoClaims": {
+    "message": "查找声明的来源"
+  }
+}

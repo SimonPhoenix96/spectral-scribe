@@ -1,0 +1,95 @@
+{
+  "processPrompt": {
+    "message": "Traiter la requête (CTRL-Entrée)"
+  },
+  "copyButton": {
+    "message": "Copier la réponse"
+  },
+  "clearButton": {
+    "message": "Effacer l'entrée et la réponse"
+  },
+  "languageToggle": {
+    "message": "Changer de langue"
+  },
+  "extractTranscript": {
+    "message": "Extraire la transcription de la vidéo YouTube"
+  },
+  "extractHtmlText": {
+    "message": "Extraire le texte de la page Web"
+  },
+  "openSettings": {
+    "message": "Ouvrir les paramètres"
+  },
+  "manualPrompt": {
+    "message": "Requête manuelle"
+  },
+  "generateBulletPoints": {
+    "message": "Générer des points clés"
+  },
+  "extractKeyInsights": {
+    "message": "Extraire les idées principales"
+  },
+  "explainSimply": {
+    "message": "Expliquer simplement"
+  },
+  "analyzeTopics": {
+    "message": "Analyser les sujets"
+  },
+  "analyzeSentiment": {
+    "message": "Analyser le sentiment"
+  },
+  "extractKeywords": {
+    "message": "Extraire les mots-clés"
+  },
+  "translateLanguage": {
+    "message": "Traduire la langue"
+  },
+  "summarizeText": {
+    "message": "Résumer le texte"
+  },
+  "generateQuiz": {
+    "message": "Générer un quiz"
+  },
+  "explainLikeImFive": {
+    "message": "Expliquer comme si j'avais cinq ans"
+  },
+  "findLogicalFallacies": {
+    "message": "Trouver les erreurs logiques"
+  },
+  "generateAnalogy": {
+    "message": "Générer une analogie"
+  },
+  "historicalContext": {
+    "message": "Contexte historique"
+  },
+  "generateEssayOutline": {
+    "message": "Générer un plan de dissertation"
+  },
+  "generateProductSheet": {
+    "message": "Générer une fiche produit"
+  },
+  "timeManagement": {
+    "message": "Gestion du temps"
+  },
+  "recipeSuggestions": {
+    "message": "Suggestions de recettes"
+  },
+  "summarizeThread": {
+    "message": "Résumer le fil de discussion"
+  },
+  "checkIfAIGenerated": {
+    "message": "Vérifier si c'est généré par l'IA"
+  },
+  "findBotPosts": {
+    "message": "Trouver les messages de bots"
+  },
+  "findTrollPosts": {
+    "message": "Trouver les messages de trolls"
+  },
+  "findMisinformation": {
+    "message": "Trouver la désinformation"
+  },
+  "findSourcestoClaims": {
+    "message": "Trouver les sources des affirmations"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "processPrompt": {
+    "message": "Przetwórz Prompt (CTRL-Enter)"
+  },
+  "copyButton": {
+    "message": "Kopiuj odpowiedź prompta"
+  },
+  "clearButton": {
+    "message": "Wyczyść wejście i odpowiedź"
+  },
+  "languageToggle": {
+    "message": "Przełącz Język"
+  },
+  "extractTranscript": {
+    "message": "Wyodrębnij Transkrypcję Filmu YouTube"
+  },
+  "extractHtmlText": {
+    "message": "Wyodrębnij Tekst ze Strony Internetowej"
+  },
+  "openSettings": {
+    "message": "Otwórz Ustawienia"
+  },
+  "manualPrompt": {
+    "message": "Ręczny Prompt"
+  },
+  "generateBulletPoints": {
+    "message": "Generuj Punktory"
+  },
+  "extractKeyInsights": {
+    "message": "Wyodrębnij Kluczowe Spostrzeżenia"
+  },
+  "explainSimply": {
+    "message": "Wyjaśnij Prosto"
+  },
+  "analyzeTopics": {
+    "message": "Analizuj Tematy"
+  },
+  "analyzeSentiment": {
+    "message": "Analizuj Sentyment"
+  },
+  "extractKeywords": {
+    "message": "Wyodrębnij Słowa Kluczowe"
+  },
+  "translateLanguage": {
+    "message": "Tłumacz Język"
+  },
+  "summarizeText": {
+    "message": "Podsumuj Tekst"
+  },
+  "generateQuiz": {
+    "message": "Generuj Quiz"
+  },
+  "explainLikeImFive": {
+    "message": "Wyjaśnij Jakbym Miał Pięć Lat"
+  },
+  "findLogicalFallacies": {
+    "message": "Znajdź Błędy Logiczne"
+  },
+  "generateAnalogy": {
+    "message": "Generuj Analogię"
+  },
+  "historicalContext": {
+    "message": "Kontekst Historyczny"
+  },
+  "generateEssayOutline": {
+    "message": "Generuj Konspekt Eseju"
+  },
+  "generateProductSheet": {
+    "message": "Generuj Kartę Produktu"
+  },
+  "timeManagement": {
+    "message": "Zarządzanie Czasem"
+  },
+  "recipeSuggestions": {
+    "message": "Sugestie Przepisów"
+  },
+  "summarizeThread": {
+    "message": "Podsumuj Wątek"
+  },
+  "checkIfAIGenerated": {
+    "message": "Sprawdź, czy Wygenerowane przez AI"
+  },
+  "findBotPosts": {
+    "message": "Znajdź Posty Botów"
+  },
+  "findTrollPosts": {
+    "message": "Znajdź Posty Trolli"
+  },
+  "findMisinformation": {
+    "message": "Znajdź Dezinformację"
+  },
+  "findSourcestoClaims": {
+    "message": "Znajdź Źródła do Twierdzeń"
+  }
+}

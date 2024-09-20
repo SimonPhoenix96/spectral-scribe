@@ -1,95 +1,95 @@
 {
   "processPrompt": {
-    "message": "Process Prompt (CTRL-Enter)"
+    "message": "प्रॉम्प्ट प्रोसेस करें (CTRL-Enter)"
   },
   "copyButton": {
-    "message": "Copy prompt answer"
+    "message": "प्रॉम्प्ट उत्तर कॉपी करें"
   },
   "clearButton": {
-    "message": "Clear input and answer"
+    "message": "इनपुट और उत्तर साफ़ करें"
   },
   "languageToggle": {
-    "message": "Toggle Language"
+    "message": "भाषा बदलें"
   },
   "extractTranscript": {
-    "message": "Extract YouTube Video Transcript"
+    "message": "YouTube वीडियो ट्रांसक्रिप्ट निकालें"
   },
   "extractHtmlText": {
-    "message": "Extract Text from Web Page"
+    "message": "वेब पेज से टेक्स्ट निकालें"
   },
   "openSettings": {
-    "message": "Open Settings"
+    "message": "सेटिंग्स खोलें"
   },
   "manualPrompt": {
-    "message": "Manual Prompt"
+    "message": "मैनुअल प्रॉम्प्ट"
   },
   "generateBulletPoints": {
-    "message": "Generate Bullet Points"
+    "message": "बुलेट पॉइंट्स जनरेट करें"
   },
   "extractKeyInsights": {
-    "message": "Extract Key Insights"
+    "message": "मुख्य अंतर्दृष्टि निकालें"
   },
   "explainSimply": {
-    "message": "Explain Simply"
+    "message": "सरल तरीके से समझाएं"
   },
   "analyzeTopics": {
-    "message": "Analyze Topics"
+    "message": "विषयों का विश्लेषण करें"
   },
   "analyzeSentiment": {
-    "message": "Analyze Sentiment"
+    "message": "भावना का विश्लेषण करें"
   },
   "extractKeywords": {
-    "message": "Extract Keywords"
+    "message": "कीवर्ड्स निकालें"
   },
   "translateLanguage": {
-    "message": "Translate Language"
+    "message": "भाषा अनुवाद करें"
   },
   "summarizeText": {
-    "message": "Summarize Text"
+    "message": "टेक्स्ट सारांश करें"
   },
   "generateQuiz": {
-    "message": "Generate Quiz"
+    "message": "क्विज़ जनरेट करें"
   },
   "explainLikeImFive": {
-    "message": "Explain Like I'm Five"
+    "message": "पांच साल के बच्चे की तरह समझाएं"
   },
   "findLogicalFallacies": {
-    "message": "Find Logical Fallacies"
+    "message": "तार्किक भ्रांतियाँ खोजें"
   },
   "generateAnalogy": {
-    "message": "Generate Analogy"
+    "message": "उपमा जनरेट करें"
   },
   "historicalContext": {
-    "message": "Historical Context"
+    "message": "ऐतिहासिक संदर्भ"
   },
   "generateEssayOutline": {
-    "message": "Generate Essay Outline"
+    "message": "निबंध रूपरेखा जनरेट करें"
   },
   "generateProductSheet": {
-    "message": "Generate Product Sheet"
+    "message": "उत्पाद शीट जनरेट करें"
   },
   "timeManagement": {
-    "message": "Time Management"
+    "message": "समय प्रबंधन"
   },
   "recipeSuggestions": {
-    "message": "Recipe Suggestions"
+    "message": "व्यंजन सुझाव"
   },
   "summarizeThread": {
-    "message": "Summarize Thread"
+    "message": "थ्रेड का सारांश करें"
   },
   "checkIfAIGenerated": {
-    "message": "Check if AI Generated"
+    "message": "AI द्वारा जनरेट किया गया है या नहीं जांचें"
   },
   "findBotPosts": {
-    "message": "Find Bot Posts"
+    "message": "बॉट पोस्ट खोजें"
   },
   "findTrollPosts": {
-    "message": "Find Troll Posts"
+    "message": "ट्रोल पोस्ट खोजें"
   },
   "findMisinformation": {
-    "message": "Find Misinformation"
+    "message": "गलत सूचना खोजें"
   },
   "findSourcestoClaims": {
-    "message": "Find Sources to Claims"
+    "message": "दावों के स्रोत खोजें"
   }
 }

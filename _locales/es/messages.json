@@ -1,95 +1,95 @@
 {
   "processPrompt": {
-    "message": "Process Prompt (CTRL-Enter)"
+    "message": "Procesar Solicitud (CTRL-Enter)"
   },
   "copyButton": {
-    "message": "Copy prompt answer"
+    "message": "Copiar respuesta de la solicitud"
   },
   "clearButton": {
-    "message": "Clear input and answer"
+    "message": "Borrar entrada y respuesta"
   },
   "languageToggle": {
-    "message": "Toggle Language"
+    "message": "Cambiar Idioma"
   },
   "extractTranscript": {
-    "message": "Extract YouTube Video Transcript"
+    "message": "Extraer Transcripción de Video de YouTube"
   },
   "extractHtmlText": {
-    "message": "Extract Text from Web Page"
+    "message": "Extraer Texto de Página Web"
   },
   "openSettings": {
-    "message": "Open Settings"
+    "message": "Abrir Configuración"
   },
   "manualPrompt": {
-    "message": "Manual Prompt"
+    "message": "Solicitud Manual"
   },
   "generateBulletPoints": {
-    "message": "Generate Bullet Points"
+    "message": "Generar Puntos Clave"
   },
   "extractKeyInsights": {
-    "message": "Extract Key Insights"
+    "message": "Extraer Ideas Principales"
   },
   "explainSimply": {
-    "message": "Explain Simply"
+    "message": "Explicar Simplemente"
   },
   "analyzeTopics": {
-    "message": "Analyze Topics"
+    "message": "Analizar Temas"
   },
   "analyzeSentiment": {
-    "message": "Analyze Sentiment"
+    "message": "Analizar Sentimiento"
   },
   "extractKeywords": {
-    "message": "Extract Keywords"
+    "message": "Extraer Palabras Clave"
   },
   "translateLanguage": {
-    "message": "Translate Language"
+    "message": "Traducir Idioma"
   },
   "summarizeText": {
-    "message": "Summarize Text"
+    "message": "Resumir Texto"
   },
   "generateQuiz": {
-    "message": "Generate Quiz"
+    "message": "Generar Cuestionario"
   },
   "explainLikeImFive": {
-    "message": "Explain Like I'm Five"
+    "message": "Explicar Como si Tuviera Cinco Años"
   },
   "findLogicalFallacies": {
-    "message": "Find Logical Fallacies"
+    "message": "Encontrar Falacias Lógicas"
   },
   "generateAnalogy": {
-    "message": "Generate Analogy"
+    "message": "Generar Analogía"
   },
   "historicalContext": {
-    "message": "Historical Context"
+    "message": "Contexto Histórico"
   },
   "generateEssayOutline": {
-    "message": "Generate Essay Outline"
+    "message": "Generar Esquema de Ensayo"
   },
   "generateProductSheet": {
-    "message": "Generate Product Sheet"
+    "message": "Generar Hoja de Producto"
   },
   "timeManagement": {
-    "message": "Time Management"
+    "message": "Gestión del Tiempo"
   },
   "recipeSuggestions": {
-    "message": "Recipe Suggestions"
+    "message": "Sugerencias de Recetas"
   },
   "summarizeThread": {
-    "message": "Summarize Thread"
+    "message": "Resumir Hilo"
   },
   "checkIfAIGenerated": {
-    "message": "Check if AI Generated"
+    "message": "Verificar si es Generado por IA"
   },
   "findBotPosts": {
-    "message": "Find Bot Posts"
+    "message": "Encontrar Publicaciones de Bots"
   },
   "findTrollPosts": {
-    "message": "Find Troll Posts"
+    "message": "Encontrar Publicaciones de Trolls"
   },
   "findMisinformation": {
-    "message": "Find Misinformation"
+    "message": "Encontrar Desinformación"
   },
   "findSourcestoClaims": {
-    "message": "Find Sources to Claims"
+    "message": "Encontrar Fuentes de Afirmaciones"
   }
 }

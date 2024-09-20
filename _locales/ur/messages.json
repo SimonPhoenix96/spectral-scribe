@@ -1,0 +1,95 @@
+{
+  "processPrompt": {
+    "message": "پرامپٹ پر کارروائی کریں (CTRL-Enter)"
+  },
+  "copyButton": {
+    "message": "پرامپٹ کا جواب کاپی کریں"
+  },
+  "clearButton": {
+    "message": "ان پٹ اور جواب صاف کریں"
+  },
+  "languageToggle": {
+    "message": "زبان تبدیل کریں"
+  },
+  "extractTranscript": {
+    "message": "یوٹیوب ویڈیو ٹرانسکرپٹ نکالیں"
+  },
+  "extractHtmlText": {
+    "message": "ویب پیج سے متن نکالیں"
+  },
+  "openSettings": {
+    "message": "ترتیبات کھولیں"
+  },
+  "manualPrompt": {
+    "message": "دستی پرامپٹ"
+  },
+  "generateBulletPoints": {
+    "message": "بلٹ پوائنٹس تیار کریں"
+  },
+  "extractKeyInsights": {
+    "message": "اہم بصیرتیں نکالیں"
+  },
+  "explainSimply": {
+    "message": "سادہ طور پر وضاحت کریں"
+  },
+  "analyzeTopics": {
+    "message": "موضوعات کا تجزیہ کریں"
+  },
+  "analyzeSentiment": {
+    "message": "جذبات کا تجزیہ کریں"
+  },
+  "extractKeywords": {
+    "message": "مطلوبہ الفاظ نکالیں"
+  },
+  "translateLanguage": {
+    "message": "زبان کا ترجمہ کریں"
+  },
+  "summarizeText": {
+    "message": "متن کا خلاصہ کریں"
+  },
+  "generateQuiz": {
+    "message": "کوئز تیار کریں"
+  },
+  "explainLikeImFive": {
+    "message": "ایسے سمجھائیں جیسے میں پانچ سال کا ہوں"
+  },
+  "findLogicalFallacies": {
+    "message": "منطقی مغالطے تلاش کریں"
+  },
+  "generateAnalogy": {
+    "message": "مماثلت پیدا کریں"
+  },
+  "historicalContext": {
+    "message": "تاریخی تناظر"
+  },
+  "generateEssayOutline": {
+    "message": "مضمون کا خاکہ تیار کریں"
+  },
+  "generateProductSheet": {
+    "message": "پروڈکٹ شیٹ تیار کریں"
+  },
+  "timeManagement": {
+    "message": "وقت کا انتظام"
+  },
+  "recipeSuggestions": {
+    "message": "ترکیب کے مشورے"
+  },
+  "summarizeThread": {
+    "message": "تھریڈ کا خلاصہ کریں"
+  },
+  "checkIfAIGenerated": {
+    "message": "چیک کریں کہ آیا AI نے تیار کیا ہے"
+  },
+  "findBotPosts": {
+    "message": "بوٹ پوسٹس تلاش کریں"
+  },
+  "findTrollPosts": {
+    "message": "ٹرول پوسٹس تلاش کریں"
+  },
+  "findMisinformation": {
+    "message": "غلط معلومات تلاش کریں"
+  },
+  "findSourcestoClaims": {
+    "message": "دعووں کے ذرائع تلاش کریں"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "processPrompt": {
+    "message": "Procesează Promptul (CTRL-Enter)"
+  },
+  "copyButton": {
+    "message": "Copiază răspunsul promptului"
+  },
+  "clearButton": {
+    "message": "Șterge input-ul și răspunsul"
+  },
+  "languageToggle": {
+    "message": "Schimbă Limba"
+  },
+  "extractTranscript": {
+    "message": "Extrage Transcriptul Videoclipului YouTube"
+  },
+  "extractHtmlText": {
+    "message": "Extrage Textul din Pagina Web"
+  },
+  "openSettings": {
+    "message": "Deschide Setările"
+  },
+  "manualPrompt": {
+    "message": "Prompt Manual"
+  },
+  "generateBulletPoints": {
+    "message": "Generează Puncte"
+  },
+  "extractKeyInsights": {
+    "message": "Extrage Ideile Principale"
+  },
+  "explainSimply": {
+    "message": "Explică Simplu"
+  },
+  "analyzeTopics": {
+    "message": "Analizează Subiectele"
+  },
+  "analyzeSentiment": {
+    "message": "Analizează Sentimentul"
+  },
+  "extractKeywords": {
+    "message": "Extrage Cuvintele Cheie"
+  },
+  "translateLanguage": {
+    "message": "Traduce Limba"
+  },
+  "summarizeText": {
+    "message": "Rezumă Textul"
+  },
+  "generateQuiz": {
+    "message": "Generează Quiz"
+  },
+  "explainLikeImFive": {
+    "message": "Explică Ca și Cum Aș Avea Cinci Ani"
+  },
+  "findLogicalFallacies": {
+    "message": "Găsește Erori Logice"
+  },
+  "generateAnalogy": {
+    "message": "Generează Analogie"
+  },
+  "historicalContext": {
+    "message": "Context Istoric"
+  },
+  "generateEssayOutline": {
+    "message": "Generează Schiță pentru Eseu"
+  },
+  "generateProductSheet": {
+    "message": "Generează Fișă de Produs"
+  },
+  "timeManagement": {
+    "message": "Managementul Timpului"
+  },
+  "recipeSuggestions": {
+    "message": "Sugestii de Rețete"
+  },
+  "summarizeThread": {
+    "message": "Rezumă Firul de Discuție"
+  },
+  "checkIfAIGenerated": {
+    "message": "Verifică dacă e Generat de AI"
+  },
+  "findBotPosts": {
+    "message": "Găsește Postări de Bot"
+  },
+  "findTrollPosts": {
+    "message": "Găsește Postări de Troll"
+  },
+  "findMisinformation": {
+    "message": "Găsește Dezinformare"
+  },
+  "findSourcestoClaims": {
+    "message": "Găsește Surse pentru Afirmații"
+  }
+}
