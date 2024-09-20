@@ -20,7 +20,7 @@ CTRL - I opens/closes the extension
 
 UI             |  Prompt Types | Adding Custom Prompts | Adding Custom Models |
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-01.png)  |  ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-02.png) |  ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-03.png) |  ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-04.png)
+![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-01.png)  |  ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-02.png) |  ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-03.png) |  ![alt text](https://github.com/SimonPhoenix96/spectral-scribe/blob/main/resources/spectralscribe-screenshot-04.gif)
 
 ## Features
 - **Add Custom Openrouter/Akash/Claude Models (Futureproofing)**

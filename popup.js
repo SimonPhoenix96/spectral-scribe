@@ -1473,11 +1473,9 @@ async function promptAkash(text, akashModel) {
 }
 
 async function promptOpenRouter(prompt, openrouterModel) {
-  // if (!OPENROUTER_API_KEY) {
-  //   throw new Error("OpenRouter API key is not set");
-  // }
-
-  const model = document.getElementById("openrouterModelSelect").value;
+  if (!OPENROUTER_API_KEY) {
+    throw new Error("OpenRouter API key is not set");
+  }
 
   const response = await fetch(OPENROUTER_API_URL, {
     method: "POST",
@@ -1486,7 +1484,7 @@ async function promptOpenRouter(prompt, openrouterModel) {
       Authorization: `Bearer ${OPENROUTER_API_KEY}`,
     },
     body: JSON.stringify({
-      model: model,
+      model: openrouterModel,
       messages: [{ role: "user", content: prompt }],
     }),
   });
