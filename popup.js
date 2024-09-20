@@ -534,29 +534,7 @@ function populateCustomPromptSelect() {
     }
   });
 }
-function removeCustomPrompt(name) {
-  chrome.storage.sync.get("customPrompts", (result) => {
-    const customPrompts = result.customPrompts || {};
-    const promptKey = Object.keys(customPrompts).find(
-      (key) =>
-        key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()) === name
-    );
 
-    if (promptKey) {
-      delete customPrompts[promptKey];
-      chrome.storage.sync.set({ customPrompts }, () => {
-        console.log("Custom prompt removed");
-        // Remove the option from both select elements
-        removePromptTypeOptionFromSelect(promptTypeSelect, name);
-        removePromptTypeOptionFromSelect(customPromptSelect, name);
-        updatePromptTypeSelectIcon();
-      });
-    } else {
-      console.error("Custom prompt not found in storage");
-      alert("Custom prompt not found in storage.");
-    }
-  });
-}
 
 function addCustomModel(name, apiSelect) {
   const option = document.createElement("option");
@@ -586,30 +564,82 @@ function addCustomModel(name, apiSelect) {
     chrome.storage.sync.set({ customModels }, () => {
       console.log("Custom model saved");
       updateModelSelectIcon();
+      
+      // Update the custom model select in the settings popup
+      const customModelSelect = document.getElementById("customModelSelect");
+      if (customModelSelect) {
+        const newOption = document.createElement("option");
+        newOption.value = option.value;
+        newOption.textContent = name;
+        customModelSelect.appendChild(newOption);
+      }
     });
   });
 }
 
 function removeCustomModel(name) {
   chrome.storage.sync.get("customModels", (result) => {
-    const customModels = result.customModels || [];
-    const modelIndex = customModels.findIndex(
-      (model) => model.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()) === name
+    const customModels = result.customModels || {};
+    const apiSelects = Object.keys(customModels);
+    
+    for (const apiSelect of apiSelects) {
+      const modelKey = customModels[apiSelect].find(
+        (key) => key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()) === name
+      );
+
+      if (modelKey) {
+        customModels[apiSelect] = customModels[apiSelect].filter(model => model !== modelKey);
+        chrome.storage.sync.set({ customModels }, () => {
+          console.log("Custom model removed");
+          // Remove the option from the model select element
+          const modelSelect = document.getElementById(`${apiSelect}ModelSelect`);
+          removeModelOptionFromSelect(modelSelect, name);
+          updateModelSelectIcon();
+          
+          // Update the custom model select in the settings popup
+          const customModelSelect = document.getElementById("customModelSelect");
+          if (customModelSelect) {
+            removeModelOptionFromSelect(customModelSelect, name);
+          }
+        });
+        return; // Exit the function after removing the model
+      }
+    }
+
+    console.error("Custom model not found in storage");
+    alert("Custom model not found in storage.");
+  });
+}
+
+function removeCustomPrompt(name) {
+  chrome.storage.sync.get("customPrompts", (result) => {
+    const customPrompts = result.customPrompts || {};
+    const promptKeys = Object.keys(customPrompts);
+    
+    const promptKey = promptKeys.find(
+      (key) => key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()) === name
     );
 
-    if (modelIndex !== -1) {
-      customModels.splice(modelIndex, 1);
-      chrome.storage.sync.set({ customModels }, () => {
-        console.log("Custom model removed");
-        // Remove the option from the model select element
-        const modelSelect = document.getElementById("akashModelSelect");
-        removeModelOptionFromSelect(modelSelect, name);
-        updateModelSelectIcon();
+    if (promptKey) {
+      delete customPrompts[promptKey];
+      chrome.storage.sync.set({ customPrompts }, () => {
+        console.log("Custom prompt removed");
+        // Remove the option from both select elements
+        removePromptTypeOptionFromSelect(promptTypeSelect, name);
+        removePromptTypeOptionFromSelect(customPromptSelect, name);
+        updatePromptTypeSelectIcon();
+        
+        // Update the custom prompt select in the settings popup
+        const customPromptSelect = document.getElementById("customPromptSelect");
+        if (customPromptSelect) {
+          removePromptTypeOptionFromSelect(customPromptSelect, name);
+        }
       });
-    } else {
-      console.error("Custom model not found in storage");
-      alert("Custom model not found in storage.");
+      return; // Exit the function after removing the prompt
     }
+
+    console.error("Custom prompt not found in storage");
+    alert("Custom prompt not found in storage.");
   });
 }
 
@@ -644,16 +674,9 @@ function addCustomPrompt(name, instruction) {
   option.textContent = name;
   option.dataset.icon = "resources/label.png";
 
-  // Find the position to insert the new custom prompt
-  const firstDefaultOption = Array.from(promptTypeSelect.options).find(
-    (opt) => !opt.value.startsWith("custom_")
-  );
-
-  if (firstDefaultOption) {
-    promptTypeSelect.insertBefore(option, firstDefaultOption);
-  } else {
-    promptTypeSelect.appendChild(option);
-  }
+  // Add the new option to the main prompt type select
+  const firstDefaultOption = promptTypeSelect.firstChild;
+  promptTypeSelect.insertBefore(option, firstDefaultOption);
 
   // Save custom prompt to storage
   chrome.storage.sync.get("customPrompts", (result) => {
@@ -661,20 +684,20 @@ function addCustomPrompt(name, instruction) {
     customPrompts[option.value] = instruction;
     chrome.storage.sync.set({ customPrompts }, () => {
       console.log("Custom prompt saved");
-
-      // Update the custom prompt select if it exists
+      updatePromptTypeSelectIcon();
+      
+      // Update the custom prompt select in the settings popup
       const customPromptSelect = document.getElementById("customPromptSelect");
       if (customPromptSelect) {
         const newOption = document.createElement("option");
         newOption.value = option.value;
-        newOption.textContent = option.textContent;
+        newOption.textContent = name;
         customPromptSelect.appendChild(newOption);
       }
-      // Update the icon
-      updatePromptTypeSelectIcon();
     });
   });
 }
+
 function openPromptAndModelSettingsPopup() {
   const modal = document.createElement("div");
   modal.style.position = "fixed";
