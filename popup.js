@@ -67,6 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
   renderPoweredByProp();
   updatePlaceholder();
   loadCustomPrompts();
+  loadCustomModels();
   loadSessionData();
   updatePromptTypeSelectIcon();
 });
@@ -520,6 +521,31 @@ function loadCustomPrompts() {
   });
 }
 
+function loadCustomModels() {
+  chrome.storage.sync.get("customModels", (result) => {
+    const customModels = result.customModels || {};
+    
+    for (const [api, models] of Object.entries(customModels)) {
+      const modelSelect = document.getElementById(`${api}ModelSelect`);
+      const firstDefaultOption = modelSelect.firstChild;
+
+      for (const model of models) {
+        const option = document.createElement("option");
+        option.value = model;
+        option.textContent = model
+          .replace(/_/g, " ")
+          .replace(/\b\w/g, (l) => l.toUpperCase());
+        option.dataset.icon = "resources/custom_model_icon.png";
+        modelSelect.insertBefore(option, firstDefaultOption);
+      }
+    }
+
+    updateModelSelectIcon('akashModelSelect');
+    updateModelSelectIcon('claudeModelSelect');
+    updateModelSelectIcon('openrouterModelSelect');
+  });
+}
+
 function populateCustomPromptSelect() {
   customPromptSelect.innerHTML = ""; // Clear existing options
   chrome.storage.sync.get("customPrompts", (result) => {
@@ -534,33 +560,40 @@ function populateCustomPromptSelect() {
     }
   });
 }
-function removeCustomPrompt(name) {
-  chrome.storage.sync.get("customPrompts", (result) => {
-    const customPrompts = result.customPrompts || {};
-    const promptKey = Object.keys(customPrompts).find(
-      (key) =>
-        key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()) === name
-    );
+function removeCustomModel(name) {
+  chrome.storage.sync.get("customModels", (result) => {
+    const customModels = result.customModels || {};
+    const apiSelects = Object.keys(customModels);
+    
+    for (const apiSelect of apiSelects) {
+      const modelKey = customModels[apiSelect].find(
+        (key) => key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()) === name
+      );
 
-    if (promptKey) {
-      delete customPrompts[promptKey];
-      chrome.storage.sync.set({ customPrompts }, () => {
-        console.log("Custom prompt removed");
-        // Remove the option from both select elements
-        removePromptTypeOptionFromSelect(promptTypeSelect, name);
-        removePromptTypeOptionFromSelect(customPromptSelect, name);
-        updatePromptTypeSelectIcon();
-      });
-    } else {
-      console.error("Custom prompt not found in storage");
-      alert("Custom prompt not found in storage.");
+      if (modelKey) {
+        customModels[apiSelect] = customModels[apiSelect].filter(model => model !== modelKey);
+        chrome.storage.sync.set({ customModels }, () => {
+          console.log("Custom model removed");
+          // Remove the option from the model select element
+          const modelSelect = document.getElementById(`${apiSelect}ModelSelect`);
+          removeModelOptionFromSelect(modelSelect, name);
+          updateModelSelectIcon(apiSelect + 'ModelSelect');
+          
+          // Update the model select list
+          populateCustomModelSelect(apiSelect);
+        });
+        return; // Exit the function after removing the model
+      }
     }
+
+    console.error("Custom model not found in storage");
+    alert("Custom model not found in storage.");
   });
 }
 
 function addCustomModel(name, apiSelect) {
   const option = document.createElement("option");
-  option.value = name.toLowerCase().replace(/\s+/g, "_");
+  option.value = name.replace(/\s+/g, "_");
   option.textContent = name;
   option.dataset.icon = "resources/custom_model_icon.png";
 
@@ -592,24 +625,29 @@ function addCustomModel(name, apiSelect) {
 
 function removeCustomModel(name) {
   chrome.storage.sync.get("customModels", (result) => {
-    const customModels = result.customModels || [];
-    const modelIndex = customModels.findIndex(
-      (model) => model.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()) === name
-    );
+    const customModels = result.customModels || {};
+    const apiSelects = Object.keys(customModels);
+    
+    for (const apiSelect of apiSelects) {
+      const modelKey = customModels[apiSelect].find(
+        (key) => key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()) === name
+      );
 
-    if (modelIndex !== -1) {
-      customModels.splice(modelIndex, 1);
-      chrome.storage.sync.set({ customModels }, () => {
-        console.log("Custom model removed");
-        // Remove the option from the model select element
-        const modelSelect = document.getElementById("akashModelSelect");
-        removeModelOptionFromSelect(modelSelect, name);
-        updateModelSelectIcon();
-      });
-    } else {
-      console.error("Custom model not found in storage");
-      alert("Custom model not found in storage.");
+      if (modelKey) {
+        customModels[apiSelect] = customModels[apiSelect].filter(model => model !== modelKey);
+        chrome.storage.sync.set({ customModels }, () => {
+          console.log("Custom model removed");
+          // Remove the option from the model select element
+          const modelSelect = document.getElementById(`${apiSelect}ModelSelect`);
+          removeModelOptionFromSelect(modelSelect, name);
+          updateModelSelectIcon();
+        });
+        return; // Exit the function after removing the model
+      }
     }
+
+    console.error("Custom model not found in storage");
+    alert("Custom model not found in storage.");
   });
 }
 
@@ -622,8 +660,8 @@ function removeModelOptionFromSelect(selectElement, optionText) {
   }
 }
 
-function updateModelSelectIcon() {
-  const modelSelect = document.getElementById("akashModelSelect");
+function updateModelSelectIcon(selectId) {
+  const modelSelect = document.getElementById(selectId);
   const selectedOption = modelSelect.options[modelSelect.selectedIndex];
   const icon = selectedOption.getAttribute("data-icon");
   modelSelect.style.backgroundImage = `url('${icon}')`;
@@ -857,7 +895,7 @@ function openPromptAndModelSettingsPopup() {
     apiSelect.required = action === "add_model";
   });
 
-  form.addEventListener("submit", function (e) {
+    form.addEventListener("submit", function (e) {
     e.preventDefault();
     const action = actionSelect.value;
 
@@ -876,9 +914,11 @@ function openPromptAndModelSettingsPopup() {
       if ((action === "remove_prompt" && customPromptSelect.value) || 
           (action === "remove_model" && customModelSelect.value)) {
         if (action === "remove_prompt") {
-          removeCustomPrompt(customPromptSelect.options[customPromptSelect.selectedIndex].text);
+          const selectedPromptName = customPromptSelect.options[customPromptSelect.selectedIndex].text;
+          removeCustomPrompt(selectedPromptName);
         } else {
-          removeCustomModel(customModelSelect.options[customModelSelect.selectedIndex].text);
+          const selectedModelName = customModelSelect.options[customModelSelect.selectedIndex].text;
+          removeCustomModel(selectedModelName);
         }
         document.body.removeChild(modal);
       } else {
@@ -1262,6 +1302,7 @@ function handleError(error) {
   displayError(error.message);
 }
 
+// Wrapper Funcion
 async function promptAI(text) {
   console.log("Entering promptAI function");
   promptAnswerDiv.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1280,9 +1321,7 @@ async function promptAI(text) {
       result = await promptAkash(text, akashModel);
     } else if (selectedAPI === "openrouter") {
       console.log("Using OpenRouter API");
-      const openrouterModel = document.getElementById(
-        "openrouterModelSelect"
-      ).value;
+      const openrouterModel = document.getElementById("openrouterModelSelect").value;
       result = await promptOpenRouter(text, openrouterModel);
     } else {
       throw new Error("Invalid API selected");
@@ -1293,8 +1332,34 @@ async function promptAI(text) {
     return formattedResult;
   } catch (error) {
     console.error("Error in promptAI:", error);
-    displayError(error.message);
-    throw error;
+    let errorMessage;
+    switch (error.status) {
+      case 400:
+        errorMessage = "Invalid request: There was an issue with the format or content of your request.";
+        break;
+      case 401:
+        errorMessage = "Authentication error: There's an issue with your API key.";
+        break;
+      case 403:
+        errorMessage = "Permission denied: Your API key does not have permission to use the specified resource.";
+        break;
+      case 404:
+        errorMessage = "Not found: The requested resource was not found.";
+        break;
+      case 429:
+        errorMessage = "Rate limit exceeded: Your account has hit a rate limit.";
+        break;
+      case 500:
+        errorMessage = "API error: An unexpected error has occurred in the API's systems.";
+        break;
+      case 529:
+        errorMessage = "API overloaded: The API is temporarily overloaded. Please try again later.";
+        break;
+      default:
+        errorMessage = `API request failed: ${error.message}`;
+    }
+    displayError(errorMessage);
+    throw new Error(errorMessage);
   } finally {
     console.log("Exiting promptAI function");
   }
@@ -1318,7 +1383,33 @@ async function promptClaude(text, claudeModel) {
 
     const response = await fetch(ANTHROPIC_API_URL, requestOptions);
     if (!response.ok) {
-      throw new Error(`API request failed with status ${response.status}`);
+      let errorMessage;
+      switch (response.status) {
+        case 400:
+          errorMessage = "Invalid request: There was an issue with the format or content of your request.";
+          break;
+        case 401:
+          errorMessage = "Authentication error: There's an issue with your API key.";
+          break;
+        case 403:
+          errorMessage = "Permission denied: Your API key does not have permission to use the specified resource.";
+          break;
+        case 404:
+          errorMessage = "Not found: The requested resource was not found.";
+          break;
+        case 429:
+          errorMessage = "Rate limit exceeded: Your account has hit a rate limit.";
+          break;
+        case 500:
+          errorMessage = "API error: An unexpected error has occurred in the API's systems.";
+          break;
+        case 529:
+          errorMessage = "API overloaded: The API is temporarily overloaded. Please try again later.";
+          break;
+        default:
+          errorMessage = `Claude API request failed with status ${response.status}`;
+      }
+      throw new Error(errorMessage);
     }
     const data = await response.json();
     if (!data.content || !data.content[0] || !data.content[0].text) {
@@ -1353,9 +1444,33 @@ async function promptAkash(text, akashModel) {
     const response = await fetch(AKASH_API_URL, requestOptions);
     console.log("API response status:", response.status);
     if (!response.ok) {
-      throw new Error(
-        `Akash API request failed with status ${response.status}`
-      );
+      let errorMessage;
+      switch (response.status) {
+        case 400:
+          errorMessage = "Invalid request: There was an issue with the format or content of your request.";
+          break;
+        case 401:
+          errorMessage = "Authentication error: There's an issue with your API key.";
+          break;
+        case 403:
+          errorMessage = "Permission denied: Your API key does not have permission to use the specified resource.";
+          break;
+        case 404:
+          errorMessage = "Not found: The requested resource was not found.";
+          break;
+        case 429:
+          errorMessage = "Rate limit exceeded: Your account has hit a rate limit.";
+          break;
+        case 500:
+          errorMessage = "API error: An unexpected error has occurred in the API's systems.";
+          break;
+        case 529:
+          errorMessage = "API overloaded: The API is temporarily overloaded. Please try again later.";
+          break;
+        default:
+          errorMessage = `Akash API request failed with status ${response.status}`;
+      }
+      throw new Error(errorMessage);
     }
     const data = await response.json();
     console.log("API response data:", JSON.stringify(data, null, 2));
@@ -1380,9 +1495,9 @@ async function promptAkash(text, akashModel) {
 }
 
 async function promptOpenRouter(prompt, openrouterModel) {
-  if (!OPENROUTER_API_KEY) {
-    throw new Error("OpenRouter API key is not set");
-  }
+  // if (!OPENROUTER_API_KEY) {
+  //   throw new Error("OpenRouter API key is not set");
+  // }
 
   const model = document.getElementById("openrouterModelSelect").value;
 
@@ -1397,9 +1512,34 @@ async function promptOpenRouter(prompt, openrouterModel) {
       messages: [{ role: "user", content: prompt }],
     }),
   });
-
   if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+    let errorMessage;
+    switch (response.status) {
+      case 400:
+        errorMessage = "Invalid request: There was an issue with the format or content of your request.";
+        break;
+      case 401:
+        errorMessage = "Authentication error: There's an issue with your API key.";
+        break;
+      case 403:
+        errorMessage = "Permission denied: Your API key does not have permission to use the specified resource.";
+        break;
+      case 404:
+        errorMessage = "Not found: The requested resource was not found.";
+        break;
+      case 429:
+        errorMessage = "Rate limit exceeded: Your account has hit a rate limit.";
+        break;
+      case 500:
+        errorMessage = "API error: An unexpected error has occurred in the API's systems.";
+        break;
+      case 529:
+        errorMessage = "API overloaded: The API is temporarily overloaded. Please try again later.";
+        break;
+      default:
+        errorMessage = `HTTP error! Status: ${response.status}`;
+    }
+    throw new Error(errorMessage);
   }
 
   const data = await response.json();
