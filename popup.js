@@ -590,12 +590,13 @@ function removeCustomPrompt(name) {
     }
   });
 }
-
-function addCustomModel(name, apiSelect) {
+// TODO: need to implement the modelDetails parameter so tat its used in the curl request to openrouter
+function addCustomModel(name, apiSelect, modelDetails) {
   const option = document.createElement("option");
   option.value = name.replace(/\s+/g, "_");
   option.textContent = name;
   option.dataset.icon = "resources/custom_model_icon.png";
+  option.dataset.details = modelDetails;
 
   // Find the position to insert the new custom model
   const modelSelect = document.getElementById(`${apiSelect}ModelSelect`);
@@ -615,7 +616,7 @@ function addCustomModel(name, apiSelect) {
     if (!customModels[apiSelect]) {
       customModels[apiSelect] = [];
     }
-    customModels[apiSelect].push(option.value);
+    customModels[apiSelect].push({ name: option.value, details: modelDetails });
     chrome.storage.sync.set({ customModels }, () => {
       console.log("Custom model saved");
       updateModelSelectIcon();
@@ -744,7 +745,6 @@ function openPromptAndModelSettingsPopup() {
   form.style.flexDirection = "column";
   form.style.gap = "10px";
 
-  // Add 'X' button
   const closeButton = document.createElement("button");
   closeButton.textContent = "Click Background to cancel";
   closeButton.style.position = "absolute";
@@ -806,27 +806,53 @@ function openPromptAndModelSettingsPopup() {
   customModelSelect.style.display = "none";
   form.appendChild(customModelSelect);
 
-  const nameInput = document.createElement("input");
-  nameInput.type = "text";
-  nameInput.placeholder = "Enter name";
-  nameInput.required = true;
-  nameInput.style.padding = "5px";
-  nameInput.style.borderRadius = "3px";
-  nameInput.style.border = "1px solid #fa2b39";
-  nameInput.style.backgroundColor = "#ffffff";
-  nameInput.style.color = "#000000";
-  form.appendChild(nameInput);
+  const nameInputCustomPrompt = document.createElement("input");
+  nameInputCustomPrompt.type = "text";
+  nameInputCustomPrompt.placeholder = "Enter custom prompt name";
+  nameInputCustomPrompt.required = true;
+  nameInputCustomPrompt.style.padding = "5px";
+  nameInputCustomPrompt.style.borderRadius = "3px";
+  nameInputCustomPrompt.style.border = "1px solid #fa2b39";
+  nameInputCustomPrompt.style.backgroundColor = "#ffffff";
+  nameInputCustomPrompt.style.color = "#000000";
+  nameInputCustomPrompt.style.display = "none";
+  form.appendChild(nameInputCustomPrompt);
 
-  const instructionTextarea = document.createElement("textarea");
-  instructionTextarea.placeholder = "Enter instruction (for prompts only)";
-  instructionTextarea.style.padding = "5px";
-  instructionTextarea.style.borderRadius = "3px";
-  instructionTextarea.style.border = "1px solid #fa2b39";
-  instructionTextarea.style.backgroundColor = "#ffffff";
-  instructionTextarea.style.color = "#000000";
-  instructionTextarea.style.minHeight = "100px";
-  form.appendChild(instructionTextarea);
+  const nameInputCustomModel = document.createElement("input");
+  nameInputCustomModel.type = "text";
+  nameInputCustomModel.placeholder = "Enter custom model name";
+  nameInputCustomModel.required = true;
+  nameInputCustomModel.style.padding = "5px";
+  nameInputCustomModel.style.borderRadius = "3px";
+  nameInputCustomModel.style.border = "1px solid #fa2b39";
+  nameInputCustomModel.style.backgroundColor = "#ffffff";
+  nameInputCustomModel.style.color = "#000000";
+  nameInputCustomModel.style.display = "none";
+  form.appendChild(nameInputCustomModel);
 
+  const instructionTextareaCustomPrompt = document.createElement("textarea");
+  instructionTextareaCustomPrompt.placeholder = "Example: \n\nIn Spanish - Generate a product sheet";
+  instructionTextareaCustomPrompt.style.padding = "5px";
+  instructionTextareaCustomPrompt.style.borderRadius = "3px";
+  instructionTextareaCustomPrompt.style.border = "1px solid #fa2b39";
+  instructionTextareaCustomPrompt.style.backgroundColor = "#ffffff";
+  instructionTextareaCustomPrompt.style.color = "#000000";
+  instructionTextareaCustomPrompt.style.minHeight = "100px";
+  instructionTextareaCustomPrompt.style.display = "none";
+  form.appendChild(instructionTextareaCustomPrompt);
+
+  const instructionTextareaCustomModel = document.createElement("textarea");
+  instructionTextareaCustomModel.placeholder = "Enter model details (e.g., openai/gpt-3.5-turbo)";
+  instructionTextareaCustomModel.style.padding = "5px";
+  instructionTextareaCustomModel.style.borderRadius = "3px";
+  instructionTextareaCustomModel.style.border = "1px solid #fa2b39";
+  instructionTextareaCustomModel.style.backgroundColor = "#ffffff";
+  instructionTextareaCustomModel.style.color = "#000000";
+  instructionTextareaCustomModel.style.minHeight = "100px";
+  instructionTextareaCustomModel.style.display = "none";
+  form.appendChild(instructionTextareaCustomModel);
+
+  // Choose one of the Models from https://openrouter.ai/models\n\nhttps://chatapi.akash.network/documentation\n\nhttps://docs.anthropic.com/en/docs/about-claude/models#model-names\n\nExample:openai/o1-mini
   const apiSelect = document.createElement("select");
   apiSelect.style.padding = "5px";
   apiSelect.style.borderRadius = "3px";
@@ -842,20 +868,53 @@ function openPromptAndModelSettingsPopup() {
   });
   form.appendChild(apiSelect);
 
-  const submitButton = document.createElement("button");
-  submitButton.textContent = "Add";
-  submitButton.style.backgroundColor = "#fa2b39";
-  submitButton.style.color = "#ffffff";
-  submitButton.style.border = "none";
-  submitButton.style.padding = "10px";
-  submitButton.style.borderRadius = "3px";
-  submitButton.style.cursor = "pointer";
-  form.appendChild(submitButton);
+  const submitButtonCustomPrompt = document.createElement("button");
+  submitButtonCustomPrompt.textContent = "Add Custom Prompt";
+  submitButtonCustomPrompt.style.backgroundColor = "#fa2b39";
+  submitButtonCustomPrompt.style.color = "#ffffff";
+  submitButtonCustomPrompt.style.border = "none";
+  submitButtonCustomPrompt.style.padding = "10px";
+  submitButtonCustomPrompt.style.borderRadius = "3px";
+  submitButtonCustomPrompt.style.cursor = "pointer";
+  submitButtonCustomPrompt.style.display = "none";
+  form.appendChild(submitButtonCustomPrompt);
+
+  const submitButtonCustomModel = document.createElement("button");
+  submitButtonCustomModel.textContent = "Add Custom Model";
+  submitButtonCustomModel.style.backgroundColor = "#fa2b39";
+  submitButtonCustomModel.style.color = "#ffffff";
+  submitButtonCustomModel.style.border = "none";
+  submitButtonCustomModel.style.padding = "10px";
+  submitButtonCustomModel.style.borderRadius = "3px";
+  submitButtonCustomModel.style.cursor = "pointer";
+  submitButtonCustomModel.style.display = "none";
+  form.appendChild(submitButtonCustomModel);
+
+  const submitButtonRemovePrompt = document.createElement("button");
+  submitButtonRemovePrompt.textContent = "Remove Custom Prompt";
+  submitButtonRemovePrompt.style.backgroundColor = "#fa2b39";
+  submitButtonRemovePrompt.style.color = "#ffffff";
+  submitButtonRemovePrompt.style.border = "none";
+  submitButtonRemovePrompt.style.padding = "10px";
+  submitButtonRemovePrompt.style.borderRadius = "3px";
+  submitButtonRemovePrompt.style.cursor = "pointer";
+  submitButtonRemovePrompt.style.display = "none";
+  form.appendChild(submitButtonRemovePrompt);
+  const submitButtonRemoveModel = document.createElement("button");
+  submitButtonRemoveModel.textContent = "Remove Custom Model";
+  submitButtonRemoveModel.style.backgroundColor = "#fa2b39";
+  submitButtonRemoveModel.style.color = "#ffffff";
+  submitButtonRemoveModel.style.border = "none";
+  submitButtonRemoveModel.style.padding = "10px";
+  submitButtonRemoveModel.style.borderRadius = "3px";
+  submitButtonRemoveModel.style.cursor = "pointer";
+  submitButtonRemoveModel.style.display = "none";
+  form.appendChild(submitButtonRemoveModel);
 
   modal.appendChild(form);
   document.body.appendChild(modal);
 
-  // Populate custom prompt and model selects
+   // Populate custom prompt and model selects
   chrome.storage.sync.get(["customPrompts", "customModels"], (result) => {
     const customPrompts = result.customPrompts || {};
     const customModels = result.customModels || {};
@@ -875,6 +934,12 @@ function openPromptAndModelSettingsPopup() {
         customModelSelect.appendChild(option);
       });
     }
+
+    // Set default visibility for adding custom prompts
+    nameInputCustomPrompt.style.display = "block";
+    instructionTextareaCustomPrompt.style.display = "block";
+    submitButtonCustomPrompt.style.display = "block";
+    actionSelect.value = "add_prompt";
   });
 
   modal.addEventListener("click", function (e) {
@@ -890,49 +955,62 @@ function openPromptAndModelSettingsPopup() {
 
   actionSelect.addEventListener("change", function () {
     const action = this.value;
-    nameInput.style.display = action.startsWith("add") ? "block" : "none";
-    instructionTextarea.style.display = action === "add_prompt" ? "block" : "none";
+    nameInputCustomPrompt.style.display = action === "add_prompt" ? "block" : "none";
+    nameInputCustomModel.style.display = action === "add_model" ? "block" : "none";
+    instructionTextareaCustomPrompt.style.display = action === "add_prompt" ? "block" : "none";
+    instructionTextareaCustomModel.style.display = action === "add_model" ? "block" : "none";
     customPromptSelect.style.display = action === "remove_prompt" ? "block" : "none";
     customModelSelect.style.display = action === "remove_model" ? "block" : "none";
     apiSelect.style.display = action === "add_model" ? "block" : "none";
-    submitButton.textContent = action.includes("add") ? "Add" : "Remove";
+    submitButtonCustomPrompt.style.display = action === "add_prompt" ? "block" : "none";
+    submitButtonCustomModel.style.display = action === "add_model" ? "block" : "none";
+    submitButtonRemovePrompt.style.display = action === "remove_prompt" ? "block" : "none";
+    submitButtonRemoveModel.style.display = action === "remove_model" ? "block" : "none";
 
     // Set required attributes
-    nameInput.required = action.startsWith("add");
-    instructionTextarea.required = action === "add_prompt";
+    nameInputCustomPrompt.required = action === "add_prompt";
+    nameInputCustomModel.required = action === "add_model";
+    instructionTextareaCustomPrompt.required = action === "add_prompt";
+    instructionTextareaCustomModel.required = action === "add_model";
     customPromptSelect.required = action === "remove_prompt";
     customModelSelect.required = action === "remove_model";
     apiSelect.required = action === "add_model";
   });
 
-    form.addEventListener("submit", function (e) {
+
+  form.addEventListener("submit", function (e) {
     e.preventDefault();
     const action = actionSelect.value;
 
-    if (action.startsWith("add")) {
-      if (nameInput.value && (action === "add_model" || instructionTextarea.value)) {
-        if (action === "add_prompt") {
-          addCustomPrompt(nameInput.value, instructionTextarea.value);
-        } else {
-          addCustomModel(nameInput.value, apiSelect.value);
-        }
+    if (action === "add_prompt") {
+      if (nameInputCustomPrompt.value && instructionTextareaCustomPrompt.value) {
+        addCustomPrompt(nameInputCustomPrompt.value, instructionTextareaCustomPrompt.value);
         document.body.removeChild(modal);
       } else {
-        alert("Please fill in all fields");
+        alert("Please fill in all fields for custom prompt");
       }
-    } else if (action.startsWith("remove")) {
-      if ((action === "remove_prompt" && customPromptSelect.value) || 
-          (action === "remove_model" && customModelSelect.value)) {
-        if (action === "remove_prompt") {
-          const selectedPromptName = customPromptSelect.options[customPromptSelect.selectedIndex].text;
-          removeCustomPrompt(selectedPromptName);
-        } else {
-          const selectedModelName = customModelSelect.options[customModelSelect.selectedIndex].text;
-          removeCustomModel(selectedModelName);
-        }
+    } else if (action === "add_model") {
+      if (nameInputCustomModel.value && instructionTextareaCustomModel.value) {
+        addCustomModel(nameInputCustomModel.value, apiSelect.value, instructionTextareaCustomModel.value);
         document.body.removeChild(modal);
       } else {
-        alert(`Please select a ${action.includes("prompt") ? "prompt" : "model"} to remove`);
+        alert("Please fill in all fields for custom model");
+      }
+    } else if (action === "remove_prompt") {
+      if (customPromptSelect.value) {
+        const selectedPromptName = customPromptSelect.options[customPromptSelect.selectedIndex].text;
+        removeCustomPrompt(selectedPromptName);
+        document.body.removeChild(modal);
+      } else {
+        alert("Please select a prompt to remove");
+      }
+    } else if (action === "remove_model") {
+      if (customModelSelect.value) {
+        const selectedModelName = customModelSelect.options[customModelSelect.selectedIndex].text;
+        removeCustomModel(selectedModelName);
+        document.body.removeChild(modal);
+      } else {
+        alert("Please select a model to remove");
       }
     }
   });
