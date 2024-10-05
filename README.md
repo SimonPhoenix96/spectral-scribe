@@ -14,7 +14,10 @@ It offers various functionalities for processing and analyzing text from YouTube
 CTRL - I opens/closes the extension
 
 ## TODO
-(I consider this now feature complete 09/20/24 , but if you have suggestions feel free to hit me up @ https://github.com/SimonPhoenix96/spectral-scribe/issues)
+
+- custom token size limit
+
+if you have suggestions feel free to hit me up @ https://github.com/SimonPhoenix96/spectral-scribe/issues
 
 ## Screenshots
 
