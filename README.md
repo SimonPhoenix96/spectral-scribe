@@ -17,7 +17,7 @@ CTRL - I opens/closes the extension
 
 - custom token size limit
 
-if you have suggestions feel free to hit me up @ https://github.com/SimonPhoenix96/spectral-scribe/issues
+if you have suggestions feel free to create a feature request via https://github.com/SimonPhoenix96/spectral-scribe/issues
 
 ## Screenshots
 
